@@ -3,7 +3,6 @@ package org.usfirst.frc.team5461.robot.subsystems;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Joystick.AxisType;
-import edu.wpi.first.wpilibj.Gyro;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.SpeedController;
@@ -25,7 +24,6 @@ public class DriveTrain extends Subsystem {
 	private RobotDrive drive;
 	private Encoder left_encoder, right_encoder;
 	private AnalogInput rangefinder;
-	private Gyro gyro;
 
 	public DriveTrain() {
 		super();
@@ -53,7 +51,6 @@ public class DriveTrain extends Subsystem {
 		}
 
 		rangefinder = new AnalogInput(6);
-		gyro = new Gyro(1);
 
 		// Let's show everything on the LiveWindow
 		LiveWindow.addActuator("Drive Train", "Front_Left Motor", (Talon) front_left_motor);
@@ -63,7 +60,6 @@ public class DriveTrain extends Subsystem {
 		LiveWindow.addSensor("Drive Train", "Left Encoder", left_encoder);
 		LiveWindow.addSensor("Drive Train", "Right Encoder", right_encoder);
 		LiveWindow.addSensor("Drive Train", "Rangefinder", rangefinder);
-		LiveWindow.addSensor("Drive Train", "Gyro", gyro);
 	}
 
 	/**
@@ -82,7 +78,6 @@ public class DriveTrain extends Subsystem {
 		SmartDashboard.putNumber("Right Distance", right_encoder.getDistance());
 		SmartDashboard.putNumber("Left Speed", left_encoder.getRate());
 		SmartDashboard.putNumber("Right Speed", right_encoder.getRate());
-		SmartDashboard.putNumber("Gyro", gyro.getAngle());
 	}
 
 	/**
@@ -105,14 +100,13 @@ public class DriveTrain extends Subsystem {
 	 * @return The robots heading in degrees.
 	 */
 	public double getHeading() {
-		return gyro.getAngle();
+		return 0.0;
 	}
 
 	/**
 	 * Reset the robots sensors to the zero states.
 	 */
 	public void reset() {
-		gyro.reset();
 		left_encoder.reset();
 		right_encoder.reset();
 	}
