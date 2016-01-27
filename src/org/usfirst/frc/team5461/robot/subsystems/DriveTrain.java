@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.Joystick.AxisType;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.SpeedController;
+import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -27,10 +28,10 @@ public class DriveTrain extends Subsystem {
 
 	public DriveTrain() {
 		super();
-		front_left_motor = new Talon(1);
-		back_left_motor = new Talon(2);
+		front_left_motor = new Talon(2);
+		back_left_motor = new CANTalon(0);
 		front_right_motor = new Talon(3);
-		back_right_motor = new Talon(4);
+		back_right_motor = new CANTalon(5);
 		drive = new RobotDrive(front_left_motor, back_left_motor,
 							   front_right_motor, back_right_motor);
 		left_encoder = new Encoder(1, 2);
@@ -54,9 +55,9 @@ public class DriveTrain extends Subsystem {
 
 		// Let's show everything on the LiveWindow
 		LiveWindow.addActuator("Drive Train", "Front_Left Motor", (Talon) front_left_motor);
-		LiveWindow.addActuator("Drive Train", "Back Left Motor", (Talon) back_left_motor);
+		LiveWindow.addActuator("Drive Train", "Back Left Motor", (CANTalon) back_left_motor);
 		LiveWindow.addActuator("Drive Train", "Front Right Motor", (Talon) front_right_motor);
-		LiveWindow.addActuator("Drive Train", "Back Right Motor", (Talon) back_right_motor);
+		LiveWindow.addActuator("Drive Train", "Back Right Motor", (CANTalon) back_right_motor);
 		LiveWindow.addSensor("Drive Train", "Left Encoder", left_encoder);
 		LiveWindow.addSensor("Drive Train", "Right Encoder", right_encoder);
 		LiveWindow.addSensor("Drive Train", "Rangefinder", rangefinder);
@@ -78,6 +79,10 @@ public class DriveTrain extends Subsystem {
 		SmartDashboard.putNumber("Right Distance", right_encoder.getDistance());
 		SmartDashboard.putNumber("Left Speed", left_encoder.getRate());
 		SmartDashboard.putNumber("Right Speed", right_encoder.getRate());
+		SmartDashboard.putNumber("Left Back Speed", back_left_motor.get());
+		SmartDashboard.putNumber("Right Back Speed", back_right_motor.get());
+		SmartDashboard.putNumber("Left Front Speed", front_left_motor.get());
+		SmartDashboard.putNumber("Right Front Speed", front_right_motor.get());
 	}
 
 	/**
@@ -93,7 +98,7 @@ public class DriveTrain extends Subsystem {
 	 * @param joy The ps3 style joystick to use to drive tank style.
 	 */
 	public void drive(Joystick joy) {
-		drive(-joy.getY(), -joy.getAxis(AxisType.kThrottle));
+		drive(-joy.getY(), -joy.getRawAxis(Joystick.AxisType.kNumAxis.value));
 	}
 	
 	/**
