@@ -1,13 +1,14 @@
 package org.usfirst.frc.team5461.robot.subsystems;
 
 import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Joystick.AxisType;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.SpeedController;
-import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.Talon;
+import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import org.usfirst.frc.team5461.robot.Robot;
@@ -19,23 +20,27 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * the robots chassis. These include four drive motors, a left and right encoder
  * and a gyro.
  */
-public class DriveTrain extends Subsystem {
+public class DriveTrain extends PIDSubsystem {
 	private SpeedController front_left_motor, back_left_motor,
 							front_right_motor, back_right_motor;
 	private RobotDrive drive;
 	private Encoder left_encoder, right_encoder;
 	private AnalogInput rangefinder;
+	private static final double kP_real = .5, kI_real = 0.00;
 
 	public DriveTrain() {
-		super();
+		super(kP_real,kI_real,0);
+		setPercentTolerance(5.0);
+		setOutputRange(-1.0,1.0);
+		setInputRange(-40.0,40.0);
 		front_left_motor = new Talon(2);
 		back_left_motor = new CANTalon(0);
 		front_right_motor = new Talon(3);
 		back_right_motor = new CANTalon(5);
 		drive = new RobotDrive(front_left_motor, back_left_motor,
 							   front_right_motor, back_right_motor);
-		left_encoder = new Encoder(1, 2);
-		right_encoder = new Encoder(3, 4);
+		left_encoder = new Encoder(0,1);
+		right_encoder = new Encoder(2,3);
 		
 		// Encoders may measure differently in the real world and in
 		// simulation. In this example the robot moves 0.042 barleycorns
@@ -130,4 +135,17 @@ public class DriveTrain extends Subsystem {
 		// Really meters in simulation since it's a rangefinder...
 		return rangefinder.getAverageVoltage();
 	}
+
+	@Override
+	protected double returnPIDInput() {
+		return right_encoder.getRate();
+	}
+
+	@Override
+	protected void usePIDOutput(double output) {
+		back_right_motor.set(output);
+		
+	}
+
+
 }
