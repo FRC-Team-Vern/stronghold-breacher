@@ -9,6 +9,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team5461.robot.subsystems.DriveTrain;
 
+import com.analog.adis16448.frc.ADIS16448_IMU;
+
 /**
  * The VM is configured to automatically run this class, and to call the
  * functions corresponding to each mode, as described in the IterativeRobot
@@ -20,6 +22,8 @@ public class Robot extends IterativeRobot {
 
 	public static DriveTrain drivetrain;
 	public static OI oi;
+	ADIS16448_IMU imu;
+
 
     Command autonomousCommand;
 
@@ -30,8 +34,10 @@ public class Robot extends IterativeRobot {
     public void robotInit() {
     	drivetrain = new DriveTrain();
 		oi = new OI();
+		imu = new ADIS16448_IMU();
 		
 		SmartDashboard.putData(drivetrain);
+		SmartDashboard.putData("IMU", imu);
     }
 	
 	public void disabledPeriodic() {
@@ -72,6 +78,9 @@ public class Robot extends IterativeRobot {
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
         log();
+     
+        //SmartDashboard.putNumber("IMU Zangle", imu.getAngleZ());
+        SmartDashboard.putData("IMU", imu);
     }
     
     /**
@@ -79,6 +88,8 @@ public class Robot extends IterativeRobot {
      */
     public void testPeriodic() {
         LiveWindow.run();
+      //  SmartDashboard.putData("IMU", imu);
+        //SmartDashboard.putNumber("IMU", imu.getAngleZ());
     }
     
     private void log() {
