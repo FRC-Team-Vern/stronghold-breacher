@@ -9,6 +9,7 @@ public class VL6180x extends I2C
   public VL6180x(int deviceAddress)
   {
 	  super(Port.kOnboard, deviceAddress);
+	  _i2caddress = deviceAddress;
   }
   //Send manditory settings as stated in ST datasheet.
   // http://www.st.com/st-web-ui/static/active/en/resource/technical/document/application_note/DM00122600.pdf (Section 1.3)
