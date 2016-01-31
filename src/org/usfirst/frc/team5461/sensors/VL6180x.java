@@ -16,6 +16,11 @@ public class VL6180x extends I2C
   public final int VL6180xInit()
   {
 	  int result = 0;
+	  ByteBuffer resetCheck = ByteBuffer.allocateDirect(1);
+	  read(Constants.VL6180X_SYSTEM_FRESH_OUT_OF_RESET, Constants.SINGLE_BYTE, resetCheck);
+	  byte checkResult = resetCheck.get();
+	  int checkResultValue = (int)checkResult;
+	  
 	if (!verifySensor(Constants.VL6180X_SYSTEM_FRESH_OUT_OF_RESET, Constants.SINGLE_BYTE, new byte[] {(byte)1}));
 	{
 		result = Constants.VL6180x_FAILURE_RESET;
@@ -79,9 +84,12 @@ public class VL6180x extends I2C
 	//Additional settings defaults from community
 	write(Constants.VL6180X_SYSRANGE_MAX_CONVERGENCE_TIME, 0x32);
 	write(Constants.VL6180X_SYSRANGE_RANGE_CHECK_ENABLES, 0x10 | 0x01);
+	ByteBuffer earlyConvergence = ByteBuffer.allocateDirect(1);
 	write(Constants.VL6180X_SYSRANGE_EARLY_CONVERGENCE_ESTIMATE, 0x7B);
+	writeBulk(earlyConvergence.put((byte)0x00), 1);
+	ByteBuffer integrationPeriod = ByteBuffer.allocateDirect(1);
 	write(Constants.VL6180X_SYSALS_INTEGRATION_PERIOD, 0x64);
-
+	writeBulk(integrationPeriod.put((byte)0x00), 1);
 	write(Constants.VL6180X_READOUT_AVERAGING_SAMPLE_PERIOD, 0x30);
 	write(Constants.VL6180X_SYSALS_ANALOGUE_GAIN, 0x40);
 	write(Constants.VL6180X_FIRMWARE_RESULT_SCALER, 0x01);
@@ -101,8 +109,9 @@ public class VL6180x extends I2C
 		e.printStackTrace();
 	}
 	ByteBuffer data = ByteBuffer.allocateDirect(Constants.SINGLE_BYTE);
-	read(Constants.VL6180X_RESULT_RANGE_VAL, Constants.SINGLE_BYTE, data) ;
-		return (int)data.get();
+	read(Constants.VL6180X_RESULT_RANGE_VAL, Constants.SINGLE_BYTE, data);
+	byte value = data.get();
+		return value;
 	
   }
   // Get ALS level in Lux
@@ -198,15 +207,15 @@ public class VL6180x extends I2C
 	read(Constants.VL6180X_IDENTIFICATION_MODEL_REV_MINOR, Constants.SINGLE_BYTE, modelRevMinorId);
 	read(Constants.VL6180X_IDENTIFICATION_MODULE_REV_MAJOR, Constants.SINGLE_BYTE, moduleRevMajorId);
 	read(Constants.VL6180X_IDENTIFICATION_MODULE_REV_MINOR, Constants.SINGLE_BYTE, moduleRevMinorId);
-	temp.idModel = modelId.get();
-	temp.idModelRevMajor = modelRevMajorId.get();
-	temp.idModelRevMinor = modelRevMinorId.get();
-	temp.idModuleRevMajor = moduleRevMajorId.get();
-	temp.idModuleRevMinor = moduleRevMinorId.get();
+	temp.idModel = modelId.get() & 0xFF;
+	temp.idModelRevMajor = modelRevMajorId.get() & 0xFF;
+	temp.idModelRevMinor = modelRevMinorId.get() & 0xFF;
+	temp.idModuleRevMajor = moduleRevMajorId.get() & 0xFF;
+	temp.idModuleRevMinor = moduleRevMinorId.get() & 0xFF;
 	read(Constants.VL6180X_IDENTIFICATION_DATE, Constants.SHORT_BYTE, dateId);
 	read(Constants.VL6180X_IDENTIFICATION_TIME, Constants.SHORT_BYTE, timeId);
-	temp.idDate = dateId.get();
-	temp.idTime = timeId.get();
+	temp.idDate = dateId.getShort();
+	temp.idTime = timeId.getShort();
   }
 
   //Change the default address of the device to allow multiple
