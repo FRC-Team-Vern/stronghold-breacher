@@ -88,7 +88,7 @@ public class VL6180x extends I2C
   }
 
   // Get Range distance in (mm)
-  public final byte getDistance()
+  public final int getDistance()
   {
 	write(Constants.VL6180X_SYSRANGE_START, 0x01); //Start Single shot mode
 	try 
@@ -101,11 +101,9 @@ public class VL6180x extends I2C
 		e.printStackTrace();
 	}
 	ByteBuffer data = ByteBuffer.allocateDirect(Constants.SINGLE_BYTE);
-	if (read(Constants.VL6180X_RESULT_RANGE_VAL, Constants.SINGLE_BYTE, data)) {
-		return data.get();
-	}
-	write(Constants.VL6180X_SYSTEM_INTERRUPT_CLEAR, 0x07);
-	return 0;
+	read(Constants.VL6180X_RESULT_RANGE_VAL, Constants.SINGLE_BYTE, data) ;
+		return (int)data.get();
+	
   }
   // Get ALS level in Lux
   public final float getAmbientLight(vl6180x_as_gain VL6180X_AS_GAIN)
