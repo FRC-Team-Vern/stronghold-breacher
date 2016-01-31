@@ -25,7 +25,7 @@ public class Robot extends IterativeRobot {
 
 	public static DriveTrain drivetrain;
 	public static OI oi;
-	ADIS16448_IMU imu;
+	
 	final static int vl6180xAddress=0x29;
 	VL6180xIdentification identification;
 	VL6180x ProximitySensor;
@@ -41,7 +41,7 @@ public class Robot extends IterativeRobot {
 	public void robotInit() {
     	drivetrain = new DriveTrain();
 		oi = new OI();
-		imu = new ADIS16448_IMU();
+		
 		ProximitySensor=new VL6180x(vl6180xAddress);
 		if(ProximitySensor.VL6180xInit() != 0)
 		{
@@ -52,7 +52,7 @@ public class Robot extends IterativeRobot {
 		
 		
 		SmartDashboard.putData(drivetrain);
-		SmartDashboard.putData("IMU", imu);
+		
     }
     
 	
@@ -105,7 +105,7 @@ public class Robot extends IterativeRobot {
         SmartDashboard.putNumber("ambient light", ProximitySensor.getAmbientLight(vl6180x_as_gain.GAIN_1));
      
         //SmartDashboard.putNumber("IMU Zangle", imu.getAngleZ());
-        SmartDashboard.putData("IMU", imu);
+       
     }
     
     /**

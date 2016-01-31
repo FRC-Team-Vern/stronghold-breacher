@@ -13,6 +13,9 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import org.usfirst.frc.team5461.robot.Robot;
 import org.usfirst.frc.team5461.robot.commands.TankDriveWithJoystick;
+
+import com.analog.adis16448.frc.ADIS16448_IMU;
+
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -26,6 +29,8 @@ public class DriveTrain extends PIDSubsystem {
 	private RobotDrive drive;
 	private Encoder left_encoder, right_encoder;
 	private AnalogInput rangefinder;
+	private ADIS16448_IMU imu;
+	private FlatIron flatIron;
 	private static final double kP_real = .5, kI_real = 0.00;
 
 	public DriveTrain() {
@@ -41,6 +46,7 @@ public class DriveTrain extends PIDSubsystem {
 							   front_right_motor, back_right_motor);
 		left_encoder = new Encoder(0,1);
 		right_encoder = new Encoder(2,3);
+		imu = new ADIS16448_IMU();
 		
 		// Encoders may measure differently in the real world and in
 		// simulation. In this example the robot moves 0.042 barleycorns
@@ -57,6 +63,7 @@ public class DriveTrain extends PIDSubsystem {
 		}
 
 		rangefinder = new AnalogInput(6);
+		flatIron=new FlatIron( imu);
 
 		// Let's show everything on the LiveWindow
 		LiveWindow.addActuator("Drive Train", "Front_Left Motor", (Talon) front_left_motor);
@@ -103,7 +110,10 @@ public class DriveTrain extends PIDSubsystem {
 	 * @param joy The ps3 style joystick to use to drive tank style.
 	 */
 	public void drive(Joystick joy) {
-		drive(-joy.getY(), -joy.getRawAxis(Joystick.AxisType.kNumAxis.value));
+		FlatIron.Pair<Double>adjustFactors=flatIron.getAdjustmentFactors();
+		Double leftVal=-joy.getY()*adjustFactors.m_leftval;
+		Double rightVal=-joy.getRawAxis(Joystick.AxisType.kNumAxis.value)*adjustFactors.m_rightval;
+		drive(leftVal,rightVal);
 	}
 	
 	/**
