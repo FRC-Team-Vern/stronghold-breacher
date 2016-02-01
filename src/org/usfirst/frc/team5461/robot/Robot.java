@@ -11,7 +11,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team5461.robot.subsystems.DriveTrain;
 
-import com.analog.adis16448.frc.ADIS16448_IMU;
 import org.usfirst.frc.team5461.sensors.vl6180x_as_gain;
 
 /**
@@ -28,7 +27,7 @@ public class Robot extends IterativeRobot {
 	
 	final static int vl6180xAddress=0x29;
 	VL6180xIdentification identification;
-	VL6180x ProximitySensor;
+	VL6180x proximitySensor;
 
 
     Command autonomousCommand;
@@ -41,18 +40,16 @@ public class Robot extends IterativeRobot {
 	public void robotInit() {
     	drivetrain = new DriveTrain();
 		oi = new OI();
+
+		identification = new VL6180xIdentification();
+		proximitySensor.getIdentification(identification);
 		
-		ProximitySensor=new VL6180x(vl6180xAddress);
-		if(ProximitySensor.VL6180xInit() != 0)
+		if(proximitySensor.VL6180xInit() != 0)
 		{
 		System.out.println	("Failure to initialize proximity sensor.");
 		}
-       
-			
-		
-		
+   
 		SmartDashboard.putData(drivetrain);
-		
     }
     
 	
@@ -82,7 +79,7 @@ public class Robot extends IterativeRobot {
         // continue until interrupted by another command, remove
         // this line or comment it out.
         if (autonomousCommand != null) autonomousCommand.cancel();
-        ProximitySensor.VL6180xDefatSettings();
+        proximitySensor.VL6180xDefatSettings();
     }
 
     /**
@@ -101,11 +98,10 @@ public class Robot extends IterativeRobot {
 	public void teleopPeriodic() {
         Scheduler.getInstance().run();
         log();
-        SmartDashboard.putNumber("proximity distance", ProximitySensor.getDistance());
-        SmartDashboard.putNumber("ambient light", ProximitySensor.getAmbientLight(vl6180x_as_gain.GAIN_1));
+        SmartDashboard.putNumber("proximity distance", proximitySensor.getDistance());
+        SmartDashboard.putNumber("ambient light", proximitySensor.getAmbientLight(vl6180x_as_gain.GAIN_1));
      
         //SmartDashboard.putNumber("IMU Zangle", imu.getAngleZ());
-       
     }
     
     /**
