@@ -7,6 +7,6 @@ public class VL6180xIdentification
   public int idModelRevMinor;
   public int idModuleRevMajor;
   public int idModuleRevMinor;
-  public short idDate;
-  public short idTime;
+  public int idDate;
+  public int idTime;
 }

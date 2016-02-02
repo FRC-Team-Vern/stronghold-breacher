@@ -15,15 +15,13 @@ public class VL6180x extends I2C
   // http://www.st.com/st-web-ui/static/active/en/resource/technical/document/application_note/DM00122600.pdf (Section 1.3)
   public final int VL6180xInit()
   {
-	  int result = 0;
 	  ByteBuffer resetCheck = ByteBuffer.allocateDirect(1);
 	  read(Constants.VL6180X_SYSTEM_FRESH_OUT_OF_RESET, Constants.SINGLE_BYTE, resetCheck);
-	  byte checkResult = resetCheck.get();
-	  int checkResultValue = (int)checkResult;
+	  int checkResult = resetCheck.get() & 0xFF;
 	  
-	if (!verifySensor(Constants.VL6180X_SYSTEM_FRESH_OUT_OF_RESET, Constants.SINGLE_BYTE, new byte[] {(byte)1}));
+	if (!verifySensor(Constants.VL6180X_SYSTEM_FRESH_OUT_OF_RESET, Constants.SINGLE_BYTE, new byte[] {(byte)1}))
 	{
-		result = Constants.VL6180x_FAILURE_RESET;
+		return Constants.VL6180x_FAILURE_RESET;
 	}
 
 	//Required by datasheet
@@ -59,11 +57,11 @@ public class VL6180x extends I2C
 	write(0x01a7, 0x1f);
 	write(0x0030, 0x00);
 
-	return result;
+	return 1;
   }
   // Use default settings from ST data sheet section 9.
   // http://www.st.com/st-web-ui/static/active/en/resource/technical/document/application_note/DM00122600.pdf
-  public final void VL6180xDefatSettings()
+  public final void defaultSettings()
   {
 	//Recommended settings from datasheet
 	//http://www.st.com/st-web-ui/static/active/en/resource/technical/document/application_note/DM00122600.pdf
@@ -110,7 +108,7 @@ public class VL6180x extends I2C
 	}
 	ByteBuffer data = ByteBuffer.allocateDirect(Constants.SINGLE_BYTE);
 	read(Constants.VL6180X_RESULT_RANGE_VAL, Constants.SINGLE_BYTE, data);
-	byte value = data.get();
+	int value = data.get() & 0xFF;
 		return value;
 	
   }
@@ -139,8 +137,8 @@ public class VL6180x extends I2C
 	
 	ByteBuffer alsIntegrationPeriodRaw = ByteBuffer.allocateDirect(Constants.SHORT_BYTE);
 	read(Constants.VL6180X_SYSALS_INTEGRATION_PERIOD, Constants.SHORT_BYTE, alsIntegrationPeriodRaw);
-
-	float alsIntegrationPeriod = (float) (100.0 / alsIntegrationPeriodRaw.getShort());
+	int integrationPeriod = alsIntegrationPeriodRaw.getShort() & 0xFFFF;
+	float alsIntegrationPeriod = (float) (100.0 / integrationPeriod);
 
 	//Calculate actual LUX from Appnotes
 
@@ -175,8 +173,8 @@ public class VL6180x extends I2C
 	}
 
   //Calculate LUX from formula in AppNotes
-
-	float alsCalculated = (float)0.32 * (alsRaw.getShort() / alsGain) * alsIntegrationPeriod;
+	int als = alsRaw.getShort() & 0xFFFF;
+	float alsCalculated = (float)0.32 * ( als/ alsGain) * alsIntegrationPeriod;
 
 	return alsCalculated;
   }
@@ -214,14 +212,14 @@ public class VL6180x extends I2C
 	temp.idModuleRevMinor = moduleRevMinorId.get() & 0xFF;
 	read(Constants.VL6180X_IDENTIFICATION_DATE, Constants.SHORT_BYTE, dateId);
 	read(Constants.VL6180X_IDENTIFICATION_TIME, Constants.SHORT_BYTE, timeId);
-	temp.idDate = dateId.getShort();
-	temp.idTime = timeId.getShort();
+	temp.idDate = dateId.getShort() & 0xFFFF;
+	temp.idTime = timeId.getShort() & 0xFFFF;
   }
 
   //Change the default address of the device to allow multiple
   //sensors on the bus.  Can use up to 127 sensors. New address
   //is saved in non-volatile device memory.
-  public final byte changeAddress(byte old_address, byte new_address)
+  public final int changeAddress(int old_address, int new_address)
   {
 
 	//NOTICE:  IT APPEARS THAT CHANGING THE ADDRESS IS NOT STORED IN NON-VOLATILE MEMORY

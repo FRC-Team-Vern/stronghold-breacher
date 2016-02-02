@@ -42,6 +42,7 @@ public class Robot extends IterativeRobot {
 		oi = new OI();
 
 		identification = new VL6180xIdentification();
+		proximitySensor = new VL6180x(vl6180xAddress);
 		proximitySensor.getIdentification(identification);
 		
 		if(proximitySensor.VL6180xInit() != 0)
@@ -49,6 +50,17 @@ public class Robot extends IterativeRobot {
 		System.out.println	("Failure to initialize proximity sensor.");
 		}
    
+		proximitySensor.defaultSettings();
+		
+		try 
+		{
+			Thread.sleep(1000);
+		} 
+		catch (InterruptedException e) 
+		{
+			e.printStackTrace();
+		}
+		
 		SmartDashboard.putData(drivetrain);
     }
     
@@ -79,7 +91,7 @@ public class Robot extends IterativeRobot {
         // continue until interrupted by another command, remove
         // this line or comment it out.
         if (autonomousCommand != null) autonomousCommand.cancel();
-        proximitySensor.VL6180xDefatSettings();
+        proximitySensor.defaultSettings();
     }
 
     /**
