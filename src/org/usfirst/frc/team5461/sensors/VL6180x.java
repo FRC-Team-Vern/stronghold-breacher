@@ -3,14 +3,61 @@ package org.usfirst.frc.team5461.sensors;
 import java.nio.ByteBuffer;
 
 import edu.wpi.first.wpilibj.I2C;
+import edu.wpi.first.wpilibj.hal.I2CJNI;
+import edu.wpi.first.wpilibj.util.BoundaryException;
 public class VL6180x extends I2C 
 {
+	private Port m_port;
+	  //Store address given when the class is initialized.
+	  //This value can be changed by the changeAddress() function
+	  private int _i2caddress;
+	
   //Initalize library with default address
   public VL6180x(int deviceAddress)
   {
 	  super(Port.kOnboard, deviceAddress);
+	  m_port = Port.kOnboard;
 	  _i2caddress = deviceAddress;
   }
+  
+  @Override
+  public boolean read(int registerAddress, int count, ByteBuffer buffer) {
+	    if (count < 1) {
+	      throw new BoundaryException("Value must be at least 1, " + count +
+	                                  " given");
+	    }
+
+	    if (!buffer.isDirect())
+	      throw new IllegalArgumentException("must be a direct buffer");
+	    if (buffer.capacity() < count)
+	      throw new IllegalArgumentException("buffer is too small, must be at least " + count);
+
+	    ByteBuffer dataToSendBuffer = ByteBuffer.allocateDirect(2);
+	    dataToSendBuffer.putShort((short)registerAddress);
+
+	    return transaction(dataToSendBuffer, 2, buffer, count);
+	  }
+
+  @Override
+  public synchronized boolean write(int registerAddress, int data) {
+	    ByteBuffer dataToSendBuffer = ByteBuffer.allocateDirect(3);
+	    dataToSendBuffer.putShort((short)registerAddress);
+	    dataToSendBuffer.put(2, (byte)data);
+
+	    return I2CJNI.i2CWrite((byte) m_port.getValue(), (byte) _i2caddress, dataToSendBuffer,
+	        (byte) 3) < 0;
+	  }
+
+  public synchronized boolean write16(int registerAddress, int data) {
+	    ByteBuffer dataToSendBuffer = ByteBuffer.allocateDirect(4);
+	    dataToSendBuffer.putShort((short)registerAddress);
+	    dataToSendBuffer.putShort(2, (short)data);
+
+	    return I2CJNI.i2CWrite((byte) m_port.getValue(), (byte) _i2caddress, dataToSendBuffer,
+	        (byte) 4) < 0;
+	  }
+
+
   //Send manditory settings as stated in ST datasheet.
   // http://www.st.com/st-web-ui/static/active/en/resource/technical/document/application_note/DM00122600.pdf (Section 1.3)
   public final int VL6180xInit()
@@ -19,7 +66,7 @@ public class VL6180x extends I2C
 	  read(Constants.VL6180X_SYSTEM_FRESH_OUT_OF_RESET, Constants.SINGLE_BYTE, resetCheck);
 	  int checkResult = resetCheck.get() & 0xFF;
 	  
-	if (!verifySensor(Constants.VL6180X_SYSTEM_FRESH_OUT_OF_RESET, Constants.SINGLE_BYTE, new byte[] {(byte)1}))
+	if (checkResult != 1)
 	{
 		return Constants.VL6180x_FAILURE_RESET;
 	}
@@ -72,7 +119,6 @@ public class VL6180x extends I2C
 	write(Constants.VL6180X_READOUT_AVERAGING_SAMPLE_PERIOD, 0x30); //Set Avg sample period
 	write(Constants.VL6180X_SYSALS_ANALOGUE_GAIN, 0x46); // Set the ALS gain
 	write(Constants.VL6180X_SYSRANGE_VHV_REPEAT_RATE, 0xFF); // Set auto calibration period (Max = 255)/(OFF = 0)
-	write(Constants.VL6180X_SYSALS_INTEGRATION_PERIOD, 0x63); // Set ALS integration time to 100ms
 	write(Constants.VL6180X_SYSRANGE_VHV_RECALIBRATE, 0x01); // perform a single temperature calibration
 	//Optional settings from datasheet
 	//http://www.st.com/st-web-ui/static/active/en/resource/technical/document/application_note/DM00122600.pdf
@@ -82,12 +128,8 @@ public class VL6180x extends I2C
 	//Additional settings defaults from community
 	write(Constants.VL6180X_SYSRANGE_MAX_CONVERGENCE_TIME, 0x32);
 	write(Constants.VL6180X_SYSRANGE_RANGE_CHECK_ENABLES, 0x10 | 0x01);
-	ByteBuffer earlyConvergence = ByteBuffer.allocateDirect(1);
-	write(Constants.VL6180X_SYSRANGE_EARLY_CONVERGENCE_ESTIMATE, 0x7B);
-	writeBulk(earlyConvergence.put((byte)0x00), 1);
-	ByteBuffer integrationPeriod = ByteBuffer.allocateDirect(1);
-	write(Constants.VL6180X_SYSALS_INTEGRATION_PERIOD, 0x64);
-	writeBulk(integrationPeriod.put((byte)0x00), 1);
+	write16(Constants.VL6180X_SYSRANGE_EARLY_CONVERGENCE_ESTIMATE, 0x007B);
+	write16(Constants.VL6180X_SYSALS_INTEGRATION_PERIOD, 0x0064);
 	write(Constants.VL6180X_READOUT_AVERAGING_SAMPLE_PERIOD, 0x30);
 	write(Constants.VL6180X_SYSALS_ANALOGUE_GAIN, 0x40);
 	write(Constants.VL6180X_FIRMWARE_RESULT_SCALER, 0x01);
@@ -137,7 +179,7 @@ public class VL6180x extends I2C
 	
 	ByteBuffer alsIntegrationPeriodRaw = ByteBuffer.allocateDirect(Constants.SHORT_BYTE);
 	read(Constants.VL6180X_SYSALS_INTEGRATION_PERIOD, Constants.SHORT_BYTE, alsIntegrationPeriodRaw);
-	int integrationPeriod = alsIntegrationPeriodRaw.getShort() & 0xFFFF;
+	int integrationPeriod = alsIntegrationPeriodRaw.getShort() & 0x01FF;
 	float alsIntegrationPeriod = (float) (100.0 / integrationPeriod);
 
 	//Calculate actual LUX from Appnotes
@@ -239,12 +281,6 @@ public class VL6180x extends I2C
 	 read(Constants.VL6180X_I2C_SLAVE_DEVICE_ADDRESS, Constants.SINGLE_BYTE, deviceAddress);
 	 return deviceAddress.get();
   }
-
-
-  //Store address given when the class is initialized.
-  //This value can be changed by the changeAddress() function
-  private int _i2caddress;
-
 
   // --- Private Functions --- //
 
