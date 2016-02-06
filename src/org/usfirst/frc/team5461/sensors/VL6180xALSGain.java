@@ -1,6 +1,6 @@
 package org.usfirst.frc.team5461.sensors;
 
-public enum vl6180x_as_gain
+public enum VL6180xALSGain
 { //Data sheet shows gain values as binary list
 
 GAIN_20(0), // Actual ALS Gain of 20
@@ -13,23 +13,23 @@ GAIN_1(6), // Actual ALS Gain of 1.01
 GAIN_40(7); // Actual ALS Gain of 40
 
 	private int intValue;
-	private static java.util.HashMap<Integer, vl6180x_as_gain> mappings;
-	private static java.util.HashMap<Integer, vl6180x_as_gain> getMappings()
+	private static java.util.HashMap<Integer, VL6180xALSGain> mappings;
+	private static java.util.HashMap<Integer, VL6180xALSGain> getMappings()
 	{
 		if (mappings == null)
 		{
-			synchronized (vl6180x_as_gain.class)
+			synchronized (VL6180xALSGain.class)
 			{
 				if (mappings == null)
 				{
-					mappings = new java.util.HashMap<Integer, vl6180x_as_gain>();
+					mappings = new java.util.HashMap<Integer, VL6180xALSGain>();
 				}
 			}
 		}
 		return mappings;
 	}
 
-	private vl6180x_as_gain(int value)
+	private VL6180xALSGain(int value)
 	{
 		intValue = value;
 		getMappings().put(value, this);
@@ -40,7 +40,7 @@ GAIN_40(7); // Actual ALS Gain of 40
 		return intValue;
 	}
 
-	public static vl6180x_as_gain forValue(int value)
+	public static VL6180xALSGain forValue(int value)
 	{
 		return getMappings().get(value);
 	}

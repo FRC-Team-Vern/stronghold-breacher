@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team5461.robot.subsystems.DriveTrain;
 
-import org.usfirst.frc.team5461.sensors.vl6180x_as_gain;
+import org.usfirst.frc.team5461.sensors.VL6180xALSGain;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -111,7 +111,7 @@ public class Robot extends IterativeRobot {
         Scheduler.getInstance().run();
         log();
         SmartDashboard.putNumber("proximity distance", proximitySensor.getDistance());
-        SmartDashboard.putNumber("ambient light", proximitySensor.getAmbientLight(vl6180x_as_gain.GAIN_1));
+        SmartDashboard.putNumber("ambient light", proximitySensor.getAmbientLight(VL6180xALSGain.GAIN_1));
      
         //SmartDashboard.putNumber("IMU Zangle", imu.getAngleZ());
     }
