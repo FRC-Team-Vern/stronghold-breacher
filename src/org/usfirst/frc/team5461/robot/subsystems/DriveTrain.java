@@ -156,6 +156,11 @@ public class DriveTrain extends PIDSubsystem {
 		back_right_motor.set(output);
 		
 	}
+	
+	public double getEncoderAvgDistance(){
+		return(left_encoder.getDistance()+right_encoder.getDistance() )*0.5;
+			
+	}
 
 
 }

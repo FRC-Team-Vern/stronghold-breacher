@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.usfirst.frc.team5461.robot.commands;
 
 import org.usfirst.frc.team5461.robot.Robot;
@@ -16,7 +12,7 @@ public class TankDriveWithJoystick extends Command {
         requires(Robot.drivetrain);
     }
 
-    // Called just before this Command runs the f iirst time
+    // Called just before this Command runs the first time
     protected void initialize() {}
 
     // Called repeatedly when this Command is scheduled to run

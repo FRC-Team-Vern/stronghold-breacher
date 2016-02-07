@@ -2,7 +2,9 @@ package org.usfirst.frc.team5461.robot.subsystems;
 
 import com.analog.adis16448.frc.ADIS16448_IMU;
 
-public class FlatIron  {
+import edu.wpi.first.wpilibj.command.Subsystem;
+
+public class FlatIron extends Subsystem {
 	private ADIS16448_IMU m_imu;
 	private Double m_heading;
 	private boolean m_isenabled=false;
@@ -42,6 +44,13 @@ public class FlatIron  {
 			m_leftval= leftval;
 			m_rightval=rightval;
 		}
+	}
+
+
+	@Override
+	protected void initDefaultCommand() {
+		//do nothing
+		
 	}
 	
 
