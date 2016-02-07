@@ -23,9 +23,6 @@ public class Robot extends IterativeRobot {
 	public static RedRover redRover;
 	
 	VL6180xIdentification identification;
-	
-
-
     Command autonomousCommand;
 
     /**
@@ -38,8 +35,6 @@ public class Robot extends IterativeRobot {
 		oi = new OI();
 		redRover = new RedRover();
     }
-		
-		
 		
 	@Override
 	public void disabledPeriodic() {
@@ -67,7 +62,6 @@ public class Robot extends IterativeRobot {
         // continue until interrupted by another command, remove
         // this line or comment it out.
         if (autonomousCommand != null) autonomousCommand.cancel();
-        
     }
 
     /**
@@ -86,8 +80,6 @@ public class Robot extends IterativeRobot {
 	public void teleopPeriodic() {
         Scheduler.getInstance().run();
         log();
-       
-        //SmartDashboard.putNumber("IMU Zangle", imu.getAngleZ());
     }
     
     /**
@@ -96,8 +88,6 @@ public class Robot extends IterativeRobot {
     @Override
 	public void testPeriodic() {
         LiveWindow.run();
-      //  SmartDashboard.putData("IMU", imu);
-        //SmartDashboard.putNumber("IMU", imu.getAngleZ());
     }
     
     private void log() {
