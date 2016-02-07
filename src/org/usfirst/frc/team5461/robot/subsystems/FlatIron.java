@@ -5,7 +5,7 @@ import com.analog.adis16448.frc.ADIS16448_IMU;
 public class FlatIron  {
 	private ADIS16448_IMU m_imu;
 	private Double m_heading;
-	private boolean m_isenabled=false;
+	private boolean m_isEnabled=false;
 	
 	public FlatIron(ADIS16448_IMU imu){
 		m_imu=imu;
@@ -14,7 +14,7 @@ public class FlatIron  {
 	
 	public Pair<Double>getAdjustmentFactors(){
 	
-		if (m_isenabled) {
+		if (m_isEnabled) {
 			return new Pair<Double>(getLeftAdjustment(),getRightAdjustment());
 		}
 		else {
