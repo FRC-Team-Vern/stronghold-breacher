@@ -2,15 +2,17 @@
 package org.usfirst.frc.team5461.robot;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
+
 import org.usfirst.frc.team5461.sensors.VL6180xIdentification;
 import org.usfirst.frc.team5461.sensors.VL6180x;
+
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+import org.usfirst.frc.team5461.robot.subsystems.Arms;
 import org.usfirst.frc.team5461.robot.subsystems.DriveTrain;
-
 import org.usfirst.frc.team5461.sensors.VL6180xALSGain;
 
 /**
@@ -24,6 +26,7 @@ public class Robot extends IterativeRobot {
 
 	public static DriveTrain drivetrain;
 	public static OI oi;
+	public static Arms arms;
 	
 	final static int vl6180xAddress=0x29;
 	VL6180xIdentification identification;
