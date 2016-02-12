@@ -30,7 +30,7 @@ import edu.wpi.first.wpilibj.Timer;
  * This class is for the ADIS16448 IMU that connects to the RoboRIO MXP port.
  */
 public class ADIS16448_IMU extends GyroBase implements Gyro, PIDSource, LiveWindowSendable {
-  private static final double kTimeout = 0.1;
+  private static final double Timeout = 0.1;
   private static final double kCalibrationSampleTime = 5.0;
   private static final double kDegreePerSecondPerLSB = 1.0/25.0;
   private static final double kGPerLSB = 1.0/1200.0;

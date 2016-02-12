@@ -145,16 +145,37 @@ public class DriveTrain extends PIDSubsystem {
 		// Really meters in simulation since it's a rangefinder...
 		return rangefinder.getAverageVoltage();
 	}
+	
+	public void stopRobot(){
+		drive(0,0);
+	}
 
 	@Override
 	protected double returnPIDInput() {
 		return right_encoder.getRate();
+	}
+	
+	public double getImuZValue(){
+		return imu.getAngleZ();
+	}
+	
+	public double getImuXValue(){
+		return imu.getAngleX();
+	}
+	
+	public double getImuYValue(){
+		return imu.getAngleY();
 	}
 
 	@Override
 	protected void usePIDOutput(double output) {
 		back_right_motor.set(output);
 		
+	}
+	
+	public double getEncoderAvgDistance(){
+		return(left_encoder.getDistance()+right_encoder.getDistance() )*0.5;
+			
 	}
 
 

@@ -2,18 +2,14 @@
 package org.usfirst.frc.team5461.robot;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
-
 import org.usfirst.frc.team5461.sensors.VL6180xIdentification;
-import org.usfirst.frc.team5461.sensors.VL6180x;
-
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
 import org.usfirst.frc.team5461.robot.subsystems.Arms;
 import org.usfirst.frc.team5461.robot.subsystems.DriveTrain;
-import org.usfirst.frc.team5461.sensors.VL6180xALSGain;
+import org.usfirst.frc.team5461.robot.subsystems.RedRover;
+
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -27,12 +23,10 @@ public class Robot extends IterativeRobot {
 	public static DriveTrain drivetrain;
 	public static OI oi;
 	public static Arms arms;
+	public static RedRover redRover;
+
 	
-	final static int vl6180xAddress=0x29;
 	VL6180xIdentification identification;
-	VL6180x proximitySensor;
-
-
     Command autonomousCommand;
 
     /**
@@ -43,31 +37,9 @@ public class Robot extends IterativeRobot {
 	public void robotInit() {
     	drivetrain = new DriveTrain();
 		oi = new OI();
-
-		identification = new VL6180xIdentification();
-		proximitySensor = new VL6180x(vl6180xAddress);
-		proximitySensor.getIdentification(identification);
-		
-		if(proximitySensor.VL6180xInit() != 0)
-		{
-		System.out.println	("Failure to initialize proximity sensor.");
-		}
-   
-		proximitySensor.defaultSettings();
-		
-		try 
-		{
-			Thread.sleep(1000);
-		} 
-		catch (InterruptedException e) 
-		{
-			e.printStackTrace();
-		}
-		
-		SmartDashboard.putData(drivetrain);
+		redRover = new RedRover();
     }
-    
-	
+		
 	@Override
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
@@ -94,7 +66,6 @@ public class Robot extends IterativeRobot {
         // continue until interrupted by another command, remove
         // this line or comment it out.
         if (autonomousCommand != null) autonomousCommand.cancel();
-        proximitySensor.defaultSettings();
     }
 
     /**
@@ -113,10 +84,6 @@ public class Robot extends IterativeRobot {
 	public void teleopPeriodic() {
         Scheduler.getInstance().run();
         log();
-        SmartDashboard.putNumber("proximity distance", proximitySensor.getDistance());
-        SmartDashboard.putNumber("ambient light", proximitySensor.getAmbientLight(VL6180xALSGain.GAIN_1));
-     
-        //SmartDashboard.putNumber("IMU Zangle", imu.getAngleZ());
     }
     
     /**
@@ -125,8 +92,6 @@ public class Robot extends IterativeRobot {
     @Override
 	public void testPeriodic() {
         LiveWindow.run();
-      //  SmartDashboard.putData("IMU", imu);
-        //SmartDashboard.putNumber("IMU", imu.getAngleZ());
     }
     
     private void log() {
