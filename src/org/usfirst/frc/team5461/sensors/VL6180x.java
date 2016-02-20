@@ -104,7 +104,7 @@ public class VL6180x extends I2C
 		write(0x01a7, 0x1f);
 		write(0x0030, 0x00);
 
-		return 1;
+		return 0;
 	}
 	// Use default settings from ST data sheet section 9.
 	// http://www.st.com/st-web-ui/static/active/en/resource/technical/document/application_note/DM00122600.pdf

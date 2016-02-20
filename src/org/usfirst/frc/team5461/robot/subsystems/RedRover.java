@@ -5,54 +5,83 @@ import org.usfirst.frc.team5461.sensors.VL6180x;
 
 import edu.wpi.first.wpilibj.DigitalOutput;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
  */
 public class RedRover extends Subsystem {
 	final static int vl6180xAddress=0x29;
-    
-	DigitalOutput s0;
-	DigitalOutput s1;
+	final static int SELECT_ADDRESS_START = 0;
+	final static int SELECT_ADDRESS_SIZE = 4;
+	DigitalOutput[] sa;
 	VL6180x proximitySensor;
-	public RedRover(){
-		s0 = new DigitalOutput(0);
-		s1 = new DigitalOutput(1);
-		proximitySensor = new VL6180x(vl6180xAddress);
-		
-		if(proximitySensor.VL6180xInit() != 0)
-		{
-		System.out.println	("Failure to initialize proximity sensor.");
+	public RedRover() {
+		sa = new DigitalOutput[SELECT_ADDRESS_SIZE];
+		for (int i=0; i<SELECT_ADDRESS_SIZE; ++i) {
+			sa[i] = new DigitalOutput(i+SELECT_ADDRESS_START);
 		}
-   
-		proximitySensor.defaultSettings();
+		
+		proximitySensor = new VL6180x(vl6180xAddress);
+	
+		initAllVL6180x();
+		allDefaultSettings();
 	}
 
+	private void initAllVL6180x() {
+		for (SensorNumber sn : SensorNumber.values()) {
+			callSensor(sn);
+			if(proximitySensor.VL6180xInit() != 0)
+			{
+				System.out.println("Failure to initialize proximity sensor: " + sn.getValue());
+			}
+		}
+	}
+	
+	private void allDefaultSettings() {
+		for (SensorNumber sn : SensorNumber.values()) {
+			callSensor(sn);
+			proximitySensor.defaultSettings();
+		}
+	}
+	
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
     }
     
-    public void callSensor(SensorNumber sensorNumber){
-    	s0.set((sensorNumber.getValue() & 0x01) == 1);
-    	s1.set((sensorNumber.getValue() & 0x02) == 1 );
+    public void callSensor(SensorNumber sensorNumber) {
+    	for (int i=0; i<SELECT_ADDRESS_SIZE; ++i) {
+    		boolean setValue = (((sensorNumber.getValue() >> i) & 0x01) == 1);
+    		sa[i].set(setValue);
+    	}
+    
     	try {
 			Thread.sleep(10);
 			return;
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-    	}
-    public int getDistanceFromSensor(SensorNumber sensorNumber){
+    }
+    
+    public int getDistanceFromSensor(SensorNumber sensorNumber) {
     	callSensor(sensorNumber);
     	return proximitySensor.getDistance();
     }
-    public int[] getDistanceFromAllSensors(){
+    
+    public int[] getDistanceFromAllSensors() {
     	int[] results = new int[SensorNumber.values().length];
     	for (SensorNumber sensor : SensorNumber.values()){
     		results[sensor.getValue()] = getDistanceFromSensor(sensor);
     	}
     	return results;
     }
+    
+    public void log() {
+    	int[] distances = getDistanceFromAllSensors();
+    	for ( int i = 0; i<distances.length; ++i ) {
+    		SmartDashboard.putNumber("Distance " + Integer.toString(i), distances[i]);
+    	}
     }
+}
 

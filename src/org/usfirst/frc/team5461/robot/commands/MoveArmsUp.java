@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class MoveArmsUp extends Command {
 	public MoveArmsUp(){
-		erquires(Robot.arms);
+		requires(Robot.arms);
 	}
 
 	@Override
@@ -17,8 +17,6 @@ public class MoveArmsUp extends Command {
 	@Override
 	protected void execute() {
 		Robot.arms.moveArmsUp();
-		
-		
 	}
 
 	@Override
