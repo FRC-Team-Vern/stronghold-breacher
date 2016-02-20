@@ -1,4 +1,4 @@
-///package /org.usfirst.frc.team5461.robot.commands;
+package org.usfirst.frc.team5461.robot.commands;
 import org.usfirst.frc.team5461.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -43,6 +43,7 @@ public class TurnRobot extends Command {
 				return false;
 			}
 		}
+		return false;
 	}
 
 	// Called once after isFinished returns true
