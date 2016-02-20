@@ -17,8 +17,6 @@ public class MoveArmsUp extends Command {
 	@Override
 	protected void execute() {
 		Robot.arms.moveArmsUp();
-		
-		
 	}
 
 	@Override

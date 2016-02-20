@@ -96,6 +96,7 @@ public class Robot extends IterativeRobot {
     
     private void log() {
         drivetrain.log();
+    	redRover.log();
     }
 
 }

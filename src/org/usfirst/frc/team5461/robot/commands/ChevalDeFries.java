@@ -6,9 +6,9 @@ public class ChevalDeFries extends CommandGroup {
 		public ChevalDeFries(){
 			//addSequential();
 			addSequential(new MoveArmsMiddle());
-			//addSequential();
+			addSequential(new DriveStraight(0));
 			addSequential(new MoveArmsDown());
-			//addSequential();
+			addSequential(new DriveStraight(0));
 			addSequential(new MoveArmsUp());
 			//addParallel();
 		}
