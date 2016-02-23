@@ -23,7 +23,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * and a gyro.
  */
 public class DriveTrain extends PIDSubsystem {
-	private SpeedController front_left_motor, back_left_motor,
+	private CANTalon front_left_motor, back_left_motor,
 							front_right_motor, back_right_motor;
 	private RobotDrive drive;
 	private AnalogInput rangefinder;
@@ -36,12 +36,22 @@ public class DriveTrain extends PIDSubsystem {
 		setPercentTolerance(5.0);
 		setOutputRange(-1.0,1.0);
 		setInputRange(-40.0,40.0);
-		front_left_motor = new Talon(2);
-		back_left_motor = new CANTalon(0);
-		front_right_motor = new Talon(3);
-		back_right_motor = new CANTalon(5);
-		((CANTalon)back_right_motor).setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
-		((CANTalon)back_left_motor).setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
+		front_left_motor = new CANTalon(8);
+		front_left_motor.setInverted(true);
+		front_left_motor.setExpiration(0.1);
+		front_left_motor.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
+		front_right_motor = new CANTalon(9);
+		front_right_motor.setInverted(true);
+		front_right_motor.setExpiration(0.1);
+		front_right_motor.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
+		back_left_motor = new CANTalon(11);
+		back_left_motor.setInverted(true);
+		back_left_motor.setExpiration(0.1);
+		back_left_motor.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
+		back_right_motor = new CANTalon(10);
+		back_right_motor.setInverted(true);
+		back_right_motor.setExpiration(0.1);
+		back_right_motor.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
 
 		drive = new RobotDrive(front_left_motor, back_left_motor,
 							   front_right_motor, back_right_motor);
@@ -65,10 +75,10 @@ public class DriveTrain extends PIDSubsystem {
 		flatIron=new FlatIron( imu);
 
 		// Let's show everything on the LiveWindow
-		LiveWindow.addActuator("Drive Train", "Front_Left Motor", (Talon) front_left_motor);
-		LiveWindow.addActuator("Drive Train", "Back Left Motor", (CANTalon) back_left_motor);
-		LiveWindow.addActuator("Drive Train", "Front Right Motor", (Talon) front_right_motor);
-		LiveWindow.addActuator("Drive Train", "Back Right Motor", (CANTalon) back_right_motor);
+		LiveWindow.addActuator("Drive Train", "Front_Left Motor", front_left_motor);
+		LiveWindow.addActuator("Drive Train", "Back Left Motor",  back_left_motor);
+		LiveWindow.addActuator("Drive Train", "Front Right Motor", front_right_motor);
+		LiveWindow.addActuator("Drive Train", "Back Right Motor", back_right_motor);
 		LiveWindow.addSensor("Drive Train", "Rangefinder", rangefinder);
 	}
 
@@ -84,10 +94,10 @@ public class DriveTrain extends PIDSubsystem {
 	 * The log method puts interesting information to the SmartDashboard.
 	 */
 	public void log() {
-		SmartDashboard.putNumber("Left Distance", ((CANTalon)back_left_motor).getEncPosition());
-		SmartDashboard.putNumber("Right Distance", ((CANTalon)back_right_motor).getEncPosition());
-		SmartDashboard.putNumber("Left Speed", ((CANTalon)back_left_motor).getEncVelocity());
-		SmartDashboard.putNumber("Right Speed", ((CANTalon)back_right_motor).getEncVelocity());
+		SmartDashboard.putNumber("Left Distance", back_left_motor.getEncPosition());
+		SmartDashboard.putNumber("Right Distance", back_right_motor.getEncPosition());
+		SmartDashboard.putNumber("Left Speed", back_left_motor.getEncVelocity());
+		SmartDashboard.putNumber("Right Speed", back_right_motor.getEncVelocity());
 		SmartDashboard.putNumber("Left Back Speed", back_left_motor.get());
 		SmartDashboard.putNumber("Right Back Speed", back_right_motor.get());
 		SmartDashboard.putNumber("Left Front Speed", front_left_motor.get());
@@ -124,15 +134,15 @@ public class DriveTrain extends PIDSubsystem {
 	 * Reset the robots sensors to the zero states.
 	 */
 	public void reset() {
-		((CANTalon)back_right_motor).reset();
-		((CANTalon)back_left_motor).reset();
+		back_right_motor.reset();
+		back_left_motor.reset();
 	}
 
 	/**
 	 * @return The distance driven (average of left and right encoders).
 	 */
 	public double getDistance() {
-		return (((CANTalon)back_left_motor).getEncPosition() + ((CANTalon)back_right_motor).getEncPosition())/2;
+		return ((back_left_motor).getEncPosition() + back_right_motor.getEncPosition())/2;
 	}
 	
 	/**
@@ -149,7 +159,7 @@ public class DriveTrain extends PIDSubsystem {
 
 	@Override
 	protected double returnPIDInput() {
-		return ((CANTalon)back_right_motor).getEncVelocity();
+		return back_right_motor.getEncVelocity();
 	}
 	
 	public double getImuZValue(){
@@ -169,10 +179,4 @@ public class DriveTrain extends PIDSubsystem {
 		back_right_motor.set(output);
 		
 	}
-	
-	public double getEncoderAvgDistance(){
-		return(((CANTalon)back_left_motor).getEncPosition()+((CANTalon)back_right_motor).getEncPosition() )*0.5;
-	}
-
-
 }
