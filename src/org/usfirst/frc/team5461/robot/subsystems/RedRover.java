@@ -4,22 +4,27 @@ import org.usfirst.frc.team5461.robot.SensorNumber;
 import org.usfirst.frc.team5461.sensors.VL6180x;
 
 import edu.wpi.first.wpilibj.DigitalOutput;
+import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
  */
-public class RedRover extends Subsystem {
+public class RedRover extends PIDSubsystem {
+	
 	final static int vl6180xAddress=0x29;
 	final static int SELECT_ADDRESS_START = 0;
 	final static int SELECT_ADDRESS_SIZE = 4;
 	DigitalOutput[] sa;
 	VL6180x proximitySensor;
+	 private static final double kP = 4, kI = 0.07;
+	    
 	public RedRover() {
+		super(kP, kI, 0);
 		sa = new DigitalOutput[SELECT_ADDRESS_SIZE];
 		for (int i=0; i<SELECT_ADDRESS_SIZE; ++i) {
-			sa[i] = new DigitalOutput(i+SELECT_ADDRESS_START);
+			sa	[i] = new DigitalOutput(i+SELECT_ADDRESS_START);
 		}
 		
 		proximitySensor = new VL6180x(vl6180xAddress);
@@ -83,5 +88,17 @@ public class RedRover extends Subsystem {
     		SmartDashboard.putNumber("Distance " + Integer.toString(i), distances[i]);
     	}
     }
+
+	@Override
+	protected double returnPIDInput() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	protected void usePIDOutput(double output) {
+		// TODO Auto-generated method stub
+		
+	}
 }
 
