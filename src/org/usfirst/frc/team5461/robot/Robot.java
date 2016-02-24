@@ -24,6 +24,7 @@ public class Robot extends IterativeRobot {
 	public static OI oi;
 	public static Arms arms;
 	public static RedRover redRover;
+	public static MultiPIDSubsystem multiPIDSubsystem;
 
 	
 	VL6180xIdentification identification;

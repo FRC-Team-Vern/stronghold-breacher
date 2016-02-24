@@ -9,28 +9,28 @@ import edu.wpi.first.wpilibj.command.Command;
  *
  */
 public class SquareUp extends Command {
-	public static final int TARGET_DISTANCE = 200;
-    public SquareUp() {
+	private double setpoint = 200;
+	
+    public SquareUp(double setpoint) {
+    	this.setpoint = setpoint;
         requires(Robot.drivetrain);
     	requires(Robot.redRover);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	
+    	Robot.multiPIDSubsystem.enable();
+        Robot.multiPIDSubsystem.setSetpoint(setpoint);
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	int[] distances = Robot.redRover.getDistanceFromAllSensors();
-    	int leftSide = distances[SensorNumber.BottomLeftProximitySensor.getValue()];
-    	int rightSide = distances[SensorNumber.BottomRightProximitySensor.getValue()];
-    	
+    	// Do nothing
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        return Robot.multiPIDSubsystem.onTarget();
     }
 
     // Called once after isFinished returns true

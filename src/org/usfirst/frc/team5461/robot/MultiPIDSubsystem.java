@@ -10,10 +10,17 @@ import edu.wpi.first.wpilibj.command.PIDSubsystem;
 
 public class MultiPIDSubsystem extends PIDSubsystem {
 	Vector<PIDController> m_controllers = new Vector<>();
+	private double m_right;
 	public MultiPIDSubsystem(double p, double i, double d){
 		super(p,i,d);
 		addController(getPIDController());
+		
+		PIDSource pidSource = getNewPIDSource(SensorNumber.BottomRightProximitySensor);
+		PIDOutput pidOutput = getNewPIDOutput(SensorNumber.BottomRightProximitySensor);
+		PIDController controller = new PIDController(p, i, d, pidSource, pidOutput);
+		addController(controller);
 	}
+	
 	public final void addController(PIDController controller){
 		if(controller == null){
 			throw new NullPointerException();
@@ -48,19 +55,25 @@ public class MultiPIDSubsystem extends PIDSubsystem {
 
 	@Override
 	protected double returnPIDInput() {
-		// TODO Auto-generated method stub
-		return 0;
+		return returnPIDInput(SensorNumber.BottomLeftProximitySensor);
 	}
 	
 	protected double returnPIDInput(SensorNumber sensorNumber) {
-		// TODO Auto-generated method stub
-		return 0;
+		return Robot.redRover.getDistanceFromSensor(sensorNumber);
 	}
 	
 	@Override
 	protected void usePIDOutput(double output) {
-		// TODO Auto-generated method stub
-
+		Robot.drivetrain.drive(output, m_right);
+	}
+	
+	protected void usePIDOutput(double output, SensorNumber sensorNumber) {
+		switch(sensorNumber) {
+			case BottomRightProximitySensor:
+				m_right = output;
+			default:
+				m_right = 0.0;
+		}
 	}
 
 	@Override
@@ -69,11 +82,11 @@ public class MultiPIDSubsystem extends PIDSubsystem {
 
 	}
 	
-	public PIDOutput getNewPIDOutput(){
+	public PIDOutput getNewPIDOutput(SensorNumber sensorNumber){
 		return new PIDOutput() {
 
 		    public void pidWrite(double output) {
-		      usePIDOutput(output);
+		      usePIDOutput(output, sensorNumber);
 		    }
 		};
 	}
