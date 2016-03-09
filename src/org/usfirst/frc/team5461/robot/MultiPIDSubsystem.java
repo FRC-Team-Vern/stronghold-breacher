@@ -8,17 +8,12 @@ import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
 
-public class MultiPIDSubsystem extends PIDSubsystem {
-	Vector<PIDController> m_controllers = new Vector<>();
-	private double m_right;
+public abstract class MultiPIDSubsystem extends PIDSubsystem {
+	private Vector<PIDController> m_controllers = new Vector<>();
+	private Vector<Double> m_results = new Vector<>();
 	public MultiPIDSubsystem(double p, double i, double d){
 		super(p,i,d);
 		addController(getPIDController());
-		
-		PIDSource pidSource = getNewPIDSource(SensorNumber.BottomRightProximitySensor);
-		PIDOutput pidOutput = getNewPIDOutput(SensorNumber.BottomRightProximitySensor);
-		PIDController controller = new PIDController(p, i, d, pidSource, pidOutput);
-		addController(controller);
 	}
 	
 	public final void addController(PIDController controller){
@@ -35,12 +30,21 @@ public class MultiPIDSubsystem extends PIDSubsystem {
 		}
 	}
 	
+	public void setSetPoint(double setpoint, int position) {
+		try {
+			m_controllers.get(position).setSetpoint(setpoint);
+		} catch (ArrayIndexOutOfBoundsException ex) {
+			ex.getMessage();
+		}
+	}
+	
 	@Override
 	public void setSetpoint(double setpoint) {
 		for (PIDController qwerty : m_controllers){
 			qwerty.setSetpoint(setpoint);
 		}
 	}
+	
 	@Override
 	public synchronized boolean onTarget(){
 		boolean isOnTarget = true;
@@ -54,44 +58,34 @@ public class MultiPIDSubsystem extends PIDSubsystem {
 	}
 
 	@Override
-	protected double returnPIDInput() {
-		return returnPIDInput(SensorNumber.BottomLeftProximitySensor);
-	}
-	
-	protected double returnPIDInput(SensorNumber sensorNumber) {
-		return Robot.redRover.getDistanceFromSensor(sensorNumber);
-	}
-	
-	@Override
-	protected void usePIDOutput(double output) {
-		Robot.drivetrain.drive(output, m_right);
-	}
-	
-	protected void usePIDOutput(double output, SensorNumber sensorNumber) {
-		switch(sensorNumber) {
-			case BottomRightProximitySensor:
-				m_right = output;
-			default:
-				m_right = 0.0;
-		}
-	}
-
-	@Override
 	protected void initDefaultCommand() {
 		// TODO Auto-generated method stub
-
 	}
 	
-	public PIDOutput getNewPIDOutput(SensorNumber sensorNumber){
+	protected double returnPIDInput() {
+		return returnPIDInput(0);
+	}
+	
+	protected void usePIDOutput(double output) {
+		usePIDOutput(output, 0);
+	}
+	
+	protected abstract double returnPIDInput(int position);
+	
+	protected void usePIDOutput(double output, int position) {
+		m_results.set(position, output);
+	}
+	
+	public PIDOutput getNewPIDOutput(int position) {
 		return new PIDOutput() {
 
 		    public void pidWrite(double output) {
-		      usePIDOutput(output, sensorNumber);
+		      usePIDOutput(output, position);
 		    }
 		};
 	}
 	
-	public PIDSource getNewPIDSource(SensorNumber sensorNumber){
+	public PIDSource getNewPIDSource(int position) {
 		return new PIDSource() {
 		    public void setPIDSourceType(PIDSourceType pidSource) {}
 
@@ -100,9 +94,8 @@ public class MultiPIDSubsystem extends PIDSubsystem {
 		    }
 
 		    public double pidGet() {
-		      return returnPIDInput(sensorNumber);
+		      return returnPIDInput(position);
 		    }
 		  };
 	}
-
 }
