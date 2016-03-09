@@ -3,6 +3,10 @@ package org.usfirst.frc.team5461.robot.subsystems;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.PIDOutput;
+import edu.wpi.first.wpilibj.PIDSource;
+import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.Talon;
@@ -30,7 +34,7 @@ public class DriveTrain extends PIDSubsystem {
 	private ADIS16448_IMU imu;
 	private FlatIron flatIron;
 	private static final double kP_real = .5, kI_real = 0.00;
-
+	
 	public DriveTrain() {
 		super(kP_real,kI_real,0);
 		setPercentTolerance(5.0);
@@ -40,22 +44,27 @@ public class DriveTrain extends PIDSubsystem {
 		front_left_motor.setInverted(true);
 		front_left_motor.setExpiration(0.1);
 		front_left_motor.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
+		front_left_motor.configEncoderCodesPerRev(128);
 		front_right_motor = new CANTalon(9);
 		front_right_motor.setInverted(true);
 		front_right_motor.setExpiration(0.1);
 		front_right_motor.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
+		front_right_motor.configEncoderCodesPerRev(128);
 		back_left_motor = new CANTalon(11);
 		back_left_motor.setInverted(true);
 		back_left_motor.setExpiration(0.1);
 		back_left_motor.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
+		back_left_motor.configEncoderCodesPerRev(128);
 		back_right_motor = new CANTalon(10);
 		back_right_motor.setInverted(true);
 		back_right_motor.setExpiration(0.1);
 		back_right_motor.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
+		back_right_motor.configEncoderCodesPerRev(128);
 
 		drive = new RobotDrive(front_left_motor, back_left_motor,
 							   front_right_motor, back_right_motor);
-		imu = new ADIS16448_IMU();
+
+        imu = new ADIS16448_IMU();
 		
 		// Encoders may measure differently in the real world and in
 		// simulation. In this example the robot moves 0.042 barleycorns
@@ -80,6 +89,7 @@ public class DriveTrain extends PIDSubsystem {
 		LiveWindow.addActuator("Drive Train", "Front Right Motor", front_right_motor);
 		LiveWindow.addActuator("Drive Train", "Back Right Motor", back_right_motor);
 		LiveWindow.addSensor("Drive Train", "Rangefinder", rangefinder);
+		LiveWindow.addActuator("Drive Train PID", "PID", getPIDController());
 	}
 
 	/**
@@ -102,6 +112,12 @@ public class DriveTrain extends PIDSubsystem {
 		SmartDashboard.putNumber("Right Back Speed", back_right_motor.get());
 		SmartDashboard.putNumber("Left Front Speed", front_left_motor.get());
 		SmartDashboard.putNumber("Right Front Speed", front_right_motor.get());
+		SmartDashboard.putNumber("Left Back Temp", back_left_motor.getTemperature());
+		SmartDashboard.putNumber("Right Back Temp", back_right_motor.getTemperature());
+		SmartDashboard.putNumber("Left Front Temp", front_left_motor.getTemperature());
+		SmartDashboard.putNumber("Right Front Temp", front_right_motor.getTemperature());
+		
+		SmartDashboard.putData("Drive Train PID", getPIDController());
 	}
 
 	/**
@@ -118,8 +134,8 @@ public class DriveTrain extends PIDSubsystem {
 	 */
 	public void drive(Joystick joy) {
 		FlatIron.Pair<Double>adjustFactors=flatIron.getAdjustmentFactors();
-		Double leftVal=-joy.getY()*adjustFactors.m_leftval;
-		Double rightVal=-joy.getRawAxis(Joystick.AxisType.kNumAxis.value)*adjustFactors.m_rightval;
+		Double leftVal=-joy.getRawAxis(Joystick.AxisType.kY.value)*adjustFactors.m_leftval;
+		Double rightVal=-joy.getRawAxis(Joystick.AxisType.kTwist.value)*adjustFactors.m_rightval;
 		drive(leftVal,rightVal);
 	}
 	
@@ -136,13 +152,18 @@ public class DriveTrain extends PIDSubsystem {
 	public void reset() {
 		back_right_motor.reset();
 		back_left_motor.reset();
+		back_right_motor.setEncPosition(0);
+		back_left_motor.setEncPosition(0);
+		front_right_motor.setEncPosition(0);
+		front_left_motor.setEncPosition(0);
+
 	}
 
 	/**
 	 * @return The distance driven (average of left and right encoders).
 	 */
 	public double getDistance() {
-		return ((back_left_motor).getEncPosition() + back_right_motor.getEncPosition())/2;
+		return (back_left_motor.getEncPosition() + back_right_motor.getEncPosition())/2;
 	}
 	
 	/**
@@ -176,7 +197,12 @@ public class DriveTrain extends PIDSubsystem {
 
 	@Override
 	protected void usePIDOutput(double output) {
-		back_right_motor.set(output);
+		drive(output,output);
 		
 	}
+
+//	public void setSetpoint(Joystick joystick) {
+//		getPIDController().setSetpoint(joystick.);
+//		
+//	}
 }
