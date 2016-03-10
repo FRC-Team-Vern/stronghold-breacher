@@ -11,16 +11,25 @@ import edu.wpi.first.wpilibj.command.PIDSubsystem;
 public abstract class MultiPIDSubsystem extends PIDSubsystem {
 	private Vector<PIDController> m_controllers = new Vector<>();
 	protected Vector<Double> m_results = new Vector<>();
+	private PIDSourceType m_pidSourceType;
+	
 	public MultiPIDSubsystem(double p, double i, double d){
 		super(p,i,d);
 		addController(getPIDController());
+	}
+	
+	public final void addController(PIDController controller, int position){
+		if(controller == null){
+			throw new NullPointerException();
+		}
+		m_controllers.add(position, controller);
 	}
 	
 	public final void addController(PIDController controller){
 		if(controller == null){
 			throw new NullPointerException();
 		}
-		m_controllers.addElement(controller);
+		m_controllers.add(controller);
 	}
 	
 	@Override
@@ -79,10 +88,10 @@ public abstract class MultiPIDSubsystem extends PIDSubsystem {
 	
 	public PIDSource getNewPIDSource(int position) {
 		return new PIDSource() {
-		    public void setPIDSourceType(PIDSourceType pidSource) {}
+		    public void setPIDSourceType(PIDSourceType pidSource) { }
 
 		    public PIDSourceType getPIDSourceType() {
-		      return PIDSourceType.kDisplacement;
+		      return MultiPIDSubsystem.this.getPIDSourceType();
 		    }
 
 		    public double pidGet() {
@@ -98,5 +107,13 @@ public abstract class MultiPIDSubsystem extends PIDSubsystem {
 		      usePIDOutput(output, position);
 		    }
 		};
+	}
+	
+	protected void setPIDSourceType(PIDSourceType pidSourceType) {
+		m_pidSourceType = pidSourceType;
+	}
+	
+	protected PIDSourceType getPIDSourceType() {
+		return m_pidSourceType;
 	}
 }

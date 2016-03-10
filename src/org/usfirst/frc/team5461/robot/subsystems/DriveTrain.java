@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
+import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.Talon;
@@ -82,8 +83,12 @@ public class DriveTrain extends MultiPIDSubsystem {
 		rangefinder = new AnalogInput(6);
 		flatIron = new FlatIron(imu);
 		
+		setPIDSourceType(PIDSourceType.kRate);
+		// First replace the original controller with a controller 
+		//	that can accept a change of PIDSourceType
+		addController(createNewDriveTrainPIDController(kP_real, kI_real, kD_real, kF_real), 0);
 		addController(createNewDriveTrainPIDController(kP_real, kI_real, kD_real, kF_real));
-
+		
 		// Let's show everything on the LiveWindow
 		LiveWindow.addActuator("Drive Train", "Front_Left Motor", front_left_motor);
 		LiveWindow.addActuator("Drive Train", "Back Left Motor",  back_left_motor);
