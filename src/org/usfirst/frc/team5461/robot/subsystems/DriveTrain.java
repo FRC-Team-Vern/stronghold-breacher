@@ -14,6 +14,8 @@ import edu.wpi.first.wpilibj.CANTalon.FeedbackDevice;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+
+import org.usfirst.frc.team5461.robot.MultiPIDSubsystem;
 import org.usfirst.frc.team5461.robot.Robot;
 import org.usfirst.frc.team5461.robot.commands.TankDriveWithJoystick;
 
@@ -26,15 +28,18 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * the robots chassis. These include four drive motors, a left and right encoder
  * and a gyro.
  */
-public class DriveTrain extends PIDSubsystem {
+public class DriveTrain extends MultiPIDSubsystem {
 	private CANTalon front_left_motor, back_left_motor,
 							front_right_motor, back_right_motor;
 	private RobotDrive drive;
 	//private AnalogInput rangefinder;
 	private ADIS16448_IMU imu;
 	private FlatIron flatIron;
-	private static final double kP_real = .5, kI_real = 0.00;
-	
+	private static final double kP_real = .5;
+	private static final double kI_real = 0.00;
+	private static final double kD_real = 0.00;
+	private static final double kF_real = 0.00;
+
 	public DriveTrain() {
 		super(kP_real,kI_real,0);
 		setPercentTolerance(5.0);
@@ -81,8 +86,14 @@ public class DriveTrain extends PIDSubsystem {
 		}
 
 		//rangefinder = new AnalogInput(6);
-		flatIron=new FlatIron( imu);
-
+		flatIron = new FlatIron(imu);
+		
+		setPIDSourceType(PIDSourceType.kRate);
+		// First replace the original controller with a controller 
+		//	that can accept a change of PIDSourceType
+		addController(createNewDriveTrainPIDController(kP_real, kI_real, kD_real, kF_real), 0);
+		addController(createNewDriveTrainPIDController(kP_real, kI_real, kD_real, kF_real));
+		
 		// Let's show everything on the LiveWindow
 		LiveWindow.addActuator("Drive Train", "Front_Left Motor", front_left_motor);
 		LiveWindow.addActuator("Drive Train", "Back Left Motor",  back_left_motor);
@@ -126,7 +137,8 @@ public class DriveTrain extends PIDSubsystem {
 	 * @param right Speed in range [-1,1]
 	 */
 	public void drive(double left, double right) {
-		drive.tankDrive(left, right);
+		setSetPoint(left, 0);
+		setSetPoint(right, 1);
 	}
 
 	/**
@@ -178,11 +190,6 @@ public class DriveTrain extends PIDSubsystem {
 		drive(0,0);
 	}
 
-	@Override
-	protected double returnPIDInput() {
-		return back_right_motor.getEncVelocity();
-	}
-	
 	public double getImuZValue(){
 		return imu.getAngleZ();
 	}
@@ -200,9 +207,38 @@ public class DriveTrain extends PIDSubsystem {
 		drive(output,output);
 		
 	}
+	
+	protected PIDController createNewDriveTrainPIDController(double p,
+			double i,
+			double d,
+			double f) {
+		
+		PIDSource source = getNewPIDSource(1);
+		PIDOutput output = getNewPIDOutput(1);
+		
+		return new PIDController(p, i, d, f, source, output);
+	}
 
-//	public void setSetpoint(Joystick joystick) {
-//		getPIDController().setSetpoint(joystick.);
-//		
-//	}
+	@Override
+	protected double returnPIDInput(int position) {
+		switch(position) {
+		case 0:  // Left side
+			return getAverageSpeed(back_left_motor, front_left_motor);
+		case 1: // Right side
+			return getAverageSpeed(back_right_motor, front_right_motor);
+		default:	
+		}
+		return 0;
+	}
+	
+	protected void usePIDOutput(double output, int position) {
+		super.usePIDOutput(output, position);
+		if (position == 1) {
+			drive.tankDrive(m_results.get(0), m_results.get(1));
+		}
+	}
+	
+	protected int getAverageSpeed(CANTalon first, CANTalon second) {
+		return (int)((float)(first.getEncVelocity() + second.getEncVelocity()) * 0.5f);
+	}
 }
