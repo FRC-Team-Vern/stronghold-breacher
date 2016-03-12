@@ -30,7 +30,7 @@ public class DriveTrain extends PIDSubsystem {
 	private CANTalon front_left_motor, back_left_motor,
 							front_right_motor, back_right_motor;
 	private RobotDrive drive;
-	private AnalogInput rangefinder;
+	//private AnalogInput rangefinder;
 	private ADIS16448_IMU imu;
 	private FlatIron flatIron;
 	private static final double kP_real = .5, kI_real = 0.00;
@@ -80,7 +80,7 @@ public class DriveTrain extends PIDSubsystem {
 			//right_encoder.setDistancePerPulse((4.0/12.0*Math.PI) / 360.0);
 		}
 
-		rangefinder = new AnalogInput(6);
+		//rangefinder = new AnalogInput(6);
 		flatIron=new FlatIron( imu);
 
 		// Let's show everything on the LiveWindow
@@ -88,7 +88,7 @@ public class DriveTrain extends PIDSubsystem {
 		LiveWindow.addActuator("Drive Train", "Back Left Motor",  back_left_motor);
 		LiveWindow.addActuator("Drive Train", "Front Right Motor", front_right_motor);
 		LiveWindow.addActuator("Drive Train", "Back Right Motor", back_right_motor);
-		LiveWindow.addSensor("Drive Train", "Rangefinder", rangefinder);
+		//LiveWindow.addSensor("Drive Train", "Rangefinder", rangefinder);
 		LiveWindow.addActuator("Drive Train PID", "PID", getPIDController());
 	}
 
@@ -169,10 +169,10 @@ public class DriveTrain extends PIDSubsystem {
 	/**
 	 * @return The distance to the obstacle detected by the rangefinder. 
 	 */
-	public double getDistanceToObstacle() {
-		// Really meters in simulation since it's a rangefinder...
-		return rangefinder.getAverageVoltage();
-	}
+//	public double getDistanceToObstacle() {
+//		// Really meters in simulation since it's a rangefinder...
+//		return rangefinder.getAverageVoltage();
+//	}
 	
 	public void stopRobot(){
 		drive(0,0);

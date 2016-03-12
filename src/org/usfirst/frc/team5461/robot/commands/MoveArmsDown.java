@@ -23,7 +23,7 @@ public class MoveArmsDown extends Command {
 
 	@Override
 	protected boolean isFinished() {
-		return !Robot.arms.getMiddleArmSwitchValue();
+		return !Robot.arms.getBottomArmSwitchValue();
 	}
 
 	@Override

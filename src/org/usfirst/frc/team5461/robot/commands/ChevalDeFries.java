@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class ChevalDeFries extends CommandGroup {
 		public ChevalDeFries(){
 			//addSequential();
-			addSequential(new MoveArmsMiddle());
+			addSequential(new MoveArmsUp());
 			addSequential(new DriveStraight(0));
 			addSequential(new MoveArmsDown());
 			addSequential(new DriveStraight(0));

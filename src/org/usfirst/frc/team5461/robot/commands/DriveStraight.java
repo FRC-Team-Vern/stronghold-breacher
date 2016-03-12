@@ -9,6 +9,9 @@ import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 import org.usfirst.frc.team5461.robot.Robot;
 
 /**
@@ -19,24 +22,26 @@ import org.usfirst.frc.team5461.robot.Robot;
  */
 public class DriveStraight extends Command {
     private PIDController pid;
+	private static final double kP_real = .5, kI_real = 0.00;
     
     public DriveStraight(double distance) {
         requires(Robot.drivetrain);
-        pid = new PIDController(4, 0, 0,
-                new PIDSource() { public double pidGet() {
+        pid = new PIDController(kP_real, kI_real, 0,
+                new PIDSource() { 
+            PIDSourceType m_sourceType = PIDSourceType.kDisplacement;
+            public double pidGet() {
                     return Robot.drivetrain.getDistance();
                 }
 
 				@Override
 				public void setPIDSourceType(PIDSourceType pidSource) {
-					// TODO Auto-generated method stub
+					m_sourceType = pidSource;
 					
 				}
 
 				@Override
 				public PIDSourceType getPIDSourceType() {
-					// TODO Auto-generated method stub
-					return null;
+					return m_sourceType;
 				}},
                 new PIDOutput() { public void pidWrite(double d) {
                     Robot.drivetrain.drive(d, d);
@@ -54,7 +59,10 @@ public class DriveStraight extends Command {
     }
 
     // Called repeatedly when this Command is scheduled to run
-    protected void execute() {}
+    protected void execute() {
+    	SmartDashboard.putData("DriveStraight PID", pid);
+    	LiveWindow.addActuator("DriveStraight PID", "PID", pid);
+    }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
