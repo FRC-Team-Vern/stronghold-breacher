@@ -44,7 +44,6 @@ public class DriveTrain extends MultiPIDSubsystem {
 		super(kP_real,kI_real,0);
 		setPercentTolerance(5.0);
 		setOutputRange(-1.0,1.0);
-		setInputRange(-40.0,40.0);
 		front_left_motor = new CANTalon(8);
 		front_left_motor.setInverted(true);
 		front_left_motor.setExpiration(0.1);
@@ -88,6 +87,7 @@ public class DriveTrain extends MultiPIDSubsystem {
 		//	that can accept a change of PIDSourceType
 		addController(createNewDriveTrainPIDController(kP_real, kI_real, kD_real, kF_real), 0);
 		addController(createNewDriveTrainPIDController(kP_real, kI_real, kD_real, kF_real));
+		setInputRange(-40.0,40.0);
 		
 		// Let's show everything on the LiveWindow
 		LiveWindow.addActuator("Drive Train", "Front_Left Motor", front_left_motor);

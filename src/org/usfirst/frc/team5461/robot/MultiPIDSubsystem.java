@@ -86,6 +86,18 @@ public abstract class MultiPIDSubsystem extends PIDSubsystem {
 		m_results.set(position, output);
 	}
 	
+	public void setInputRange(double minimumInput, double maximumInput) {
+		for (PIDController controller : m_controllers) {
+			controller.setInputRange(minimumInput, maximumInput);
+		}
+	}
+	
+	public void setOutputRange(double minimumOutput, double maximumOutput) {
+		for (PIDController controller : m_controllers) {
+			controller.setOutputRange(minimumOutput, maximumOutput);
+		}
+	}
+	
 	public PIDSource getNewPIDSource(int position) {
 		return new PIDSource() {
 		    public void setPIDSourceType(PIDSourceType pidSource) { }
