@@ -18,11 +18,10 @@ public class Arms extends Subsystem {
 	DigitalInput armSwitchMiddle;
 	
 	public Arms(){
-		armMotor = new CANTalon(0);
+		armMotor = new CANTalon(12);
 		armSwitchUp = new DigitalInput(1);
 	    armSwitchDown = new DigitalInput(2);
-	    armSwitchMiddle = new DigitalInput(3);
-	    
+    
 	}
 	
 	
@@ -32,15 +31,12 @@ public class Arms extends Subsystem {
 	public boolean getBottomArmSwitchValue(){
 		return armSwitchDown.get();
 	}
-	public boolean getMiddleArmSwitchValue(){
-		return armSwitchMiddle.get();
-	}
 
 	public void  moveArmsDown(){
-		armMotor.set(1);
+		armMotor.set(50);
 	}
 	public void  moveArmsUp(){
-		armMotor.set(-1);
+		armMotor.set(-50);
 	}
 	public void  armsStop(){
 		armMotor.set(0);

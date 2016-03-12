@@ -32,7 +32,7 @@ public class DriveTrain extends MultiPIDSubsystem {
 	private CANTalon front_left_motor, back_left_motor,
 							front_right_motor, back_right_motor;
 	private RobotDrive drive;
-	private AnalogInput rangefinder;
+	//private AnalogInput rangefinder;
 	private ADIS16448_IMU imu;
 	private FlatIron flatIron;
 	private static final double kP_real = .5;
@@ -48,22 +48,27 @@ public class DriveTrain extends MultiPIDSubsystem {
 		front_left_motor.setInverted(true);
 		front_left_motor.setExpiration(0.1);
 		front_left_motor.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
+		front_left_motor.configEncoderCodesPerRev(128);
 		front_right_motor = new CANTalon(9);
 		front_right_motor.setInverted(true);
 		front_right_motor.setExpiration(0.1);
 		front_right_motor.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
+		front_right_motor.configEncoderCodesPerRev(128);
 		back_left_motor = new CANTalon(11);
 		back_left_motor.setInverted(true);
 		back_left_motor.setExpiration(0.1);
 		back_left_motor.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
+		back_left_motor.configEncoderCodesPerRev(128);
 		back_right_motor = new CANTalon(10);
 		back_right_motor.setInverted(true);
 		back_right_motor.setExpiration(0.1);
 		back_right_motor.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
+		back_right_motor.configEncoderCodesPerRev(128);
 
 		drive = new RobotDrive(front_left_motor, back_left_motor,
 							   front_right_motor, back_right_motor);
-		imu = new ADIS16448_IMU();
+
+        imu = new ADIS16448_IMU();
 		
 		// Encoders may measure differently in the real world and in
 		// simulation. In this example the robot moves 0.042 barleycorns
@@ -79,7 +84,7 @@ public class DriveTrain extends MultiPIDSubsystem {
 			//right_encoder.setDistancePerPulse((4.0/12.0*Math.PI) / 360.0);
 		}
 
-		rangefinder = new AnalogInput(6);
+		//rangefinder = new AnalogInput(6);
 		flatIron = new FlatIron(imu);
 		
 		setPIDSourceType(PIDSourceType.kRate);
@@ -94,7 +99,8 @@ public class DriveTrain extends MultiPIDSubsystem {
 		LiveWindow.addActuator("Drive Train", "Back Left Motor",  back_left_motor);
 		LiveWindow.addActuator("Drive Train", "Front Right Motor", front_right_motor);
 		LiveWindow.addActuator("Drive Train", "Back Right Motor", back_right_motor);
-		LiveWindow.addSensor("Drive Train", "Rangefinder", rangefinder);
+		//LiveWindow.addSensor("Drive Train", "Rangefinder", rangefinder);
+		LiveWindow.addActuator("Drive Train PID", "PID", getPIDController());
 	}
 
 	/**
@@ -117,6 +123,12 @@ public class DriveTrain extends MultiPIDSubsystem {
 		SmartDashboard.putNumber("Right Back Speed", back_right_motor.get());
 		SmartDashboard.putNumber("Left Front Speed", front_left_motor.get());
 		SmartDashboard.putNumber("Right Front Speed", front_right_motor.get());
+		SmartDashboard.putNumber("Left Back Temp", back_left_motor.getTemperature());
+		SmartDashboard.putNumber("Right Back Temp", back_right_motor.getTemperature());
+		SmartDashboard.putNumber("Left Front Temp", front_left_motor.getTemperature());
+		SmartDashboard.putNumber("Right Front Temp", front_right_motor.getTemperature());
+		
+		SmartDashboard.putData("Drive Train PID", getPIDController());
 	}
 
 	/**
@@ -134,8 +146,8 @@ public class DriveTrain extends MultiPIDSubsystem {
 	 */
 	public void drive(Joystick joy) {
 		FlatIron.Pair<Double>adjustFactors=flatIron.getAdjustmentFactors();
-		Double leftVal=-joy.getY()*adjustFactors.m_leftval;
-		Double rightVal=-joy.getRawAxis(Joystick.AxisType.kNumAxis.value)*adjustFactors.m_rightval;
+		Double leftVal=-joy.getRawAxis(Joystick.AxisType.kY.value)*adjustFactors.m_leftval;
+		Double rightVal=-joy.getRawAxis(Joystick.AxisType.kTwist.value)*adjustFactors.m_rightval;
 		drive(leftVal,rightVal);
 	}
 	
@@ -152,22 +164,27 @@ public class DriveTrain extends MultiPIDSubsystem {
 	public void reset() {
 		back_right_motor.reset();
 		back_left_motor.reset();
+		back_right_motor.setEncPosition(0);
+		back_left_motor.setEncPosition(0);
+		front_right_motor.setEncPosition(0);
+		front_left_motor.setEncPosition(0);
+
 	}
 
 	/**
 	 * @return The distance driven (average of left and right encoders).
 	 */
 	public double getDistance() {
-		return ((back_left_motor).getEncPosition() + back_right_motor.getEncPosition())/2;
+		return (back_left_motor.getEncPosition() + back_right_motor.getEncPosition())/2;
 	}
 	
 	/**
 	 * @return The distance to the obstacle detected by the rangefinder. 
 	 */
-	public double getDistanceToObstacle() {
-		// Really meters in simulation since it's a rangefinder...
-		return rangefinder.getAverageVoltage();
-	}
+//	public double getDistanceToObstacle() {
+//		// Really meters in simulation since it's a rangefinder...
+//		return rangefinder.getAverageVoltage();
+//	}
 	
 	public void stopRobot(){
 		drive(0,0);
@@ -187,7 +204,7 @@ public class DriveTrain extends MultiPIDSubsystem {
 
 	@Override
 	protected void usePIDOutput(double output) {
-		back_right_motor.set(output);
+		drive(output,output);
 		
 	}
 	

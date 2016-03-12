@@ -6,6 +6,8 @@ import org.usfirst.frc.team5461.sensors.VL6180xIdentification;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 import org.usfirst.frc.team5461.robot.subsystems.Arms;
 import org.usfirst.frc.team5461.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team5461.robot.subsystems.RedRover;
@@ -36,6 +38,7 @@ public class Robot extends IterativeRobot {
      */
     @Override
 	public void robotInit() {
+		arms = new Arms();
     	drivetrain = new DriveTrain();
 		oi = new OI();
 		redRover = new RedRover();
