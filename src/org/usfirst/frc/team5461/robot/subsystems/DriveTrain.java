@@ -31,17 +31,18 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class DriveTrain extends MultiPIDSubsystem {
 	private CANTalon front_left_motor, back_left_motor,
 							front_right_motor, back_right_motor;
-	private RobotDrive drive;
+	//private RobotDrive drive;
 	//private AnalogInput rangefinder;
-	private ADIS16448_IMU imu;
-	private FlatIron flatIron;
-	private static final double kP_real = .5;
+	private final float SPEED_MAX = 350.0f;
+	
+
+	private static final double kP_real = 0.001;
 	private static final double kI_real = 0.00;
 	private static final double kD_real = 0.00;
-	private static final double kF_real = 0.00;
+	private static final double kF_real = 1.00;
 
 	public DriveTrain() {
-		super(kP_real,kI_real,0);
+		super(kP_real,kI_real,kD_real);
 		setPercentTolerance(5.0);
 		setOutputRange(-1.0,1.0);
 		front_left_motor = new CANTalon(8);
@@ -50,7 +51,7 @@ public class DriveTrain extends MultiPIDSubsystem {
 		front_left_motor.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
 		front_left_motor.configEncoderCodesPerRev(128);
 		front_right_motor = new CANTalon(9);
-		front_right_motor.setInverted(true);
+//		front_right_motor.setInverted(true);
 		front_right_motor.setExpiration(0.1);
 		front_right_motor.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
 		front_right_motor.configEncoderCodesPerRev(128);
@@ -60,15 +61,15 @@ public class DriveTrain extends MultiPIDSubsystem {
 		back_left_motor.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
 		back_left_motor.configEncoderCodesPerRev(128);
 		back_right_motor = new CANTalon(10);
-		back_right_motor.setInverted(true);
+//		back_right_motor.setInverted(true);
 		back_right_motor.setExpiration(0.1);
 		back_right_motor.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
 		back_right_motor.configEncoderCodesPerRev(128);
 
-		drive = new RobotDrive(front_left_motor, back_left_motor,
-							   front_right_motor, back_right_motor);
+		//drive = new RobotDrive(front_left_motor, back_left_motor,
+		//					   front_right_motor, back_right_motor);
 
-        imu = new ADIS16448_IMU();
+        
 		
 		// Encoders may measure differently in the real world and in
 		// simulation. In this example the robot moves 0.042 barleycorns
@@ -85,13 +86,14 @@ public class DriveTrain extends MultiPIDSubsystem {
 		}
 
 		//rangefinder = new AnalogInput(6);
-		flatIron = new FlatIron(imu);
+		
 		
 		setPIDSourceType(PIDSourceType.kRate);
 		// First replace the original controller with a controller 
 		//	that can accept a change of PIDSourceType
-		addController(createNewDriveTrainPIDController(kP_real, kI_real, kD_real, kF_real), 0);
-		addController(createNewDriveTrainPIDController(kP_real, kI_real, kD_real, kF_real));
+		addController(createNewDriveTrainPIDController(kP_real, kI_real, kD_real, kF_real, 0), 0);
+		addController(createNewDriveTrainPIDController(kP_real, kI_real, kD_real, kF_real, 1), 1);
+		enableControllers();
 		setInputRange(-40.0,40.0);
 		
 		// Let's show everything on the LiveWindow
@@ -117,8 +119,11 @@ public class DriveTrain extends MultiPIDSubsystem {
 	public void log() {
 		SmartDashboard.putNumber("Left Distance", back_left_motor.getEncPosition());
 		SmartDashboard.putNumber("Right Distance", back_right_motor.getEncPosition());
-		SmartDashboard.putNumber("Left Speed", back_left_motor.getEncVelocity());
-		SmartDashboard.putNumber("Right Speed", back_right_motor.getEncVelocity());
+		
+		double left_speed = getAverageSpeed(back_left_motor, front_left_motor);
+		SmartDashboard.putNumber("Left Speed", left_speed);
+		double right_speed = getAverageSpeed(back_right_motor, front_right_motor);
+		SmartDashboard.putNumber("Right Speed", right_speed);
 		SmartDashboard.putNumber("Left Back Speed", back_left_motor.get());
 		SmartDashboard.putNumber("Right Back Speed", back_right_motor.get());
 		SmartDashboard.putNumber("Left Front Speed", front_left_motor.get());
@@ -132,6 +137,24 @@ public class DriveTrain extends MultiPIDSubsystem {
 	}
 
 	/**
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 * ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	 * Tank style driving for the DriveTrain. 
 	 * @param left Speed in range [-1,1]
 	 * @param right Speed in range [-1,1]
@@ -139,18 +162,42 @@ public class DriveTrain extends MultiPIDSubsystem {
 	public void drive(double left, double right) {
 		setSetPoint(left, 0);
 		setSetPoint(right, 1);
+		SmartDashboard.putNumber("PID Setpoint 0", left);
+		SmartDashboard.putNumber("PID Setpoint 1", right);
+		FlatIron.Pair<Double>adjustFactors=Robot.flatIron.getAdjustmentFactors();
+		SmartDashboard.putNumber("left adjustment",adjustFactors.m_leftval);
+		SmartDashboard.putNumber("right adjustment",adjustFactors.m_rightval);
+		
+		//drive.tankDrive(m_results.get(0), m_results.get(1));
+		double left_results=m_results.get(0)*adjustFactors.m_leftval;
+		front_left_motor.set( left_results);
+		back_left_motor.set(left_results);
+		double right_results=m_results.get(1)*adjustFactors.m_rightval;
+		front_right_motor.set(right_results);
+		back_right_motor.set(right_results);
+		
+		SmartDashboard.putNumber("PID Result 0", m_results.get(0));
+		SmartDashboard.putNumber("PID Result 1", m_results.get(1));
 	}
 
 	/**
 	 * @param joy The ps3 style joystick to use to drive tank style.
 	 */
 	public void drive(Joystick joy) {
-		FlatIron.Pair<Double>adjustFactors=flatIron.getAdjustmentFactors();
-		Double leftVal=-joy.getRawAxis(Joystick.AxisType.kY.value)*adjustFactors.m_leftval;
-		Double rightVal=-joy.getRawAxis(Joystick.AxisType.kTwist.value)*adjustFactors.m_rightval;
+		Double leftVal=-joy.getRawAxis(Joystick.AxisType.kY.value);
+		Double rightVal=-joy.getRawAxis(Joystick.AxisType.kTwist.value);
+		leftVal=applyDeadband(leftVal);
+		rightVal=applyDeadband(rightVal);
 		drive(leftVal,rightVal);
 	}
 	
+	private Double applyDeadband(Double val) {
+		// TODO Auto-generated method stub
+		
+	if(Math.abs(val)<0.1){return new Double (0.0);}
+	return val;
+	}
+
 	/**
 	 * @return The robots heading in degrees.
 	 */
@@ -162,8 +209,6 @@ public class DriveTrain extends MultiPIDSubsystem {
 	 * Reset the robots sensors to the zero states.
 	 */
 	public void reset() {
-		back_right_motor.reset();
-		back_left_motor.reset();
 		back_right_motor.setEncPosition(0);
 		back_left_motor.setEncPosition(0);
 		front_right_motor.setEncPosition(0);
@@ -190,17 +235,17 @@ public class DriveTrain extends MultiPIDSubsystem {
 		drive(0,0);
 	}
 
-	public double getImuZValue(){
-		return imu.getAngleZ();
-	}
-	
-	public double getImuXValue(){
-		return imu.getAngleX();
-	}
-	
-	public double getImuYValue(){
-		return imu.getAngleY();
-	}
+//	public double getImuZValue(){
+//		return imu.getAngleZ();
+//	}
+//	
+//	public double getImuXValue(){
+//		return imu.getAngleX();
+//	}
+//	
+//	public double getImuYValue(){
+//		return imu.getAngleY();
+//	}
 
 	@Override
 	protected void usePIDOutput(double output) {
@@ -211,10 +256,11 @@ public class DriveTrain extends MultiPIDSubsystem {
 	protected PIDController createNewDriveTrainPIDController(double p,
 			double i,
 			double d,
-			double f) {
+			double f, 
+			int position) {
 		
-		PIDSource source = getNewPIDSource(1);
-		PIDOutput output = getNewPIDOutput(1);
+		PIDSource source = getNewPIDSource(position);
+		PIDOutput output = getNewPIDOutput(position);
 		
 		return new PIDController(p, i, d, f, source, output);
 	}
@@ -223,7 +269,7 @@ public class DriveTrain extends MultiPIDSubsystem {
 	protected double returnPIDInput(int position) {
 		switch(position) {
 		case 0:  // Left side
-			return getAverageSpeed(back_left_motor, front_left_motor);
+			return -1.0*getAverageSpeed(back_left_motor, front_left_motor);
 		case 1: // Right side
 			return getAverageSpeed(back_right_motor, front_right_motor);
 		default:	
@@ -233,12 +279,14 @@ public class DriveTrain extends MultiPIDSubsystem {
 	
 	protected void usePIDOutput(double output, int position) {
 		super.usePIDOutput(output, position);
-		if (position == 1) {
-			drive.tankDrive(m_results.get(0), m_results.get(1));
-		}
+//		if (position == 1) {
+//			drive.tankDrive(m_results.get(0), m_results.get(1));
+//			SmartDashboard.putNumber("PID Result 0", m_results.get(0));
+//			SmartDashboard.putNumber("PID Result 1", m_results.get(1));
+//		}
 	}
 	
-	protected int getAverageSpeed(CANTalon first, CANTalon second) {
-		return (int)((float)(first.getEncVelocity() + second.getEncVelocity()) * 0.5f);
+	protected double getAverageSpeed(CANTalon first, CANTalon second) {
+		return (double)(((double)(first.getEncVelocity() + second.getEncVelocity()) * 0.5) / SPEED_MAX);
 	}
 }

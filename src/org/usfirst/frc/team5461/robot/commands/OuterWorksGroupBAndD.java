@@ -6,7 +6,7 @@ public class OuterWorksGroupBAndD extends CommandGroup{
 	public OuterWorksGroupBAndD(){
 
 	//addSequential (new SquareUp());
-	addParallel (new MoveArmsUp());
+	//addParallel (new MoveArmsUp());
 	addSequential (new DriveStraight(0));
 	//addSequential (new TriangleUp());
 

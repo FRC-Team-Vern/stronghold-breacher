@@ -12,7 +12,7 @@ public class ProximitySensorGetDistance extends Command {
     public ProximitySensorGetDistance() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires(Robot.redRover);
+    	// requires(Robot.redRover);
     }
 
     // Called just before this Command runs the first time

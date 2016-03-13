@@ -31,19 +31,19 @@ public class TurnRobot extends Command {
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
 		boolean is_finished = false;
-		if (turnRobotDegrees < 0){
-			if (Robot.drivetrain.getImuZValue() <= turnRobotDegrees){
-				is_finished = true;
-			}else{
-				is_finished = false;
-			}
-		}else if(turnRobotDegrees > 0){
-			if (Robot.drivetrain.getImuZValue() >= turnRobotDegrees){
-				is_finished = true;
-			}else{
-				is_finished = false;
-			}
-		}
+//		if (turnRobotDegrees < 0){
+//			if (Robot.drivetrain.getImuZValue() <= turnRobotDegrees){
+//				is_finished = true;
+//			}else{
+//				is_finished = false;
+//			}
+//		}else if(turnRobotDegrees > 0){
+//			if (Robot.drivetrain.getImuZValue() >= turnRobotDegrees){
+//				is_finished = true;
+//			}else{
+//				is_finished = false;
+//			}
+//		}
 		return is_finished;
 	}
 

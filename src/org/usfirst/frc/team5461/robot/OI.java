@@ -1,7 +1,9 @@
 package org.usfirst.frc.team5461.robot;
 
 import org.usfirst.frc.team5461.robot.commands.ChevalDeFries;
+import org.usfirst.frc.team5461.robot.commands.DisableflatIron;
 import org.usfirst.frc.team5461.robot.commands.DriveStraight;
+import org.usfirst.frc.team5461.robot.commands.EnableflatIron;
 import org.usfirst.frc.team5461.robot.commands.MoveArmsDown;
 import org.usfirst.frc.team5461.robot.commands.MoveArmsUp;
 import org.usfirst.frc.team5461.robot.commands.OuterWorksGroupBAndD;
@@ -30,6 +32,8 @@ public class OI {
 	        JoystickButton a= new JoystickButton(logitechJoystick, 2);
 	        JoystickButton b= new JoystickButton(logitechJoystick, 3);
 	        JoystickButton y = new JoystickButton(logitechJoystick, 4);
+	        JoystickButton back= new JoystickButton(logitechJoystick,9);
+	        JoystickButton start = new JoystickButton(logitechJoystick,10);
 	        logitechRightTrigger = new JoystickButton(logitechJoystick, 8);
 	        logitechLeftTrigger = new JoystickButton(logitechJoystick, 7);
 	        logitechRightButton = new JoystickButton(logitechJoystick, 6);
@@ -43,6 +47,8 @@ public class OI {
 			y.whenPressed(new Portcullis());
 			b.whenPressed(new OuterWorksGroupBAndD());
 			a.whenPressed(new DriveStraight(400));
+			start.whenPressed(new EnableflatIron());
+			back.whenPressed(new DisableflatIron());
 	    }
 	    public Joystick getJoystick() {
 	        return logitechJoystick;

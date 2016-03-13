@@ -14,13 +14,13 @@ public class SquareUp extends Command {
     public SquareUp(double setpoint) {
     	this.setpoint = setpoint;
         requires(Robot.drivetrain);
-    	requires(Robot.redRover);
+    	//requires(Robot.redRover);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.multiPIDSubsystem.enable();
-        Robot.multiPIDSubsystem.setSetpoint(setpoint);
+    	//Robot.multiPIDSubsystem.enable();
+        //Robot.multiPIDSubsystem.setSetpoint(setpoint);
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -30,7 +30,8 @@ public class SquareUp extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return Robot.multiPIDSubsystem.onTarget();
+        //return Robot.multiPIDSubsystem.onTarget();
+    	return true;
     }
 
     // Called once after isFinished returns true

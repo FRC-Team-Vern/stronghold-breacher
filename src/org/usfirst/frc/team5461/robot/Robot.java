@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team5461.robot.subsystems.Arms;
 import org.usfirst.frc.team5461.robot.subsystems.DriveTrain;
+import org.usfirst.frc.team5461.robot.subsystems.FlatIron;
 import org.usfirst.frc.team5461.robot.subsystems.RedRover;
 
 
@@ -21,12 +22,12 @@ import org.usfirst.frc.team5461.robot.subsystems.RedRover;
  * directory.
  */
 public class Robot extends IterativeRobot {
-
+	public static FlatIron flatIron;
 	public static DriveTrain drivetrain;
 	public static OI oi;
 	public static Arms arms;
-	public static RedRover redRover;
-	public static MultiPIDSubsystem multiPIDSubsystem;
+	//public static RedRover redRover;
+	//public static MultiPIDSubsystem multiPIDSubsystem;
 
 	
 	VL6180xIdentification identification;
@@ -38,10 +39,12 @@ public class Robot extends IterativeRobot {
      */
     @Override
 	public void robotInit() {
+    	flatIron= new FlatIron();
 		arms = new Arms();
     	drivetrain = new DriveTrain();
+    	drivetrain.reset();
 		oi = new OI();
-		redRover = new RedRover();
+		// redRover = new RedRover();
     }
 		
 	@Override
@@ -100,7 +103,8 @@ public class Robot extends IterativeRobot {
     
     private void log() {
         drivetrain.log();
-    	redRover.log();
+        flatIron.log();
+    	// redRover.log();
     }
 
 }

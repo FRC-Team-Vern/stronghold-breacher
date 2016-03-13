@@ -15,13 +15,14 @@ public abstract class MultiPIDSubsystem extends PIDSubsystem {
 	
 	public MultiPIDSubsystem(double p, double i, double d){
 		super(p,i,d);
-		addController(getPIDController());
+		//addController(getPIDController());
 	}
-	
+		
 	public final void addController(PIDController controller, int position){
 		if(controller == null){
 			throw new NullPointerException();
 		}
+		m_results.add(position,0.0);
 		m_controllers.add(position, controller);
 	}
 	
@@ -29,6 +30,7 @@ public abstract class MultiPIDSubsystem extends PIDSubsystem {
 		if(controller == null){
 			throw new NullPointerException();
 		}
+		m_results.add(0.0);
 		m_controllers.add(controller);
 	}
 	
@@ -128,4 +130,13 @@ public abstract class MultiPIDSubsystem extends PIDSubsystem {
 	protected PIDSourceType getPIDSourceType() {
 		return m_pidSourceType;
 	}
+	
+	public void enableControllers() {
+		for(PIDController controller : m_controllers) {
+			controller.enable();
+		}
+		
+	}
+
+
 }

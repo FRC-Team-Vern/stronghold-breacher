@@ -1,6 +1,7 @@
 package org.usfirst.frc.team5461.robot.commands;
 import org.usfirst.frc.team5461.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 public class MoveArmsDown extends Command {
@@ -23,7 +24,10 @@ public class MoveArmsDown extends Command {
 
 	@Override
 	protected boolean isFinished() {
-		return !Robot.arms.getBottomArmSwitchValue();
+		//return !Robot.arms.getBottomArmSwitchValue();
+        boolean leftTriggerThreshold = Robot.oi.getLeftTriggerThreshold();
+    	SmartDashboard.putBoolean("Left Trigger Threshold Reached", leftTriggerThreshold);
+		return !leftTriggerThreshold;
 	}
 
 	@Override
@@ -34,7 +38,7 @@ public class MoveArmsDown extends Command {
 
 	@Override
 	protected void interrupted() {
-		Robot.arms.armsStop();
+		//Robot.arms.armsStop();
 		
 	}
 	
