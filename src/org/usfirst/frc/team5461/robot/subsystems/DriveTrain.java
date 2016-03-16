@@ -31,12 +31,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class DriveTrain extends MultiPIDSubsystem {
 	private CANTalon front_left_motor, back_left_motor,
 							front_right_motor, back_right_motor;
-	//private RobotDrive drive;
+//	private RobotDrive drive;
 	//private AnalogInput rangefinder;
-	private final float SPEED_MAX = 350.0f;
+	private final double SPEED_MAX = 350.0;
 	
 
-	private static final double kP_real = 0.001;
+	private static final double kP_real = 0.1;
 	private static final double kI_real = 0.00;
 	private static final double kD_real = 0.00;
 	private static final double kF_real = 1.00;
@@ -47,28 +47,28 @@ public class DriveTrain extends MultiPIDSubsystem {
 		setOutputRange(-1.0,1.0);
 		front_left_motor = new CANTalon(8);
 		front_left_motor.setInverted(true);
-		front_left_motor.setExpiration(0.1);
+//		front_left_motor.setExpiration(0.1);
 		front_left_motor.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
 		front_left_motor.configEncoderCodesPerRev(128);
 		front_right_motor = new CANTalon(9);
 //		front_right_motor.setInverted(true);
-		front_right_motor.setExpiration(0.1);
+//		front_right_motor.setExpiration(0.1);
 		front_right_motor.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
 		front_right_motor.configEncoderCodesPerRev(128);
 		back_left_motor = new CANTalon(11);
 		back_left_motor.setInverted(true);
-		back_left_motor.setExpiration(0.1);
+//		back_left_motor.setExpiration(0.1);
 		back_left_motor.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
 		back_left_motor.configEncoderCodesPerRev(128);
 		back_right_motor = new CANTalon(10);
 //		back_right_motor.setInverted(true);
-		back_right_motor.setExpiration(0.1);
+//		back_right_motor.setExpiration(0.1);
 		back_right_motor.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
 		back_right_motor.configEncoderCodesPerRev(128);
 
-		//drive = new RobotDrive(front_left_motor, back_left_motor,
-		//					   front_right_motor, back_right_motor);
-
+//		drive = new RobotDrive(front_left_motor, back_left_motor,
+//							   front_right_motor, back_right_motor);
+//		drive.setSafetyEnabled(false);
         
 		
 		// Encoders may measure differently in the real world and in
@@ -168,11 +168,12 @@ public class DriveTrain extends MultiPIDSubsystem {
 		SmartDashboard.putNumber("left adjustment",adjustFactors.m_leftval);
 		SmartDashboard.putNumber("right adjustment",adjustFactors.m_rightval);
 		
-		//drive.tankDrive(m_results.get(0), m_results.get(1));
 		double left_results=m_results.get(0)*adjustFactors.m_leftval;
-		front_left_motor.set( left_results);
-		back_left_motor.set(left_results);
 		double right_results=m_results.get(1)*adjustFactors.m_rightval;
+//		drive.tankDrive(m_results.get(0), m_results.get(1));
+		
+		front_left_motor.set(left_results);
+		back_left_motor.set(left_results);
 		front_right_motor.set(right_results);
 		back_right_motor.set(right_results);
 		
@@ -220,7 +221,7 @@ public class DriveTrain extends MultiPIDSubsystem {
 	 * @return The distance driven (average of left and right encoders).
 	 */
 	public double getDistance() {
-		return (back_left_motor.getEncPosition() + back_right_motor.getEncPosition())/2;
+		return ((double)(-1*back_left_motor.getEncPosition() + back_right_motor.getEncPosition()))*0.5;
 	}
 	
 	/**
