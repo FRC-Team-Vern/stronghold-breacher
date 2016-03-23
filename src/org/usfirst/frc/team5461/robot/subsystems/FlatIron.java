@@ -45,7 +45,18 @@ public class FlatIron extends Subsystem {
 		m_heading=heading;
 	}
 	
-	
+	public double getImuZValue(){
+	return m_imu.getAngleZ();
+}
+
+public double getImuXValue(){
+	return m_imu.getAngleX();
+}
+
+public double getImuYValue(){
+	return m_imu.getAngleY();
+}
+
 	public static class Pair<T>{
 		public T m_leftval;
 		public T m_rightval;

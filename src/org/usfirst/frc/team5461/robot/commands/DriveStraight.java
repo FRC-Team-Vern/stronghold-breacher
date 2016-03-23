@@ -22,9 +22,11 @@ import org.usfirst.frc.team5461.robot.Robot;
  */
 public class DriveStraight extends Command {
     private PIDController pid;
-	private static final double kP_real = .5, kI_real = 0.00;
+	private static final double kP_real = .00036;
+	private static final double kI_real = 0.00;
+	private static final double kD_real = 0;
     
-    public DriveStraight(double distance) {
+    public DriveStraight(double distance, double power) {
         requires(Robot.drivetrain);
         pid = new PIDController(kP_real, kI_real, 0,
                 new PIDSource() { 
@@ -44,9 +46,10 @@ public class DriveStraight extends Command {
 					return m_sourceType;
 				}},
                 new PIDOutput() { public void pidWrite(double d) {
-                    Robot.drivetrain.drive(d, d);
+                	double newValue = d * power;
+                    Robot.drivetrain.drive(newValue, newValue);
                 }});
-        pid.setAbsoluteTolerance(0.01);
+        pid.setAbsoluteTolerance(0.1);
         pid.setSetpoint(distance);
     }
 
@@ -62,6 +65,7 @@ public class DriveStraight extends Command {
     protected void execute() {
     	SmartDashboard.putData("DriveStraight PID", pid);
     	LiveWindow.addActuator("DriveStraight PID", "PID", pid);
+    	SmartDashboard.putNumber("Distance", Robot.drivetrain.getDistance());
     }
 
     // Make this return true when this Command no longer needs to run execute()

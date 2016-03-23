@@ -1,6 +1,5 @@
 package org.usfirst.frc.team5461.robot;
 
-import java.awt.Point;
 import org.usfirst.frc.team5461.robot.commands.ChevalDeFries;
 import org.usfirst.frc.team5461.robot.commands.Chomp;
 import org.usfirst.frc.team5461.robot.commands.DisableflatIron;
@@ -11,6 +10,9 @@ import org.usfirst.frc.team5461.robot.commands.MoveArmsDown;
 import org.usfirst.frc.team5461.robot.commands.MoveArmsUp;
 import org.usfirst.frc.team5461.robot.commands.OuterWorksGroupBAndD;
 import org.usfirst.frc.team5461.robot.commands.Portcullis;
+import org.usfirst.frc.team5461.robot.commands.TankDriveWithJoystick;
+import org.usfirst.frc.team5461.robot.commands.TurnRobot;
+
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
@@ -52,14 +54,17 @@ public class OI {
 	        dpadLeft = new DPadButton(new Point(-1, 0));
 	        logitechRightTrigger.whileHeld(new MoveArmsUp());
 	        logitechLeftTrigger.whileHeld(new EnableflatIron());
+	        logitechLeftTrigger.whenReleased(new DisableflatIron());
 	        logitechLeftButton.whenPressed(new FireCannon());
 	        
 	        // Connect the buttons to commands
 			dpadRight.whenPressed(new ChevalDeFries());
 			dpadDown.whenPressed(new Portcullis());
 			dpadLeft.whenPressed(new OuterWorksGroupBAndD());
-			dpadUp.whenPressed(new DriveStraight(400));
+			dpadUp.whenPressed(new DriveStraight(2000, 0.75));
 			b.whenPressed(new Chomp());
+			a.whenPressed(new TankDriveWithJoystick());
+			x.whenPressed(new TurnRobot((short)90));
 			//start.whenPressed(new EnableflatIron());
 			//back.whenPressed(new DisableflatIron());
 	    }
@@ -96,7 +101,18 @@ private class DPadButton extends Button {
 			return true;
 		}
 		return false;
+	}		
 	}
+private static class Point {
+	public Point() {
+		
+	}
+	public Point(int x, int y) {
+		this.x = x;
+		this.y = y;
+	}
+	public int x;
+	public int y;
 	
 }
 }

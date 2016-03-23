@@ -8,15 +8,18 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class TurnRobot extends Command {
 	private short turnRobotDegrees;
+	private double _startingImuZValue = 0.0;
 	public TurnRobot(short degrees) {
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
+		requires(Robot.flatIron);
 		requires(Robot.drivetrain);
 		turnRobotDegrees = degrees;
 	}
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
+		_startingImuZValue  = Robot.flatIron.getImuZValue();
 	}
 
 	// Called repeatedly when this Command is scheduled to run
@@ -31,19 +34,19 @@ public class TurnRobot extends Command {
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
 		boolean is_finished = false;
-//		if (turnRobotDegrees < 0){
-//			if (Robot.drivetrain.getImuZValue() <= turnRobotDegrees){
-//				is_finished = true;
-//			}else{
-//				is_finished = false;
-//			}
-//		}else if(turnRobotDegrees > 0){
-//			if (Robot.drivetrain.getImuZValue() >= turnRobotDegrees){
-//				is_finished = true;
-//			}else{
-//				is_finished = false;
-//			}
-//		}
+		if (turnRobotDegrees < 0){
+			if ((_startingImuZValue - Robot.flatIron.getImuZValue()) >= turnRobotDegrees){
+				is_finished = true;
+			}else{
+				is_finished = false;
+			}
+		}else if(turnRobotDegrees > 0){
+			if ((Robot.flatIron.getImuZValue() - _startingImuZValue) >= turnRobotDegrees){
+				is_finished = true;
+			}else{
+				is_finished = false;
+			}
+		}
 		return is_finished;
 	}
 

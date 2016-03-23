@@ -7,8 +7,8 @@ public class Portcullis extends CommandGroup  {
 		
 		//addSequential(new SquareUp());
 		//addParallel (new MoveArmsDown());
-		addSequential (new DriveStraight(0));
-		addSequential (new DriveStraight(0));
+		addSequential (new DriveStraight(0, 0.5));
+		addSequential (new DriveStraight(0, 0.5));
 		
 	}
 	

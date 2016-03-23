@@ -236,18 +236,6 @@ public class DriveTrain extends MultiPIDSubsystem {
 		drive(0,0);
 	}
 
-//	public double getImuZValue(){
-//		return imu.getAngleZ();
-//	}
-//	
-//	public double getImuXValue(){
-//		return imu.getAngleX();
-//	}
-//	
-//	public double getImuYValue(){
-//		return imu.getAngleY();
-//	}
-
 	@Override
 	protected void usePIDOutput(double output) {
 		drive(output,output);
