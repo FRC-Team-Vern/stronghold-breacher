@@ -137,23 +137,6 @@ public class DriveTrain extends MultiPIDSubsystem {
 	}
 
 	/**
-	 * 
-	 * 
-	 * 
-	 * 
-	 * 
-	 * 
-	 * 
-	 * 
-	 * 
-	 * 
-	 * 
-	 * 
-	 * 
-	 * 
-	 * 
-	 * 
-	 * 
 	 * ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	 * Tank style driving for the DriveTrain. 
 	 * @param left Speed in range [-1,1]
@@ -214,7 +197,6 @@ public class DriveTrain extends MultiPIDSubsystem {
 		back_left_motor.setEncPosition(0);
 		front_right_motor.setEncPosition(0);
 		front_left_motor.setEncPosition(0);
-
 	}
 
 	/**
@@ -266,14 +248,14 @@ public class DriveTrain extends MultiPIDSubsystem {
 		return 0;
 	}
 	
-	protected void usePIDOutput(double output, int position) {
-		super.usePIDOutput(output, position);
+//	protected void usePIDOutput(double output, int position) {
+//		super.usePIDOutput(output, position);
 //		if (position == 1) {
 //			drive.tankDrive(m_results.get(0), m_results.get(1));
 //			SmartDashboard.putNumber("PID Result 0", m_results.get(0));
 //			SmartDashboard.putNumber("PID Result 1", m_results.get(1));
 //		}
-	}
+//	}
 	
 	protected double getAverageSpeed(CANTalon first, CANTalon second) {
 		return (double)(((double)(first.getEncVelocity() + second.getEncVelocity()) * 0.5) / SPEED_MAX);

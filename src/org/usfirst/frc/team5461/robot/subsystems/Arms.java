@@ -9,45 +9,40 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class Arms extends Subsystem {
     
+	private static final double ARM_MOVEMENT_POWER = 0.5;
 	CANTalon armMotor;
-
 	DigitalInput  armSwitchUp;
-	
 	DigitalInput armSwitchDown;
-	
 	DigitalInput armSwitchMiddle;
 	
-	public Arms(){
+	public Arms() {
 		armMotor = new CANTalon(12);
 		armSwitchUp = new DigitalInput(6);
 	    armSwitchDown = new DigitalInput(7);
-    
 	}
 	
-	
-	public boolean getTopArmSwitchValue(){
+	public boolean getTopArmSwitchValue() {
 		return armSwitchUp.get();
 	}
-	public boolean getBottomArmSwitchValue(){
+	
+	public boolean getBottomArmSwitchValue() {
 		return armSwitchDown.get();
 	}
 
-	public void  moveArmsDown(){
-		armMotor.set(0.5);
+	public void moveArmsDown() {
+		armMotor.set(ARM_MOVEMENT_POWER);
 	}
-	public void  moveArmsUp(){
-		armMotor.set(-0.5);
+	
+	public void moveArmsUp() {
+		armMotor.set(-ARM_MOVEMENT_POWER);
 	}
-	public void  armsStop(){
+	
+	public void armsStop() {
 		armMotor.set(0);
-	}
-	
-	
+	}	
 
     public void initDefaultCommand() {
-       
-    	
-    
+    	/* no op */
     }
 }
 

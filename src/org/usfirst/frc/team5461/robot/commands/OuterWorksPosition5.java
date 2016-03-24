@@ -2,12 +2,11 @@ package org.usfirst.frc.team5461.robot.commands;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
-public class OuterWorksPosition5 extends CommandGroup{
-	public OuterWorksPosition5(){
-
-	//addSequential (new SquareUp());
-	addSequential (new DriveStraight(0, 0.5));
-	//addSequential (new TriangleUp());
+public class OuterWorksPosition5 extends CommandGroup {
 	
+	public OuterWorksPosition5() {
+		addSequential (new DriveStraight(400, 0.5));
+		addSequential (new TurnRobot((short)15));
+		addSequential (new DriveStraight(400, 0.5));
 	}
 }
