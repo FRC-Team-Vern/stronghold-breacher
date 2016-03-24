@@ -89,31 +89,33 @@ public class OI {
 	    	return logitechLeftTrigger.get();
 	    }
 	    
-private class DPadButton extends Button {
-	private Point _point;
-	public DPadButton(Point point) {
-		_point = point;
-	}
-	@Override
-	public boolean get() {
-		Point dpadPoint = getDPadValue();
-		if (_point.x == dpadPoint.x && _point.y == dpadPoint.y) {
-			return true;
-		}
-		return false;
-	}		
-	}
-private static class Point {
-	public Point() {
-		
-	}
-	public Point(int x, int y) {
-		this.x = x;
-		this.y = y;
-	}
-	public int x;
-	public int y;
-	
-}
+	    private class DPadButton extends Button {
+	    	private Point _point;
+	    	public DPadButton(Point point) {
+	    		_point = point;
+	    	}
+	    	
+	    	@Override
+	    	public boolean get() {
+	    		Point dpadPoint = getDPadValue();
+	    		if (_point.x == dpadPoint.x && _point.y == dpadPoint.y) {
+	    			return true;
+	    		}
+	    		return false;
+	    	}		
+	    }
+	    
+	    private static class Point {
+	    	public int x;
+	    	public int y;
+	    	
+	    	public Point() {
+	    		/* no op */
+	    	}
+	    	public Point(int x, int y) {
+	    		this.x = x;
+	    		this.y = y;
+	    	}
+	    }
 }
 
