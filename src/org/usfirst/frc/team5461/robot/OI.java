@@ -52,10 +52,11 @@ public class OI {
 	        dpadRight = new DPadButton(new Point(1,0));
 	        dpadDown = new DPadButton(new Point(0, -1));
 	        dpadLeft = new DPadButton(new Point(-1, 0));
-	        logitechRightTrigger.whileHeld(new MoveArmsUp());
+	        logitechRightTrigger.whenPressed(new MoveArmsDown());
 	        logitechLeftTrigger.whileHeld(new EnableflatIron());
 	        logitechLeftTrigger.whenReleased(new DisableflatIron());
 	        logitechLeftButton.whenPressed(new FireCannon());
+	        logitechRightButton.whenPressed(new MoveArmsUp());
 	        
 	        // Connect the buttons to commands
 			dpadRight.whenPressed(new ChevalDeFries());

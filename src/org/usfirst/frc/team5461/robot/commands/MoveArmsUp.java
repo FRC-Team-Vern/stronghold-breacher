@@ -22,9 +22,7 @@ public class MoveArmsUp extends Command {
 
 	@Override
 	protected boolean isFinished() {
-        boolean rightTriggerThreshold = Robot.oi.getRightTriggerThreshold();
-    	SmartDashboard.putBoolean("Right Trigger Threshold Reached", rightTriggerThreshold);
-		return !rightTriggerThreshold;
+		return Robot.arms.getTopArmSwitchValue();
 
 		//return !Robot.arms.getTopArmSwitchValue();
 	}
