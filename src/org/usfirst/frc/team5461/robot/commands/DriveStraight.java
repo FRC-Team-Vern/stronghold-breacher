@@ -22,7 +22,7 @@ import org.usfirst.frc.team5461.robot.Robot;
  */
 public class DriveStraight extends Command {
     private PIDController pid;
-	private static final double kP_real = .00036;
+	private static final double kP_real = .001;
 	private static final double kI_real = 0.00;
 	private static final double kD_real = 0;
     

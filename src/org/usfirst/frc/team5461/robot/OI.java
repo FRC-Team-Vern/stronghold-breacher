@@ -64,7 +64,7 @@ public class OI {
 		dpadLeft.whenPressed(new OuterWorksGroupBAndD());
 		dpadUp.whenPressed(new DriveStraight(2000, 0.75));
 		
-		b.whenPressed(new Chomp());
+		b.whileHeld(new Chomp());		
 		a.whenPressed(new TankDriveWithJoystick());
 		x.whenPressed(new TurnRobot((short)90));
 		//start.whenPressed(new EnableflatIron());

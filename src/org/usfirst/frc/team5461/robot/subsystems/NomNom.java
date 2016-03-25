@@ -14,5 +14,17 @@ CANTalon motor = new CANTalon(5);
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
     }
+    
+    public void moveForward() {
+    	motor.set(0.5);
+    }
+    
+    public void moveBackward() {
+    	motor.set(-0.5);
+    }
+    
+    public void stop() {
+    	motor.set(0.0);
+    }
 }
 

@@ -2,6 +2,7 @@
 package org.usfirst.frc.team5461.robot;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
+
 import org.usfirst.frc.team5461.sensors.VL6180xIdentification;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -22,6 +23,7 @@ import org.usfirst.frc.team5461.robot.commands.OuterWorksPosition5;
 import org.usfirst.frc.team5461.robot.subsystems.Arms;
 import org.usfirst.frc.team5461.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team5461.robot.subsystems.FlatIron;
+import org.usfirst.frc.team5461.robot.subsystems.NomNom;
 import org.usfirst.frc.team5461.robot.subsystems.RedRover;
 
 
@@ -37,6 +39,7 @@ public class Robot extends IterativeRobot {
 	public static DriveTrain drivetrain;
 	public static OI oi;
 	public static Arms arms;
+	public static NomNom nomnom;
 	//public static RedRover redRover;
 	SendableChooser autoChooserPhase1;
 	SendableChooser autoChooserPhase2;
@@ -54,24 +57,25 @@ public class Robot extends IterativeRobot {
     @Override
 	public void robotInit() {
     	autoChooserPhase1 = new SendableChooser();
-    	autoChooserPhase1.addDefault("Group 1 (Pick up arms)", new OuterWorksGroup1());
-    	autoChooserPhase1.addObject("Group 2 (Leave arms down)", new OuterWorksGroup2());
-    	
-    	autoChooserPhase2 = new SendableChooser();
-    	autoChooserPhase2.addDefault("Position 5", new OuterWorksPosition5());
-    	autoChooserPhase2.addDefault("Position 4", new OuterWorksPosition4());
-    	autoChooserPhase2.addDefault("Position 3", new OuterWorksPosition3());
-    	autoChooserPhase2.addDefault("Position 2", new OuterWorksPosition2());
-    	autoChooserPhase2.addDefault("Position 1", new OuterWorksPosition1());
-    	
-    	autonomousCommand = 
-    			new Autonomous((CommandGroup)autoChooserPhase1.getSelected(),
-    					(CommandGroup)autoChooserPhase2.getSelected());
+    	nomnom = new NomNom();
     	flatIron= new FlatIron();
 		arms = new Arms();
     	drivetrain = new DriveTrain();
     	drivetrain.reset();
 		oi = new OI();
+
+    	autoChooserPhase1.addDefault("Group 1 (Pick up arms)", new OuterWorksGroup1());
+    	autoChooserPhase1.addObject("Group 2 (Leave arms down)", new OuterWorksGroup2());
+    	
+    	autoChooserPhase2 = new SendableChooser();
+    	autoChooserPhase2.addDefault("Position 5", new OuterWorksPosition5());
+    	autoChooserPhase2.addObject("Position 4", new OuterWorksPosition4());
+    	autoChooserPhase2.addObject("Position 3", new OuterWorksPosition3());
+    	autoChooserPhase2.addObject("Position 2", new OuterWorksPosition2());
+    	autoChooserPhase2.addObject("Position 1", new OuterWorksPosition1());
+    	
+    	SmartDashboard.putData("Autonomous Phase 1", autoChooserPhase1);
+    	SmartDashboard.putData("Autonomous Phase 2", autoChooserPhase2);
 		// redRover = new RedRover();
 		
     }
@@ -84,6 +88,11 @@ public class Robot extends IterativeRobot {
     @Override
 	public void autonomousInit() {
         // schedule the autonomous command (example)
+    	if (autonomousCommand == null) {
+    	autonomousCommand = 
+    			new Autonomous((CommandGroup)autoChooserPhase1.getSelected(),
+    					(CommandGroup)autoChooserPhase2.getSelected());
+    	}
         if (autonomousCommand != null) autonomousCommand.start();
     }
 
