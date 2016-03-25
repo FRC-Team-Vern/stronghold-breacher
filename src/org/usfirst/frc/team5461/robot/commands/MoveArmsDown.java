@@ -24,10 +24,7 @@ public class MoveArmsDown extends Command {
 
 	@Override
 	protected boolean isFinished() {
-		//return !Robot.arms.getBottomArmSwitchValue();
-        boolean leftTriggerThreshold = Robot.oi.getLeftTriggerThreshold();
-    	SmartDashboard.putBoolean("Left Trigger Threshold Reached", leftTriggerThreshold);
-		return !leftTriggerThreshold;
+		return Robot.arms.getBottomArmSwitchValue();
 	}
 
 	@Override
