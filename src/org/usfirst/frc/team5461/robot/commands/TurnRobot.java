@@ -1,7 +1,9 @@
 package org.usfirst.frc.team5461.robot.commands;
 
 import org.usfirst.frc.team5461.robot.Robot;
+
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -24,6 +26,8 @@ public class TurnRobot extends Command {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
+		SmartDashboard.putNumber("Starting Turn Value", _startingImuZValue);
+		SmartDashboard.putNumber("Current Turn Value", Robot.flatIron.getImuZValue());
 		if (turnRobotDegrees < 0){
 			Robot.drivetrain.drive(-0.5,0.5);
 		}else if(turnRobotDegrees > 0){

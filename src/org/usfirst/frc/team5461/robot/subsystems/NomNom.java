@@ -15,12 +15,9 @@ CANTalon motor = new CANTalon(5);
         //setDefaultCommand(new MySpecialCommand());
     }
     
-    public void moveForward() {
-    	motor.set(0.5);
-    }
-    
+  
     public void moveBackward() {
-    	motor.set(-0.5);
+    	motor.set(-0.7);
     }
     
     public void stop() {

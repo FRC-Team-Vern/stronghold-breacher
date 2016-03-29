@@ -54,17 +54,16 @@ public class OI {
 
 		// Connect the buttons to commands
 		logitechRightTrigger.whenPressed(new MoveArmsDown());
-		logitechRightButton.whenPressed(new MoveArmsUp());
+		logitechRightButton.whileHeld(new MoveArmsUp());
 		logitechLeftTrigger.whileHeld(new EnableflatIron());
-		logitechLeftTrigger.whenReleased(new DisableflatIron());
-		logitechLeftButton.whenPressed(new FireCannon());
+		logitechLeftButton.whileHeld(new Chomp());
 
 		dpadRight.whenPressed(new ChevalDeFries());
 		dpadDown.whenPressed(new Portcullis());
 		dpadLeft.whenPressed(new OuterWorksGroupBAndD());
 		dpadUp.whenPressed(new DriveStraight(2000, 0.75));
 		
-		b.whileHeld(new Chomp());		
+		//b.whileHeld(new Chomp());		
 		a.whenPressed(new TankDriveWithJoystick());
 		x.whenPressed(new TurnRobot((short)90));
 		//start.whenPressed(new EnableflatIron());

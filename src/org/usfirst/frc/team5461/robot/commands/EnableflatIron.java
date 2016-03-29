@@ -21,7 +21,7 @@ public class EnableflatIron extends Command {
 
 	@Override
 	protected boolean isFinished() {
-		return false;
+		return Robot.flatIron.getIsEnabled();
 	}
 
 	@Override
@@ -31,7 +31,8 @@ public class EnableflatIron extends Command {
 
 	@Override
 	protected void interrupted() {
-		/* no op */		
+		/* no op */	
+		Robot.flatIron.disable();
 	}
 }
 

@@ -36,7 +36,7 @@ public class DriveTrain extends MultiPIDSubsystem {
 	private final double SPEED_MAX = 350.0;
 	
 
-	private static final double kP_real = 0.1;
+	private static final double kP_real = 0.0003;
 	private static final double kI_real = 0.00;
 	private static final double kD_real = 0.00;
 	private static final double kF_real = 1.00;
@@ -121,19 +121,19 @@ public class DriveTrain extends MultiPIDSubsystem {
 		SmartDashboard.putNumber("Right Distance", back_right_motor.getEncPosition());
 		
 		double left_speed = getAverageSpeed(back_left_motor, front_left_motor);
-		SmartDashboard.putNumber("Left Speed", left_speed);
+		//SmartDashboard.putNumber("Left Speed", left_speed);
 		double right_speed = getAverageSpeed(back_right_motor, front_right_motor);
-		SmartDashboard.putNumber("Right Speed", right_speed);
-		SmartDashboard.putNumber("Left Back Speed", back_left_motor.get());
-		SmartDashboard.putNumber("Right Back Speed", back_right_motor.get());
-		SmartDashboard.putNumber("Left Front Speed", front_left_motor.get());
-		SmartDashboard.putNumber("Right Front Speed", front_right_motor.get());
+//		SmartDashboard.putNumber("Right Speed", right_speed);
+//		SmartDashboard.putNumber("Left Back Speed", back_left_motor.get());
+//		SmartDashboard.putNumber("Right Back Speed", back_right_motor.get());
+//		SmartDashboard.putNumber("Left Front Speed", front_left_motor.get());
+//		SmartDashboard.putNumber("Right Front Speed", front_right_motor.get());
 		SmartDashboard.putNumber("Left Back Temp", back_left_motor.getTemperature());
 		SmartDashboard.putNumber("Right Back Temp", back_right_motor.getTemperature());
 		SmartDashboard.putNumber("Left Front Temp", front_left_motor.getTemperature());
 		SmartDashboard.putNumber("Right Front Temp", front_right_motor.getTemperature());
 		
-		SmartDashboard.putData("Drive Train PID", getPIDController());
+		//SmartDashboard.putData("Drive Train PID", getPIDController());
 	}
 
 	/**
@@ -145,11 +145,11 @@ public class DriveTrain extends MultiPIDSubsystem {
 	public void drive(double left, double right) {
 		setSetPoint(left, 0);
 		setSetPoint(right, 1);
-		SmartDashboard.putNumber("PID Setpoint 0", left);
-		SmartDashboard.putNumber("PID Setpoint 1", right);
+		//SmartDashboard.putNumber("PID Setpoint 0", left);
+		//SmartDashboard.putNumber("PID Setpoint 1", right);
 		FlatIron.Pair<Double>adjustFactors=Robot.flatIron.getAdjustmentFactors();
-		SmartDashboard.putNumber("left adjustment",adjustFactors.m_leftval);
-		SmartDashboard.putNumber("right adjustment",adjustFactors.m_rightval);
+		//SmartDashboard.putNumber("left adjustment",adjustFactors.m_leftval);
+		//SmartDashboard.putNumber("right adjustment",adjustFactors.m_rightval);
 		
 		double left_results=m_results.get(0)*adjustFactors.m_leftval;
 		double right_results=m_results.get(1)*adjustFactors.m_rightval;
@@ -160,8 +160,8 @@ public class DriveTrain extends MultiPIDSubsystem {
 		front_right_motor.set(right_results);
 		back_right_motor.set(right_results);
 		
-		SmartDashboard.putNumber("PID Result 0", m_results.get(0));
-		SmartDashboard.putNumber("PID Result 1", m_results.get(1));
+		//SmartDashboard.putNumber("PID Result 0", m_results.get(0));
+		//SmartDashboard.putNumber("PID Result 1", m_results.get(1));
 	}
 
 	/**
@@ -172,6 +172,9 @@ public class DriveTrain extends MultiPIDSubsystem {
 		Double rightVal=-joy.getRawAxis(Joystick.AxisType.kTwist.value);
 		leftVal=applyDeadband(leftVal);
 		rightVal=applyDeadband(rightVal);
+		if (Robot.flatIron.getIsEnabled()){
+			rightVal = leftVal;
+		}
 		drive(leftVal,rightVal);
 	}
 	

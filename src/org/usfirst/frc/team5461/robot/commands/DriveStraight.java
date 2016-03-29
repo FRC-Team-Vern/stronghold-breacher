@@ -78,6 +78,7 @@ public class DriveStraight extends Command {
     	// Stop PID and the wheels
     	pid.disable();
         Robot.drivetrain.drive(0, 0);
+        Robot.flatIron.disable();
     }
 
     // Called when another command which requires one or more of the same
