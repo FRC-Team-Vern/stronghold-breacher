@@ -8,8 +8,12 @@ import org.usfirst.frc.team5461.robot.commands.EnableflatIron;
 import org.usfirst.frc.team5461.robot.commands.FireCannon;
 import org.usfirst.frc.team5461.robot.commands.MoveArmsDown;
 import org.usfirst.frc.team5461.robot.commands.MoveArmsUp;
+import org.usfirst.frc.team5461.robot.commands.MoveCannonToBottomPosition;
+import org.usfirst.frc.team5461.robot.commands.MoveCannonToMiddlePosition;
+import org.usfirst.frc.team5461.robot.commands.MoveCannonToTopPosition;
 import org.usfirst.frc.team5461.robot.commands.OuterWorksGroupBAndD;
 import org.usfirst.frc.team5461.robot.commands.Portcullis;
+import org.usfirst.frc.team5461.robot.commands.RunCannonMotor;
 import org.usfirst.frc.team5461.robot.commands.TankDriveWithJoystick;
 import org.usfirst.frc.team5461.robot.commands.TurnRobot;
 
@@ -24,7 +28,8 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 public class OI {
 
 	private Joystick logitechJoystick = new Joystick(1);
-
+	private Joystick shooterJoystick = new Joystick(2);
+	
 	private JoystickButton logitechRightTrigger;
 	private JoystickButton logitechLeftTrigger;
 	private JoystickButton logitechRightButton;
@@ -33,7 +38,13 @@ public class OI {
 	private DPadButton dpadDown;
 	private DPadButton dpadLeft;
 	private DPadButton dpadRight;
-
+	private JoystickButton shooterRightTrigger;
+	private JoystickButton shooterLeftTrigger;
+	private DPadButton shooterDPadUp;
+	private DPadButton shooterDPadDown;
+	private DPadButton shooterDPadLeft;
+	private DPadButton shooterDPadRight;
+	
 	public OI() {
 
 		// Create some buttons
@@ -41,17 +52,24 @@ public class OI {
 		JoystickButton a = new JoystickButton(logitechJoystick, 2);
 		JoystickButton b = new JoystickButton(logitechJoystick, 3);
 		JoystickButton y = new JoystickButton(logitechJoystick, 4);
-		JoystickButton back = new JoystickButton(logitechJoystick, 9);
-		JoystickButton start = new JoystickButton(logitechJoystick, 10);
+//		JoystickButton back = new JoystickButton(logitechJoystick, 9);
+//		JoystickButton start = new JoystickButton(logitechJoystick, 10);
 		logitechRightTrigger = new JoystickButton(logitechJoystick, 8);
 		logitechLeftTrigger = new JoystickButton(logitechJoystick, 7);
 		logitechRightButton = new JoystickButton(logitechJoystick, 6);
 		logitechLeftButton = new JoystickButton(logitechJoystick, 5);
+		shooterDPadUp = new DPadButton(new Point(0, 1));
+		shooterDPadRight = new DPadButton(new Point(1, 0));
+		shooterDPadDown = new DPadButton(new Point(0, -1));
+		shooterDPadLeft = new DPadButton(new Point(-1, 0));
+		JoystickButton Cannona= new JoystickButton(shooterJoystick, 2);
+		JoystickButton Cannony =new JoystickButton(shooterJoystick, 4);
 		dpadUp = new DPadButton(new Point(0, 1));
 		dpadRight = new DPadButton(new Point(1, 0));
 		dpadDown = new DPadButton(new Point(0, -1));
 		dpadLeft = new DPadButton(new Point(-1, 0));
-
+		shooterRightTrigger = new JoystickButton(shooterJoystick, 8);
+		shooterLeftTrigger = new JoystickButton(shooterJoystick, 7);
 		// Connect the buttons to commands
 		logitechRightTrigger.whenPressed(new MoveArmsDown());
 		logitechRightButton.whileHeld(new MoveArmsUp());
@@ -63,11 +81,17 @@ public class OI {
 		dpadLeft.whenPressed(new OuterWorksGroupBAndD());
 		dpadUp.whenPressed(new DriveStraight(2000, 0.75));
 		
-		//b.whileHeld(new Chomp());		
 		a.whenPressed(new TankDriveWithJoystick());
 		x.whenPressed(new TurnRobot((short)90));
-		//start.whenPressed(new EnableflatIron());
-		//back.whenPressed(new DisableflatIron());
+		
+		
+		Cannony.whileHeld(new RunCannonMotor());
+		Cannona.whileHeld(new Chomp());
+		shooterLeftTrigger.whileHeld(new FireCannon());
+		shooterDPadUp.whenPressed(new MoveCannonToTopPosition());
+		shooterDPadDown.whenPressed(new MoveCannonToBottomPosition());
+		shooterDPadRight.whenPressed(new MoveCannonToMiddlePosition());
+		shooterDPadLeft.whenPressed(new MoveCannonToMiddlePosition());
 	}
 
 	public Joystick getJoystick() {
@@ -83,12 +107,10 @@ public class OI {
 	}
 
 	public boolean getRightTriggerThreshold() {
-		//return xboxRightTrigger.get();
 		return logitechRightTrigger.get();
 	}
 
 	public boolean getLeftTriggerThreshold() {
-		//return xboxLeftTrigger.get();
 		return logitechLeftTrigger.get();
 	}
 

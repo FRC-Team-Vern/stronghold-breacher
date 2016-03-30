@@ -7,10 +7,9 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class Chomp extends Command {
+public class RunCannonMotor extends Command {
 
-    public Chomp() {
-        // Use requires() here to declare subsystem dependencies
+    public RunCannonMotor() {
         requires(Robot.cannon);
     }
 
@@ -19,8 +18,10 @@ public class Chomp extends Command {
     }
 
     // Called repeatedly when this Command is scheduled to run
-    protected void execute() {
-    	Robot.cannon.turnMotorIntoChassis();
+    protected void execute()
+    
+   {
+    	Robot.cannon.turnMotorOutOfChassis();
     }
 
     // Make this return true when this Command no longer needs to run execute()

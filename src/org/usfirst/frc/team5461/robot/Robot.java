@@ -21,6 +21,7 @@ import org.usfirst.frc.team5461.robot.commands.OuterWorksPosition3;
 import org.usfirst.frc.team5461.robot.commands.OuterWorksPosition4;
 import org.usfirst.frc.team5461.robot.commands.OuterWorksPosition5;
 import org.usfirst.frc.team5461.robot.subsystems.Arms;
+import org.usfirst.frc.team5461.robot.subsystems.CannonSubsystem;
 import org.usfirst.frc.team5461.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team5461.robot.subsystems.FlatIron;
 import org.usfirst.frc.team5461.robot.subsystems.NomNom;
@@ -39,7 +40,7 @@ public class Robot extends IterativeRobot {
 	public static DriveTrain drivetrain;
 	public static OI oi;
 	public static Arms arms;
-	public static NomNom nomnom;
+	public static CannonSubsystem cannon;
 	//public static RedRover redRover;
 	SendableChooser autoChooserPhase1;
 	SendableChooser autoChooserPhase2;
@@ -57,7 +58,7 @@ public class Robot extends IterativeRobot {
     @Override
 	public void robotInit() {
     	autoChooserPhase1 = new SendableChooser();
-    	nomnom = new NomNom();
+    	cannon = new CannonSubsystem();
     	flatIron= new FlatIron();
 		arms = new Arms();
     	drivetrain = new DriveTrain();
