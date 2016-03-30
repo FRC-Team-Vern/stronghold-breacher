@@ -49,7 +49,7 @@ public class DriveStraight extends Command {
                 	double newValue = d * power;
                     Robot.drivetrain.drive(newValue, newValue);
                 }});
-        pid.setAbsoluteTolerance(0.1);
+        pid.setAbsoluteTolerance(100.0);
         pid.setSetpoint(distance);
     }
 
