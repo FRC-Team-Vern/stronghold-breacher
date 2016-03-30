@@ -1,10 +1,12 @@
 package org.usfirst.frc.team5461.robot.subsystems;
 
-import org.usfirst.frc.team5461.robot.subsystems.CannonSubsystem.CannonPosition;
+import org.usfirst.frc.team5461.robot.subsystems.Cannon.CannonPosition;
 
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.CANTalon.FeedbackDevice;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 
@@ -26,6 +28,10 @@ public class Arms extends Subsystem {
 	
 	public Arms() {
 		armMotor = new CANTalon(5);
+		armMotor.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
+		armMotor.configEncoderCodesPerRev(128);
+
+		currentArmPosition = ArmPosition.Top;
 		resetEncoder();
 	}
 
@@ -65,8 +71,13 @@ public class Arms extends Subsystem {
 	public ArmPosition getCurrentArmPosition() {
 		return currentArmPosition;
 	}
+	
     public void initDefaultCommand() {
     	/* no op */
+    }
+    
+    public void log() {
+    	SmartDashboard.putNumber("Arm Encoder",armMotor.getEncPosition());
     }
 }
 

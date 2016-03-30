@@ -91,8 +91,6 @@ public class FlatIron extends Subsystem {
 	}
 
 	public void log(){
-		SmartDashboard.putBoolean("enabled",m_isEnabled);
-//		SmartDashboard.putNumber("current z axis",m_imu.getAngleZ());
-//		SmartDashboard.putNumber("current heading", m_heading);
+		SmartDashboard.putBoolean("FlatIron Enabled", m_isEnabled);
 	}
 }

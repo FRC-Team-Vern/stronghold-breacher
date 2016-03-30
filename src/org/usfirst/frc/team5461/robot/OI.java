@@ -62,16 +62,17 @@ public class OI {
 		logitechLeftTrigger = new JoystickButton(logitechJoystick, 7);
 		logitechRightButton = new JoystickButton(logitechJoystick, 6);
 		logitechLeftButton = new JoystickButton(logitechJoystick, 5);
-		shooterDPadUp = new DPadButton(new Point(0, 1));
-		shooterDPadRight = new DPadButton(new Point(1, 0));
-		shooterDPadDown = new DPadButton(new Point(0, -1));
-		shooterDPadLeft = new DPadButton(new Point(-1, 0));
+		shooterDPadUp = new DPadButton(new Point(0, 1), shooterJoystick);
+		shooterDPadRight = new DPadButton(new Point(1, 0), shooterJoystick);
+		shooterDPadDown = new DPadButton(new Point(0, -1), shooterJoystick);
+		shooterDPadLeft = new DPadButton(new Point(-1, 0), shooterJoystick);
 		JoystickButton shooterA= new JoystickButton(shooterJoystick, 2);
 		JoystickButton shooterY =new JoystickButton(shooterJoystick, 4);
-		dpadUp = new DPadButton(new Point(0, 1));
-		dpadRight = new DPadButton(new Point(1, 0));
-		dpadDown = new DPadButton(new Point(0, -1));
-		dpadLeft = new DPadButton(new Point(-1, 0));
+		JoystickButton shooterX = new JoystickButton(shooterJoystick, 1);
+		dpadUp = new DPadButton(new Point(0, 1), logitechJoystick);
+		dpadRight = new DPadButton(new Point(1, 0), logitechJoystick);
+		dpadDown = new DPadButton(new Point(0, -1), logitechJoystick);
+		dpadLeft = new DPadButton(new Point(-1, 0), logitechJoystick);
 		shooterRightTrigger = new JoystickButton(shooterJoystick, 8);
 		shooterLeftTrigger = new JoystickButton(shooterJoystick, 7);
 		cannonLeftButton = new JoystickButton(logitechJoystick, 5);
@@ -93,7 +94,7 @@ public class OI {
 		cannonLeftButton.whileHeld(new ResetCannonPosition());
 		shooterY.whileHeld(new RunCannonMotor());
 		shooterA.whileHeld(new Chomp());
-		shooterLeftTrigger.whileHeld(new FireCannon());
+		shooterRightTrigger.whileHeld(new FireCannon());
 		shooterDPadUp.whenPressed(new MoveCannonToTopPosition());
 		shooterDPadDown.whenPressed(new MoveCannonToBottomPosition());
 		shooterDPadRight.whenPressed(new MoveCannonToMiddlePosition());
@@ -104,8 +105,8 @@ public class OI {
 		return logitechJoystick;
 	}
 
-	public Point getDPadValue() {
-		int direction = logitechJoystick.getPOV(0);
+	public Point getDPadValue(Joystick joystick) {
+		int direction = joystick.getPOV(0);
 		Point point = new Point();
 		point.y = (int)Math.cos(Math.toRadians(direction));
 		point.x = (int)Math.sin(Math.toRadians(direction));
@@ -122,13 +123,15 @@ public class OI {
 
 	private class DPadButton extends Button {
 		private Point _point;
-		public DPadButton(Point point) {
+		private Joystick _joystick;
+		public DPadButton(Point point, Joystick joystick) {
 			_point = point;
+			_joystick = joystick;
 		}
 
 		@Override
 		public boolean get() {
-			Point dpadPoint = getDPadValue();
+			Point dpadPoint = getDPadValue(_joystick);
 			if (_point.x == dpadPoint.x && _point.y == dpadPoint.y) {
 				return true;
 			}

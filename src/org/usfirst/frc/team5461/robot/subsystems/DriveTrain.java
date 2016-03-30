@@ -117,17 +117,7 @@ public class DriveTrain extends MultiPIDSubsystem {
 	 * The log method puts interesting information to the SmartDashboard.
 	 */
 	public void log() {
-		SmartDashboard.putNumber("Left Distance", back_left_motor.getEncPosition());
-		SmartDashboard.putNumber("Right Distance", back_right_motor.getEncPosition());
 		
-		double left_speed = getAverageSpeed(back_left_motor, front_left_motor);
-		//SmartDashboard.putNumber("Left Speed", left_speed);
-		double right_speed = getAverageSpeed(back_right_motor, front_right_motor);
-//		SmartDashboard.putNumber("Right Speed", right_speed);
-//		SmartDashboard.putNumber("Left Back Speed", back_left_motor.get());
-//		SmartDashboard.putNumber("Right Back Speed", back_right_motor.get());
-//		SmartDashboard.putNumber("Left Front Speed", front_left_motor.get());
-//		SmartDashboard.putNumber("Right Front Speed", front_right_motor.get());
 		SmartDashboard.putNumber("Left Back Temp", back_left_motor.getTemperature());
 		SmartDashboard.putNumber("Right Back Temp", back_right_motor.getTemperature());
 		SmartDashboard.putNumber("Left Front Temp", front_left_motor.getTemperature());

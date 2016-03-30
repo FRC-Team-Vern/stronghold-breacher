@@ -63,9 +63,7 @@ public class DriveStraight extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	SmartDashboard.putData("DriveStraight PID", pid);
-    	LiveWindow.addActuator("DriveStraight PID", "PID", pid);
-    	SmartDashboard.putNumber("Distance", Robot.drivetrain.getDistance());
+    	SmartDashboard.putNumber("Drive Straight Distance", Robot.drivetrain.getDistance());
     }
 
     // Make this return true when this Command no longer needs to run execute()

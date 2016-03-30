@@ -11,10 +11,11 @@ public class Shooter extends Subsystem {
     
 	CANTalon shooterMotor;
 	
-	private static final double shooterMotorPower = 0.75;
+	private static final double shooterInMotorPower = 0.50;
+	private static final double shooterOutMotorPower = 0.75;
 
 	public Shooter() {
-		shooterMotor = new CANTalon(17);
+		shooterMotor = new CANTalon(18);
 		shooterMotor.setExpiration(0.1);
 
 	}
@@ -25,11 +26,11 @@ public class Shooter extends Subsystem {
     }
     
 	public void turnMotorIntoChassis() {
-		shooterMotor.set(-shooterMotorPower);
+		shooterMotor.set(-shooterInMotorPower);
 	}
 	
 	public void turnMotorOutOfChassis() {
-		shooterMotor.set(shooterMotorPower);
+		shooterMotor.set(shooterOutMotorPower);
 	}
 
 	public void stopShooterMotor() {
