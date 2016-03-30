@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.command.Command;
 public class FireCannon extends Command{
 	public FireCannon(){
 		
-		requires(Robot.cannon);		
+		requires(Robot.shooterServos);		
 	}
 
 	@Override
@@ -17,7 +17,7 @@ public class FireCannon extends Command{
 
 	@Override
 	protected void execute() {
-		Robot.cannon.moveServosOut();		
+		Robot.shooterServos.moveServosOut();		
 	}
 
 	@Override
@@ -27,13 +27,13 @@ public class FireCannon extends Command{
 
 	@Override
 	protected void end() {
-		Robot.cannon.moveServosIn();
+		Robot.shooterServos.moveServosIn();
 		
 	}
 
 	@Override
 	protected void interrupted() {
-		Robot.cannon.moveServosIn();
+		Robot.shooterServos.moveServosIn();
 	}
 
 }

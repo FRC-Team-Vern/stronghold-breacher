@@ -35,12 +35,12 @@ public class MoveCannonToMiddlePosition extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.cannon.stopLiftMotor();
+    	Robot.cannon.stopCannon();
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-    	Robot.cannon.stopLiftMotor();
+    	Robot.cannon.stopCannon();
     }
 }

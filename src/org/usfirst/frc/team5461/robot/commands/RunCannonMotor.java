@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.command.Command;
 public class RunCannonMotor extends Command {
 
     public RunCannonMotor() {
-        requires(Robot.cannon);
+        requires(Robot.shooter);
     }
 
     // Called just before this Command runs the first time
@@ -21,7 +21,7 @@ public class RunCannonMotor extends Command {
     protected void execute()
     
    {
-    	Robot.cannon.turnMotorOutOfChassis();
+    	Robot.shooter.turnMotorOutOfChassis();
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -31,12 +31,12 @@ public class RunCannonMotor extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.cannon.stopCannonMotor();
+    	Robot.shooter.stopShooterMotor();
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-    	Robot.cannon.stopCannonMotor();
+    	Robot.shooter.stopShooterMotor();
     }
 }

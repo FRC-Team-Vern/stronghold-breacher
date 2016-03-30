@@ -26,6 +26,8 @@ import org.usfirst.frc.team5461.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team5461.robot.subsystems.FlatIron;
 import org.usfirst.frc.team5461.robot.subsystems.NomNom;
 import org.usfirst.frc.team5461.robot.subsystems.RedRover;
+import org.usfirst.frc.team5461.robot.subsystems.Shooter;
+import org.usfirst.frc.team5461.robot.subsystems.ShooterServos;
 
 
 /**
@@ -41,6 +43,8 @@ public class Robot extends IterativeRobot {
 	public static OI oi;
 	public static Arms arms;
 	public static CannonSubsystem cannon;
+	public static Shooter shooter;
+	public static ShooterServos shooterServos;
 	//public static RedRover redRover;
 	SendableChooser autoChooserPhase1;
 	SendableChooser autoChooserPhase2;
@@ -59,6 +63,8 @@ public class Robot extends IterativeRobot {
 	public void robotInit() {
     	autoChooserPhase1 = new SendableChooser();
     	cannon = new CannonSubsystem();
+    	shooter = new Shooter();
+    	shooterServos = new ShooterServos();
     	flatIron= new FlatIron();
 		arms = new Arms();
     	drivetrain = new DriveTrain();

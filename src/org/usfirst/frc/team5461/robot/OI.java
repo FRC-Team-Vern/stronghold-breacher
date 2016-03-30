@@ -62,8 +62,8 @@ public class OI {
 		shooterDPadRight = new DPadButton(new Point(1, 0));
 		shooterDPadDown = new DPadButton(new Point(0, -1));
 		shooterDPadLeft = new DPadButton(new Point(-1, 0));
-		JoystickButton Cannona= new JoystickButton(shooterJoystick, 2);
-		JoystickButton Cannony =new JoystickButton(shooterJoystick, 4);
+		JoystickButton shooterA= new JoystickButton(shooterJoystick, 2);
+		JoystickButton shooterY =new JoystickButton(shooterJoystick, 4);
 		dpadUp = new DPadButton(new Point(0, 1));
 		dpadRight = new DPadButton(new Point(1, 0));
 		dpadDown = new DPadButton(new Point(0, -1));
@@ -74,7 +74,6 @@ public class OI {
 		logitechRightTrigger.whenPressed(new MoveArmsDown());
 		logitechRightButton.whileHeld(new MoveArmsUp());
 		logitechLeftTrigger.whileHeld(new EnableflatIron());
-		logitechLeftButton.whileHeld(new Chomp());
 
 		dpadRight.whenPressed(new ChevalDeFries());
 		dpadDown.whenPressed(new Portcullis());
@@ -85,8 +84,8 @@ public class OI {
 		x.whenPressed(new TurnRobot((short)90));
 		
 		
-		Cannony.whileHeld(new RunCannonMotor());
-		Cannona.whileHeld(new Chomp());
+		shooterY.whileHeld(new RunCannonMotor());
+		shooterA.whileHeld(new Chomp());
 		shooterLeftTrigger.whileHeld(new FireCannon());
 		shooterDPadUp.whenPressed(new MoveCannonToTopPosition());
 		shooterDPadDown.whenPressed(new MoveCannonToBottomPosition());

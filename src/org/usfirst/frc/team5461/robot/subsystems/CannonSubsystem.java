@@ -9,15 +9,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class CannonSubsystem extends Subsystem {
 
 	CANTalon cannonLiftMotor;
-	CANTalon cannonMotor;
-	Servo cannonTopPusher;
-	Servo cannonBottomPusher;
-	private static final double cannonMotorPower = 0.75;
 	private static final double cannonLiftMotorPower = 0.75;
-	private static final double bottomPusherIn = 0.5;
-	private static final double bottomPusherOut = 1;
-	private static final double topPusherIn = 0.5;
-	private static final double topPusherOut = 0;
 	private static final int bottomEncoderPosition = 0;
 	private static final int middleEncoderPosition = 100;
 	private static final int topEncoderPosition = 200;
@@ -32,10 +24,6 @@ public class CannonSubsystem extends Subsystem {
 	public CannonSubsystem(){
 		cannonLiftMotor = new CANTalon(18);
 		cannonLiftMotor.setExpiration(0.1);
-		cannonMotor = new CANTalon(17);
-		cannonMotor.setExpiration(0.1);
-		cannonTopPusher = new Servo(0);
-		cannonBottomPusher = new Servo(1);
 		resetEncoder();
 	}
 	
@@ -46,67 +34,55 @@ public class CannonSubsystem extends Subsystem {
 		
 	}
 	
-	public void turnMotorIntoChassis() {
-		cannonMotor.set(-cannonMotorPower);
-	}
-	
-	public void turnMotorOutOfChassis() {
-		cannonMotor.set(cannonMotorPower);
-	}
-	
 	public void moveCannonUp() {
-		cannonMotor.set(cannonLiftMotorPower);
+		cannonLiftMotor.set(cannonLiftMotorPower);
 	}
 	
 	public void moveCannonDown() {
-		cannonMotor.set(-cannonLiftMotorPower);
+		cannonLiftMotor.set(-cannonLiftMotorPower);
 	}
 	
-	public void stopCannonMotor() {
-		cannonMotor.set(0);
-	}
-	
-	public void stopLiftMotor() {
+	public void stopCannon() {
 		cannonLiftMotor.set(0);
 	}
 	
 	public boolean isAtBottomPosition() {
-		currentCannonPosition = CannonPosition.Bottom;
-		return cannonLiftMotor.getEncPosition() <= bottomEncoderPosition;
+		if(cannonLiftMotor.getEncPosition() <= bottomEncoderPosition) {
+			currentCannonPosition = CannonPosition.Bottom;
+			return true;
+		}
+		return false;
 	}
 	
 	public boolean isAtMiddlePosition() {
+		boolean result = false;
 		switch(currentCannonPosition) {
 		case Top:
-			currentCannonPosition = CannonPosition.Middle;
-			return cannonLiftMotor.getEncPosition() <= middleEncoderPosition;
+			
+			if (cannonLiftMotor.getEncPosition() <= middleEncoderPosition) {
+				currentCannonPosition = CannonPosition.Middle;
+			}
 		case Middle:
-			return true;
+			result = true;
 		case Bottom:
-			currentCannonPosition = CannonPosition.Middle;
-			return cannonLiftMotor.getEncPosition() >= middleEncoderPosition;
-			default:
-				return false;
+			if(cannonLiftMotor.getEncPosition() >= middleEncoderPosition) {
+				currentCannonPosition = CannonPosition.Middle;				
+			}
 		}
+		return result;
 	}
 	
 	public boolean isAtTopPosition() {
-		currentCannonPosition = CannonPosition.Top;
-		return cannonLiftMotor.getEncPosition() >= topEncoderPosition;
-	}
-	
-	public void moveServosIn() {
-		cannonBottomPusher.set(bottomPusherIn);
-		cannonTopPusher.set(topPusherIn);
+		
+		if(cannonLiftMotor.getEncPosition() >= topEncoderPosition) {
+			currentCannonPosition = CannonPosition.Top;
+			return true;
+		}
+		return false;
 	}
 	
 	public void resetEncoder() {
 		cannonLiftMotor.setEncPosition(0);
-	}
-	
-	public void moveServosOut() {
-		cannonBottomPusher.set(bottomPusherOut);
-		cannonTopPusher.set(topPusherOut);
 	}
 	
 	public CannonPosition getCurrentPosition() {
