@@ -11,10 +11,10 @@ public class ShooterServos extends Subsystem {
 	Servo cannonTopPusher;
 	Servo cannonBottomPusher;
 
-	private static final double bottomPusherIn = 0.5;
-	private static final double bottomPusherOut = 1;
-	private static final double topPusherIn = 0.5;
-	private static final double topPusherOut = 0;
+	private static final double bottomPusherIn = 1;
+	private static final double bottomPusherOut = 0.5;
+	private static final double topPusherIn = 0;
+	private static final double topPusherOut = 0.5;
 
 	public ShooterServos() {
 		cannonTopPusher = new Servo(0);

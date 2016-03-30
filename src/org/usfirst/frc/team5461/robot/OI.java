@@ -13,9 +13,12 @@ import org.usfirst.frc.team5461.robot.commands.MoveCannonToMiddlePosition;
 import org.usfirst.frc.team5461.robot.commands.MoveCannonToTopPosition;
 import org.usfirst.frc.team5461.robot.commands.OuterWorksGroupBAndD;
 import org.usfirst.frc.team5461.robot.commands.Portcullis;
+import org.usfirst.frc.team5461.robot.commands.ResetArmPosition;
+import org.usfirst.frc.team5461.robot.commands.ResetCannonPosition;
 import org.usfirst.frc.team5461.robot.commands.RunCannonMotor;
 import org.usfirst.frc.team5461.robot.commands.TankDriveWithJoystick;
 import org.usfirst.frc.team5461.robot.commands.TurnRobot;
+import org.usfirst.frc.team5461.robot.subsystems.Arms;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
@@ -40,6 +43,7 @@ public class OI {
 	private DPadButton dpadRight;
 	private JoystickButton shooterRightTrigger;
 	private JoystickButton shooterLeftTrigger;
+	private JoystickButton cannonLeftButton;
 	private DPadButton shooterDPadUp;
 	private DPadButton shooterDPadDown;
 	private DPadButton shooterDPadLeft;
@@ -70,6 +74,8 @@ public class OI {
 		dpadLeft = new DPadButton(new Point(-1, 0));
 		shooterRightTrigger = new JoystickButton(shooterJoystick, 8);
 		shooterLeftTrigger = new JoystickButton(shooterJoystick, 7);
+		cannonLeftButton = new JoystickButton(logitechJoystick, 5);
+		
 		// Connect the buttons to commands
 		logitechRightTrigger.whenPressed(new MoveArmsDown());
 		logitechRightButton.whileHeld(new MoveArmsUp());
@@ -83,7 +89,8 @@ public class OI {
 		a.whenPressed(new TankDriveWithJoystick());
 		x.whenPressed(new TurnRobot((short)90));
 		
-		
+		logitechLeftButton.whileHeld(new ResetArmPosition());
+		cannonLeftButton.whileHeld(new ResetCannonPosition());
 		shooterY.whileHeld(new RunCannonMotor());
 		shooterA.whileHeld(new Chomp());
 		shooterLeftTrigger.whileHeld(new FireCannon());

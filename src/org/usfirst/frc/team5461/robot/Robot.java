@@ -24,7 +24,6 @@ import org.usfirst.frc.team5461.robot.subsystems.Arms;
 import org.usfirst.frc.team5461.robot.subsystems.CannonSubsystem;
 import org.usfirst.frc.team5461.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team5461.robot.subsystems.FlatIron;
-import org.usfirst.frc.team5461.robot.subsystems.NomNom;
 import org.usfirst.frc.team5461.robot.subsystems.RedRover;
 import org.usfirst.frc.team5461.robot.subsystems.Shooter;
 import org.usfirst.frc.team5461.robot.subsystems.ShooterServos;

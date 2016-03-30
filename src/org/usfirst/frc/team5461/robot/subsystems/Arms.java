@@ -25,7 +25,12 @@ public class Arms extends Subsystem {
 	}
 	
 	public Arms() {
-		armMotor = new CANTalon(12);
+		armMotor = new CANTalon(5);
+		resetEncoder();
+	}
+
+	public void resetEncoder() {
+		armMotor.setEncPosition(0);
 	}
 	
 	public void moveArmsDown() {
