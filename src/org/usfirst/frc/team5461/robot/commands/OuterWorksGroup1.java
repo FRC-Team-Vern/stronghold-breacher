@@ -5,10 +5,10 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class OuterWorksGroup1 extends CommandGroup{
 	public OuterWorksGroup1(){
 
-	//addSequential (new SquareUp());
-	addSequential (new MoveArmsUp());
-	addSequential (new DriveStraight(0, 0.5));
-	//addSequential (new TriangleUp());
-	
+		addSequential (new MoveArmsUp());
+		addParallel(new EnableflatIron());
+		addParallel(new DriveStraightAndStopCannonHold());
+
+
 	}
 }
