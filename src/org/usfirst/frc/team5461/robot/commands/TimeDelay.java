@@ -1,16 +1,14 @@
 package org.usfirst.frc.team5461.robot.commands;
 
-import org.usfirst.frc.team5461.robot.Robot;
-
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
-public class StopShooterMotors extends Command {
+public class TimeDelay extends Command {
 
-    public StopShooterMotors() {
-        requires(Robot.shooter);
+    public TimeDelay(double seconds) {
+    	setTimeout(seconds);
     }
 
     // Called just before this Command runs the first time
@@ -23,7 +21,7 @@ public class StopShooterMotors extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return true;
+        return isTimedOut();
     }
 
     // Called once after isFinished returns true
