@@ -7,7 +7,9 @@ public class OuterWorksGroup1 extends CommandGroup{
 
 		addSequential (new MoveArmsUp());
 		addParallel(new EnableflatIron());
+		addSequential(new MoveAndHoldCannonTopPosition());
 		addParallel(new DriveStraightAndStopCannonHold());
+		
 
 
 	}

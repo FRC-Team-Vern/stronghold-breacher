@@ -7,11 +7,12 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class OuterWorksGroup2 extends CommandGroup{
 	public OuterWorksGroup2(){
 
-	//addSequential (new SquareUp());
-	addSequential (new MoveArmsDown());
-	addSequential (new DriveStraight(1200, 0.75));
-	addParallel(new EnableflatIron());
-	//addSequential (new TriangleUp());
-	
+
+		addSequential (new MoveArmsDown());
+		addParallel(new MoveCannonToBottomPosition());
+		addSequential (new DriveStraight(1200, 0.75));
+		addParallel(new EnableflatIron());
+
+
 	}
 }

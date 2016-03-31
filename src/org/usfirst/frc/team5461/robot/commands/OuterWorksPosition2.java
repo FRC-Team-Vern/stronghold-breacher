@@ -6,9 +6,5 @@ public class OuterWorksPosition2 extends CommandGroup {
 
 	public OuterWorksPosition2() {
 
-		//addSequential (new SquareUp());
-		//addSequential (new DriveStraight(0, 0.5));
-		//addSequential (new TriangleUp());
-
 	}
 }
