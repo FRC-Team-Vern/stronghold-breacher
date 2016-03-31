@@ -6,6 +6,8 @@ import org.usfirst.frc.team5461.robot.commands.DisableflatIron;
 import org.usfirst.frc.team5461.robot.commands.DriveStraight;
 import org.usfirst.frc.team5461.robot.commands.EnableflatIron;
 import org.usfirst.frc.team5461.robot.commands.FireCannon;
+import org.usfirst.frc.team5461.robot.commands.MoveAndHoldCannonMiddlePosition;
+import org.usfirst.frc.team5461.robot.commands.MoveAndHoldCannonTopPosition;
 import org.usfirst.frc.team5461.robot.commands.MoveArmsDown;
 import org.usfirst.frc.team5461.robot.commands.MoveArmsUp;
 import org.usfirst.frc.team5461.robot.commands.MoveCannonToBottomPosition;
@@ -95,10 +97,10 @@ public class OI {
 		shooterY.whileHeld(new RunShooterMotor());
 		shooterA.whileHeld(new Chomp());
 		shooterRightTrigger.whenPressed(new FireCannon());
-		shooterDPadUp.whenPressed(new MoveCannonToTopPosition());
+		shooterDPadUp.whenPressed(new MoveAndHoldCannonTopPosition());
 		shooterDPadDown.whenPressed(new MoveCannonToBottomPosition());
-		shooterDPadRight.whenPressed(new MoveCannonToMiddlePosition());
-		shooterDPadLeft.whenPressed(new MoveCannonToMiddlePosition());
+		shooterDPadRight.whenPressed(new MoveAndHoldCannonMiddlePosition());
+		shooterDPadLeft.whenPressed(new MoveAndHoldCannonMiddlePosition());
 	}
 
 	public Joystick getJoystick() {
