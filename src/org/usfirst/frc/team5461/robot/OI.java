@@ -15,7 +15,7 @@ import org.usfirst.frc.team5461.robot.commands.OuterWorksGroupBAndD;
 import org.usfirst.frc.team5461.robot.commands.Portcullis;
 import org.usfirst.frc.team5461.robot.commands.ResetArmPosition;
 import org.usfirst.frc.team5461.robot.commands.ResetCannonPosition;
-import org.usfirst.frc.team5461.robot.commands.RunCannonMotor;
+import org.usfirst.frc.team5461.robot.commands.RunShooterMotor;
 import org.usfirst.frc.team5461.robot.commands.TankDriveWithJoystick;
 import org.usfirst.frc.team5461.robot.commands.TurnRobot;
 import org.usfirst.frc.team5461.robot.subsystems.Arms;
@@ -92,9 +92,9 @@ public class OI {
 		
 		logitechLeftButton.whileHeld(new ResetArmPosition());
 		cannonLeftButton.whileHeld(new ResetCannonPosition());
-		shooterY.whileHeld(new RunCannonMotor());
+		shooterY.whileHeld(new RunShooterMotor());
 		shooterA.whileHeld(new Chomp());
-		shooterRightTrigger.whileHeld(new FireCannon());
+		shooterRightTrigger.whenPressed(new FireCannon());
 		shooterDPadUp.whenPressed(new MoveCannonToTopPosition());
 		shooterDPadDown.whenPressed(new MoveCannonToBottomPosition());
 		shooterDPadRight.whenPressed(new MoveCannonToMiddlePosition());
