@@ -6,9 +6,13 @@ public class OuterWorksPosition2 extends CommandGroup {
 
 	public OuterWorksPosition2() {
 
-		//addSequential (new SquareUp());
-		//addSequential (new DriveStraight(0, 0.5));
-		//addSequential (new TriangleUp());
+		addSequential (new DriveStraight(400, 0.75));
+		addSequential (new TurnRobot((short)-15));
+		addSequential (new DriveStraight(400, 0.75));
+		addSequential (new MoveCannonToMiddlePosition());
+		addSequential (new HoldCannonMiddlePosition());
+		addParallel (new RunShooterMotor());
+		addParallel(new AutoFireCannon());
 
 	}
 }
