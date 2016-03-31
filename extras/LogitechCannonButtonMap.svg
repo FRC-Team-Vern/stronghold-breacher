@@ -16,7 +16,7 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.48.5 r10040"
-   sodipodi:docname="LogitechButtonMap.svg">
+   sodipodi:docname="LogitechCannonButtonMap.svg">
   <defs
      id="defs4" />
   <sodipodi:namedview
@@ -34,7 +34,7 @@
      showgrid="false"
      inkscape:window-width="958"
      inkscape:window-height="1008"
-     inkscape:window-x="1913"
+     inkscape:window-x="2873"
      inkscape:window-y="0"
      inkscape:window-maximized="0" />
   <metadata
@@ -45,7 +45,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -107,14 +107,19 @@
        sodipodi:linespacing="125%"
        id="text4176"
        y="443.80768"
-       x="565.96686"
-       style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="603.70856"
+       style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:sans-serif"
        xml:space="preserve"><tspan
-         style="font-size:15px"
+         style="font-size:15px;text-anchor:middle;text-align:center"
          y="443.80768"
          x="565.96686"
          id="tspan4178"
-         sodipodi:role="line">TankDriveWithJoystick</tspan></text>
+         sodipodi:role="line">Chomp</tspan><tspan
+         style="font-size:15px;text-anchor:middle;text-align:center"
+         y="462.55768"
+         x="565.96686"
+         sodipodi:role="line"
+         id="tspan3186">(while held)</tspan></text>
     <path
        style="fill:#000000;fill-rule:evenodd;stroke:#000000;stroke-width:1.99999988;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        d="m 466.86564,262.81074 21.1279,174.83262"
@@ -122,21 +127,16 @@
        inkscape:connector-curvature="0" />
     <text
        xml:space="preserve"
-       style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:sans-serif"
        x="492.07721"
        y="459.49786"
        id="text4182"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
-         id="tspan4184"
-         x="437.08331"
+         x="492.07721"
          y="459.49786"
-         style="font-size:15px;text-anchor:middle;text-align:center">TurnRobot(90)</tspan><tspan
-         sodipodi:role="line"
-         x="437.08331"
-         y="478.24786"
-         style="font-size:15px;text-anchor:middle;text-align:center"
-         id="tspan4210">(degrees)</tspan></text>
+         style="font-size:15px;text-align:center;text-anchor:middle"
+         id="tspan4210">Unused</tspan></text>
     <path
        inkscape:connector-curvature="0"
        id="path4186"
@@ -146,22 +146,27 @@
        sodipodi:linespacing="125%"
        id="text4188"
        y="217.42091"
-       x="614.15808"
-       style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="673.05212"
+       style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:sans-serif"
        xml:space="preserve"><tspan
-         style="font-size:15px"
+         style="font-size:15px;text-anchor:middle;text-align:center"
          y="217.42091"
          x="614.15808"
          id="tspan4190"
-         sodipodi:role="line">Unused</tspan></text>
+         sodipodi:role="line">RunShooterMotor</tspan><tspan
+         style="font-size:15px;text-anchor:middle;text-align:center"
+         y="236.17091"
+         x="614.15808"
+         sodipodi:role="line"
+         id="tspan3184">(while held)</tspan></text>
     <path
        inkscape:connector-curvature="0"
        id="path4194"
-       d="m 219.30456,263.77401 -86.15919,52.98831"
-       style="fill:#000000;fill-rule:evenodd;stroke:#000000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+       d="m 221.30457,263.77412 12.60547,175.26526"
+       style="fill:#000000;fill-rule:evenodd;stroke:#000000;stroke-width:2.00000024;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
     <path
        style="fill:#000000;fill-rule:evenodd;stroke:#000000;stroke-width:1.99999988;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="M 241.77862,283.01963 134.20661,408.46866"
+       d="m 241.77862,283.01963 -90.66137,42.19665"
        id="path4200"
        inkscape:connector-curvature="0" />
     <path
@@ -170,63 +175,46 @@
        d="m 269.16223,262.81074 -21.1279,174.83262"
        style="fill:#000000;fill-rule:evenodd;stroke:#000000;stroke-width:1.99999988;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
     <path
-       style="fill:#000000;fill-rule:evenodd;stroke:#000000;stroke-width:1.99999988;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="M 241.75671,240.50263 135.34918,224.59886"
+       style="fill:#000000;fill-rule:evenodd;stroke:#000000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 241.75672,240.50265 134.04837,214.19233"
        id="path4212"
        inkscape:connector-curvature="0" />
     <text
        xml:space="preserve"
-       style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       x="198.36853"
-       y="453.8942"
+       style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:sans-serif"
+       x="77.392403"
+       y="460.39828"
        id="text4218"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan4220"
-         x="198.36853"
-         y="453.8942"
-         style="font-size:15px">ChevalDeFries</tspan></text>
+         x="77.392403"
+         y="460.39828"
+         style="font-size:15px">MoveAndHoldCannonMiddlePosition</tspan></text>
     <text
        sodipodi:linespacing="125%"
        id="text4222"
-       y="426.99677"
-       x="80.692253"
+       y="345.0452"
+       x="44.269337"
        style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:sans-serif"
        xml:space="preserve"><tspan
          style="font-size:15px"
-         y="426.99677"
-         x="80.692253"
-         sodipodi:role="line"
-         id="tspan3178">OuterWorksGroup1</tspan></text>
-    <text
-       sodipodi:linespacing="125%"
-       id="text4226"
-       y="336.93829"
-       x="43.327312"
-       style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:sans-serif"
-       xml:space="preserve"><tspan
-         style="font-size:15px"
-         y="336.93829"
-         x="43.327312"
-         id="tspan4228"
-         sodipodi:role="line">OuterWorksGroup2</tspan></text>
+         y="345.0452"
+         x="44.269337"
+         id="tspan4224"
+         sodipodi:role="line">MoveCannonToBottomPosition</tspan></text>
     <text
        sodipodi:linespacing="125%"
        id="text4230"
-       y="195.45708"
-       x="124.02028"
+       y="205.86363"
+       x="153.93912"
        style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:sans-serif"
        xml:space="preserve"><tspan
          style="font-size:15px;text-align:center;text-anchor:middle"
-         y="195.45708"
-         x="124.02028"
-         id="tspan4232"
-         sodipodi:role="line">DriveStraight(2000, 0.75)</tspan><tspan
-         style="font-size:15px;text-align:center;text-anchor:middle"
-         y="214.20708"
-         x="124.02028"
+         y="205.86363"
+         x="153.93912"
          sodipodi:role="line"
-         id="tspan4208">(distance, maxpower)</tspan></text>
+         id="tspan4208">MoveAndHoldCannonTopPosition</tspan></text>
     <path
        style="fill:#000000;fill-rule:evenodd;stroke:#000000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        d="m 231.63255,773.70458 -86.15919,52.98831"
@@ -237,13 +225,13 @@
        id="text4236"
        y="847.26923"
        x="113.4408"
-       style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:sans-serif"
        xml:space="preserve"><tspan
          style="font-size:15px;text-align:center;text-anchor:middle"
          y="847.26923"
          x="113.4408"
          id="tspan4238"
-         sodipodi:role="line">MoveArmsDown</tspan><tspan
+         sodipodi:role="line">FireCannon</tspan><tspan
          style="font-size:15px;text-align:center;text-anchor:middle"
          y="866.01923"
          x="113.4408"
@@ -284,15 +272,15 @@
     <text
        sodipodi:linespacing="125%"
        id="text4264"
-       y="773.44116"
-       x="599.78955"
+       y="773.5387"
+       x="589.69196"
        style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:sans-serif"
        xml:space="preserve"><tspan
          style="font-size:15px"
-         y="773.44116"
-         x="599.78955"
+         y="773.5387"
+         x="589.69196"
          id="tspan4266"
-         sodipodi:role="line">ResetArmsPosition</tspan></text>
+         sodipodi:role="line">ResetCannonPosition</tspan></text>
     <text
        xml:space="preserve"
        style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -330,20 +318,15 @@
     <text
        xml:space="preserve"
        style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:sans-serif"
-       x="86.823204"
-       y="769.45837"
+       x="84.221573"
+       y="759.05182"
        id="text4186"
        sodipodi:linespacing="125%"><tspan
-         sodipodi:role="line"
-         id="tspan4188"
-         x="86.823204"
-         y="769.45837"
-         style="font-size:15px;text-align:center;text-anchor:middle">MoveArmsUp</tspan><tspan
          id="tspan4191"
          sodipodi:role="line"
-         x="86.823204"
-         y="788.20837"
-         style="font-size:15px;text-align:center;text-anchor:middle">(when pressed)</tspan></text>
+         x="84.221573"
+         y="759.05182"
+         style="font-size:15px;text-align:center;text-anchor:middle">Unused</tspan></text>
     <path
        inkscape:connector-curvature="0"
        id="path4193"
@@ -358,30 +341,18 @@
        sodipodi:linespacing="125%"
        id="text4197"
        y="504.32687"
-       x="237.59395"
-       style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="306.43979"
+       style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:sans-serif"
        xml:space="preserve"><tspan
          style="font-size:15px"
          y="504.32687"
-         x="237.59395"
+         x="306.43979"
          id="tspan4199"
-         sodipodi:role="line">Tank Drive Left</tspan></text>
-    <text
-       xml:space="preserve"
-       style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       x="393.37494"
-       y="504.32687"
-       id="text4201"
-       sodipodi:linespacing="125%"><tspan
-         sodipodi:role="line"
-         id="tspan4203"
-         x="393.37494"
-         y="504.32687"
-         style="font-size:15px">Tank Drive Right</tspan></text>
+         sodipodi:role="line">Unused</tspan></text>
     <flowRoot
        xml:space="preserve"
        id="flowRoot4212"
-       style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:sans-serif"
        transform="translate(-64.807248,18)"><flowRegion
          id="flowRegion4214"><rect
            id="rect4216"
@@ -390,5 +361,17 @@
            x="253.28419"
            y="23.535257" /></flowRegion><flowPara
          id="flowPara4218"
-         style="text-align:center;text-anchor:middle">Driver Controller</flowPara></flowRoot>  </g>
+         style="text-align:center;text-anchor:middle">Cannon Controller</flowPara></flowRoot>    <text
+       xml:space="preserve"
+       style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:sans-serif"
+       x="375.48071"
+       y="504.32687"
+       id="text3190"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3192"
+         x="375.48071"
+         y="504.32687"
+         style="font-size:15px">Unused</tspan></text>
+  </g>
 </svg>
