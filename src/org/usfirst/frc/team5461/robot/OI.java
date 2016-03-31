@@ -2,7 +2,6 @@ package org.usfirst.frc.team5461.robot;
 
 import org.usfirst.frc.team5461.robot.commands.ChevalDeFries;
 import org.usfirst.frc.team5461.robot.commands.Chomp;
-import org.usfirst.frc.team5461.robot.commands.DisableflatIron;
 import org.usfirst.frc.team5461.robot.commands.DriveStraight;
 import org.usfirst.frc.team5461.robot.commands.EnableflatIron;
 import org.usfirst.frc.team5461.robot.commands.FireCannon;
@@ -11,16 +10,13 @@ import org.usfirst.frc.team5461.robot.commands.MoveAndHoldCannonTopPosition;
 import org.usfirst.frc.team5461.robot.commands.MoveArmsDown;
 import org.usfirst.frc.team5461.robot.commands.MoveArmsUp;
 import org.usfirst.frc.team5461.robot.commands.MoveCannonToBottomPosition;
-import org.usfirst.frc.team5461.robot.commands.MoveCannonToMiddlePosition;
-import org.usfirst.frc.team5461.robot.commands.MoveCannonToTopPosition;
-import org.usfirst.frc.team5461.robot.commands.OuterWorksGroupBAndD;
-import org.usfirst.frc.team5461.robot.commands.Portcullis;
+import org.usfirst.frc.team5461.robot.commands.OuterWorksGroup1;
+import org.usfirst.frc.team5461.robot.commands.OuterWorksGroup2;
 import org.usfirst.frc.team5461.robot.commands.ResetArmPosition;
 import org.usfirst.frc.team5461.robot.commands.ResetCannonPosition;
 import org.usfirst.frc.team5461.robot.commands.RunShooterMotor;
 import org.usfirst.frc.team5461.robot.commands.TankDriveWithJoystick;
 import org.usfirst.frc.team5461.robot.commands.TurnRobot;
-import org.usfirst.frc.team5461.robot.subsystems.Arms;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
@@ -85,8 +81,8 @@ public class OI {
 		logitechLeftTrigger.whileHeld(new EnableflatIron());
 
 		dpadRight.whenPressed(new ChevalDeFries());
-		dpadDown.whenPressed(new Portcullis());
-		dpadLeft.whenPressed(new OuterWorksGroupBAndD());
+		dpadDown.whenPressed(new OuterWorksGroup1());
+		dpadLeft.whenPressed(new OuterWorksGroup2());
 		dpadUp.whenPressed(new DriveStraight(2000, 0.75));
 		
 		a.whenPressed(new TankDriveWithJoystick());

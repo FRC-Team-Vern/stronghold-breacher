@@ -28,8 +28,8 @@ public class Arms extends Subsystem {
 	
 	public Arms() {
 		armMotor = new CANTalon(5);
-		armMotor.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
-		armMotor.configEncoderCodesPerRev(128);
+		armMotor.setFeedbackDevice(FeedbackDevice.QuadEncoder);
+		armMotor.configEncoderCodesPerRev(497);
 
 		currentArmPosition = ArmPosition.Top;
 		resetEncoder();

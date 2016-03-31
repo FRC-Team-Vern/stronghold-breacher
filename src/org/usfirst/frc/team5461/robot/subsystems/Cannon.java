@@ -10,15 +10,24 @@ import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class Cannon extends PIDSubsystem {
+public class Cannon extends Subsystem {
 
 	CANTalon cannonLiftMotor;
-	private static final double cannonLiftMotorPower = 0.75;
-	private static final int maxEncoderPosition = 500;
-	private static final double kP_real = 0.005;
-	private static final double kI_real = 0.00;
-	private static final double kD_real = 0.00;
-	private static final double kF_real = 1.00 / (double)maxEncoderPosition;
+	public static final int maxEncoderPosition = 700;
+	public static final int topEncoderPosition = 650;
+	public static final int middleEncoderPosition = 480;
+	public static final int bottomEncoderPosition = 0;
+	private static final int bufferEncoderPosition = 50;
+	// top and middle encoder positions should be more than 2x buffer distance apart
+	
+	public static final double cannonLiftMotorPower = 0.75;
+	public static final double cannonDownSlowMotorPower = 0.25;
+	public static final double cannonDownQuickMotorPower = 0.45;
+	public static final int holdCannonTolerance = 10;
+	
+	public static final double kP_real_hold = 0.005;
+	public static final double kI_real_hold = 0.00;
+	public static final double kD_real_hold = 0.00;
 
 	private CannonPosition currentCannonPosition;
 	
@@ -28,39 +37,41 @@ public class Cannon extends PIDSubsystem {
 		Top
 	}
 	
-	public Cannon(){
-		super(kP_real, kI_real, kD_real, PIDController.kDefaultPeriod, kF_real);
-		setAbsoluteTolerance(50);
-		setInputRange(0, maxEncoderPosition);
+	public Cannon(){		
 		cannonLiftMotor = new CANTalon(17);
 		cannonLiftMotor.setExpiration(0.1);
 		cannonLiftMotor.setFeedbackDevice(FeedbackDevice.QuadEncoder);
 		cannonLiftMotor.configEncoderCodesPerRev(497);
-
 		currentCannonPosition = CannonPosition.Bottom;
 		resetEncoder();
 	}
 	
-	
 	@Override
 	protected void initDefaultCommand() {
-		// TODO Auto-generated method stub
-		
+		/* no op*/
 	}
 	
 	public void moveCannonUp() {
 		cannonLiftMotor.set(cannonLiftMotorPower);
 	}
 	
-	public void moveCannonDown() {
-		cannonLiftMotor.set(-1.0*cannonLiftMotorPower);
+	public void moveCannonDownSlow() {
+		cannonLiftMotor.set(cannonDownSlowMotorPower);
+	}
+	
+	public void moveCannonDownQuick() {
+		cannonLiftMotor.set(-1.0*cannonDownQuickMotorPower);
+	}
+	
+	public void moveCannonByPower(double power) {
+		cannonLiftMotor.set(power);
 	}
 	
 	public void stopCannon() {
 		cannonLiftMotor.set(0);
 	}
 	
-	private int getEncoderValue() {
+	public int getEncoderValue() {
 		return -1*cannonLiftMotor.getEncPosition();
 	}
 	
@@ -68,7 +79,18 @@ public class Cannon extends PIDSubsystem {
 		cannonLiftMotor.setEncPosition(0);
 	}
 	
-	public CannonPosition getCurrentPosition() {
+	public CannonPosition getCurrentPosition() {	
+		int currentEncoderValue = getEncoderValue();
+		
+		if (currentEncoderValue >= (topEncoderPosition - bufferEncoderPosition)) {
+			currentCannonPosition = CannonPosition.Top;
+		} else if ((middleEncoderPosition + bufferEncoderPosition) > currentEncoderValue && 
+				currentEncoderValue >= (middleEncoderPosition - bufferEncoderPosition) ) {
+			currentCannonPosition = CannonPosition.Middle;
+		} else if ((bottomEncoderPosition + bufferEncoderPosition) > currentEncoderValue) {
+			currentCannonPosition = CannonPosition.Bottom;
+		}
+		
 		return currentCannonPosition;
 	}
 	
@@ -76,20 +98,4 @@ public class Cannon extends PIDSubsystem {
 		SmartDashboard.putNumber("Cannon Encoder Value", getEncoderValue());
 		SmartDashboard.putString("Cannon Position", currentCannonPosition.toString());
 	}
-
-
-	@Override
-	protected double returnPIDInput() {
-		// TODO Auto-generated method stub
-		return getEncoderValue();
-	}
-
-
-	@Override
-	protected void usePIDOutput(double output) {
-		cannonLiftMotor.set(output);
-		SmartDashboard.putNumber("Cannon output", output);
-		
-	}
-
 }
