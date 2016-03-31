@@ -9,7 +9,8 @@ public class OuterWorksPosition5 extends CommandGroup {
 		addSequential (new TurnRobot((short)15));
 		addSequential (new DriveStraight(400, 0.75));
 		addSequential (new MoveCannonToMiddlePosition());
-		addSequential (new RunShooterMotor());
-		addParallel(new FireCannon());
+		addSequential (new HoldCannonMiddlePosition());
+		addParallel (new RunShooterMotor());
+		addParallel(new AutoFireCannon());
 	}
 }
