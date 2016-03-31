@@ -9,23 +9,27 @@ public class FlatIron extends Subsystem {
 	private ADIS16448_IMU m_imu;
 	private Double m_heading;
 	private boolean m_isEnabled=false;
-	
-	
-	public FlatIron(){
+	private boolean m_isInitialized = false;
+
+	public FlatIron() {
 		m_imu=new ADIS16448_IMU();
 		m_heading=0.0;
 	}
-	public void enable(){
+	public void enable() {
+		if (!m_isInitialized) {
 		setStartingValue(m_imu.getAngleZ());
 		m_isEnabled= true;
-		
+		m_isInitialized = true;
+		}
+
 	}
-	public void disable(){
+	public void disable() {
 		m_isEnabled=false;
+		m_isInitialized = false;
 	}
-	
-	public Pair<Double>getAdjustmentFactors(){
-	
+
+	public Pair<Double>getAdjustmentFactors() {
+
 		if (m_isEnabled) {
 			return new Pair<Double>(getLeftAdjustment(),getRightAdjustment());
 		}
@@ -33,50 +37,60 @@ public class FlatIron extends Subsystem {
 			return new Pair<Double>(1.0,1.0);
 		}
 	}
-	
-	private Double getLeftAdjustment(){
-		return Math.sin(-1.0*(m_imu.getAngleZ()-m_heading)*Math.PI/180.0)+1.0;
-			
+
+	private Double getLeftAdjustment() {
+		return Math.sin((-1.0*(m_imu.getAngleZ()-m_heading))*Math.PI/180.0)+1.0;
+
 	}
-	private Double getRightAdjustment(){
+	
+	private Double getRightAdjustment() {
 		return Math.sin((m_imu.getAngleZ()-m_heading)*Math.PI/180.0)+1.0;
-		}
-	public  void setStartingValue(Double heading){
+	}
+	
+	public  void setStartingValue(Double heading) {
 		m_heading=heading;
 	}
-	
-	public double getImuZValue(){
-	return m_imu.getAngleZ();
-}
+ 
+	public double getImuZValue() {
+		return m_imu.getAngleZ();
+	}
 
-public double getImuXValue(){
-	return m_imu.getAngleX();
-}
+	public double getImuXValue() {
+		return m_imu.getAngleX();
+	}
 
-public double getImuYValue(){
-	return m_imu.getAngleY();
-}
+	public double getImuYValue() {
+		return m_imu.getAngleY();
+	}
 
-	public static class Pair<T>{
+	public static class Pair<T> {
 		public T m_leftval;
 		public T m_rightval;
 		public Pair  (T leftval, T rightval){
-			
+
 			m_leftval= leftval;
 			m_rightval=rightval;
 		}
 	}
-
+	
+	public boolean getIsEnabled() {
+		return m_isEnabled;
+	}
+	public boolean getIsInitialized() {
+		return m_isInitialized;
+	}
+	
+	public void setIsInitialized(boolean isInitialized) {
+		m_isInitialized = isInitialized;
+	}
+	
 
 	@Override
 	protected void initDefaultCommand() {
-		//do nothing
-		
+		/* no op*/
 	}
-	
-public void log(){
-	SmartDashboard.putBoolean("enabled",m_isEnabled);
-	SmartDashboard.putNumber("current z axis",m_imu.getAngleZ());
-	SmartDashboard.putNumber("current heading", m_heading);
-}
+
+	public void log(){
+		SmartDashboard.putBoolean("FlatIron Enabled", m_isEnabled);
+	}
 }

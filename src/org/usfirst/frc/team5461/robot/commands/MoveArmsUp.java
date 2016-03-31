@@ -5,14 +5,14 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 public class MoveArmsUp extends Command {
+	
 	public MoveArmsUp(){
 		requires(Robot.arms);
 	}
 
 	@Override
 	protected void initialize() {
-		// TODO Auto-generated method stub
-		
+		/* no op */
 	}
 
 	@Override
@@ -22,22 +22,16 @@ public class MoveArmsUp extends Command {
 
 	@Override
 	protected boolean isFinished() {
-		return Robot.arms.getTopArmSwitchValue();
-
-		//return !Robot.arms.getTopArmSwitchValue();
+		return Robot.arms.isAtTopPosition();
 	}
 
 	@Override
 	protected void end() {
-		Robot.arms.armsStop();
-		
+		Robot.arms.armsStop();	
 	}
 
 	@Override
 	protected void interrupted() {
 		Robot.arms.armsStop();
-		
 	}
-	
-
 }

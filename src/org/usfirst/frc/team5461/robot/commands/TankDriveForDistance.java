@@ -5,6 +5,7 @@ import org.usfirst.frc.team5461.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class TankDriveForDistance extends Command {
+	
 	private static final double mDistance=10000;
 	
 	public TankDriveForDistance (){
@@ -28,14 +29,11 @@ public class TankDriveForDistance extends Command {
 
 	@Override
 	protected void end() {
-		// TODO Auto-generated method stub
-		
+		/* no op */		
 	}
 
 	@Override
 	protected void interrupted() {
-		// TODO Auto-generated method stub
-
+		/* no op */
 	}
-
 }
