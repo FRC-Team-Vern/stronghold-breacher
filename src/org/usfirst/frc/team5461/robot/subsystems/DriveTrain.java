@@ -55,6 +55,7 @@ public class DriveTrain extends MultiPIDSubsystem {
 //		front_right_motor.setExpiration(0.1);
 		front_right_motor.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
 		front_right_motor.configEncoderCodesPerRev(128);
+		front_right_motor.setEncPosition(0);
 		back_left_motor = new CANTalon(11);
 		back_left_motor.setInverted(true);
 //		back_left_motor.setExpiration(0.1);
@@ -122,6 +123,7 @@ public class DriveTrain extends MultiPIDSubsystem {
 		SmartDashboard.putNumber("Right Back Temp", back_right_motor.getTemperature());
 		SmartDashboard.putNumber("Left Front Temp", front_left_motor.getTemperature());
 		SmartDashboard.putNumber("Right Front Temp", front_right_motor.getTemperature());
+		SmartDashboard.putNumber("Front Right Distance", front_right_motor.getEncPosition());
 		
 		//SmartDashboard.putData("Drive Train PID", getPIDController());
 	}

@@ -8,13 +8,17 @@ import org.usfirst.frc.team5461.robot.commands.FireCannon;
 import org.usfirst.frc.team5461.robot.commands.MoveAndHoldCannonMiddlePosition;
 import org.usfirst.frc.team5461.robot.commands.MoveAndHoldCannonTopPosition;
 import org.usfirst.frc.team5461.robot.commands.MoveArmsDown;
+import org.usfirst.frc.team5461.robot.commands.MoveArmsDownManual;
 import org.usfirst.frc.team5461.robot.commands.MoveArmsUp;
+import org.usfirst.frc.team5461.robot.commands.MoveArmsUpManual;
 import org.usfirst.frc.team5461.robot.commands.MoveCannonToBottomPosition;
+import org.usfirst.frc.team5461.robot.commands.MoveCannonUp;
 import org.usfirst.frc.team5461.robot.commands.OuterWorksGroup1;
 import org.usfirst.frc.team5461.robot.commands.OuterWorksGroup2;
-import org.usfirst.frc.team5461.robot.commands.ResetArmPosition;
 import org.usfirst.frc.team5461.robot.commands.ResetCannonPosition;
 import org.usfirst.frc.team5461.robot.commands.RunShooterMotor;
+import org.usfirst.frc.team5461.robot.commands.StopCannonHold;
+import org.usfirst.frc.team5461.robot.commands.StopShooterMotors;
 import org.usfirst.frc.team5461.robot.commands.TankDriveWithJoystick;
 import org.usfirst.frc.team5461.robot.commands.TurnRobot;
 
@@ -40,8 +44,10 @@ public class OI {
 	private DPadButton dpadLeft;
 	private DPadButton dpadRight;
 	private JoystickButton shooterRightTrigger;
+	private JoystickButton shooterRightButton;
+	private JoystickButton shooterLeftButton;
 	private JoystickButton shooterLeftTrigger;
-	private JoystickButton cannonLeftButton;
+	
 	private DPadButton shooterDPadUp;
 	private DPadButton shooterDPadDown;
 	private DPadButton shooterDPadLeft;
@@ -54,7 +60,7 @@ public class OI {
 		JoystickButton a = new JoystickButton(logitechJoystick, 2);
 		JoystickButton b = new JoystickButton(logitechJoystick, 3);
 		JoystickButton y = new JoystickButton(logitechJoystick, 4);
-//		JoystickButton back = new JoystickButton(logitechJoystick, 9);
+		JoystickButton back = new JoystickButton(logitechJoystick, 9);
 //		JoystickButton start = new JoystickButton(logitechJoystick, 10);
 		logitechRightTrigger = new JoystickButton(logitechJoystick, 8);
 		logitechLeftTrigger = new JoystickButton(logitechJoystick, 7);
@@ -73,11 +79,13 @@ public class OI {
 		dpadLeft = new DPadButton(new Point(-1, 0), logitechJoystick);
 		shooterRightTrigger = new JoystickButton(shooterJoystick, 8);
 		shooterLeftTrigger = new JoystickButton(shooterJoystick, 7);
-		cannonLeftButton = new JoystickButton(logitechJoystick, 5);
-		
+		shooterLeftButton = new JoystickButton(shooterJoystick, 5);
+		shooterRightButton = new JoystickButton(shooterJoystick, 6);
+		JoystickButton shooterBack = new JoystickButton(shooterJoystick, 9);
+
 		// Connect the buttons to commands
 		logitechRightTrigger.whenPressed(new MoveArmsDown());
-		logitechRightButton.whileHeld(new MoveArmsUp());
+		logitechRightButton.whenPressed(new MoveArmsUp());
 		logitechLeftTrigger.whileHeld(new EnableflatIron());
 
 		dpadRight.whenPressed(new ChevalDeFries());
@@ -86,17 +94,21 @@ public class OI {
 		dpadUp.whenPressed(new DriveStraight(2000, 0.75));
 		
 		a.whenPressed(new TankDriveWithJoystick());
-		x.whenPressed(new TurnRobot((short)90));
+		x.whenPressed(new TurnRobot((short)-90));
+		back.whenPressed(new MoveArmsDownManual());
 		
-		logitechLeftButton.whileHeld(new ResetArmPosition());
-		cannonLeftButton.whileHeld(new ResetCannonPosition());
+		shooterRightButton.whileHeld(new ResetCannonPosition());
+		shooterLeftButton.whileHeld(new MoveArmsUpManual());
+		shooterLeftTrigger.whileHeld(new MoveArmsDownManual());
 		shooterY.whileHeld(new RunShooterMotor());
+		shooterX.whileHeld(new MoveCannonUp());
 		shooterA.whileHeld(new Chomp());
 		shooterRightTrigger.whenPressed(new FireCannon());
-		shooterDPadUp.whenPressed(new MoveAndHoldCannonTopPosition());
+		shooterDPadUp.whenPressed(new MoveAndHoldCannonMiddlePosition());
 		shooterDPadDown.whenPressed(new MoveCannonToBottomPosition());
 		shooterDPadRight.whenPressed(new MoveAndHoldCannonMiddlePosition());
 		shooterDPadLeft.whenPressed(new MoveAndHoldCannonMiddlePosition());
+		shooterBack.whenPressed(new StopCannonHold());
 	}
 
 	public Joystick getJoystick() {

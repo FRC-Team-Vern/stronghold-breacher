@@ -13,15 +13,15 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Cannon extends Subsystem {
 
 	CANTalon cannonLiftMotor;
-	public static final int maxEncoderPosition = 700;
-	public static final int topEncoderPosition = 650;
-	public static final int middleEncoderPosition = 480;
+	public static final int maxEncoderPosition = 600;
+	public static final int topEncoderPosition = 540;
+	public static final int middleEncoderPosition = 340;
 	public static final int bottomEncoderPosition = 0;
-	private static final int bufferEncoderPosition = 50;
+	private static final int bufferEncoderPosition = 80;
 	// top and middle encoder positions should be more than 2x buffer distance apart
 	
 	public static final double cannonLiftMotorPower = 0.75;
-	public static final double cannonDownSlowMotorPower = 0.25;
+	public static final double cannonDownSlowMotorPower = 0.10;
 	public static final double cannonDownQuickMotorPower = 0.45;
 	public static final int holdCannonTolerance = 10;
 	
@@ -52,15 +52,15 @@ public class Cannon extends Subsystem {
 	}
 	
 	public void moveCannonUp() {
-		cannonLiftMotor.set(cannonLiftMotorPower);
+		cannonLiftMotor.set(-1.0 * cannonLiftMotorPower);
 	}
 	
 	public void moveCannonDownSlow() {
-		cannonLiftMotor.set(cannonDownSlowMotorPower);
+		cannonLiftMotor.set(-1.0*cannonDownSlowMotorPower);
 	}
 	
 	public void moveCannonDownQuick() {
-		cannonLiftMotor.set(-1.0*cannonDownQuickMotorPower);
+		cannonLiftMotor.set(cannonDownQuickMotorPower);
 	}
 	
 	public void moveCannonByPower(double power) {

@@ -9,8 +9,8 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
  * soda to the box.
  */
 public class Autonomous extends CommandGroup {
-    public Autonomous(CommandGroup autonomousPhase1, CommandGroup autonomousPhase2) {
-    	addSequential(autonomousPhase1);
-        addSequential(autonomousPhase2);
+    public Autonomous(Command command, Command command2) {
+    	addSequential(command);
+        addSequential(command2);
     }
 }

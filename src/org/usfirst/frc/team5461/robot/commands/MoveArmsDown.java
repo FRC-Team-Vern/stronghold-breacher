@@ -24,6 +24,7 @@ public class MoveArmsDown extends Command {
 
 	@Override
 	protected boolean isFinished() {
+//		return Robot.arms.getBottomArmSwitchValue();
 		return Robot.arms.isAtBottomPosition();
 	}
 

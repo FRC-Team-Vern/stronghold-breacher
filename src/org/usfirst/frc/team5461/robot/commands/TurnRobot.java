@@ -15,7 +15,6 @@ public class TurnRobot extends Command {
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
 		requires(Robot.flatIron);
-		requires(Robot.drivetrain);
 		turnRobotDegrees = degrees;
 	}
 
@@ -38,14 +37,18 @@ public class TurnRobot extends Command {
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
 		boolean is_finished = false;
+		double imuZValue = Robot.flatIron.getImuZValue();
+		if (_startingImuZValue == 0 && 0 == imuZValue) {
+			return false;
+		}
 		if (turnRobotDegrees < 0){
-			if ((_startingImuZValue - Robot.flatIron.getImuZValue()) >= turnRobotDegrees){
+			if ((_startingImuZValue - imuZValue) >= turnRobotDegrees){
 				is_finished = true;
 			}else{
 				is_finished = false;
 			}
 		}else if(turnRobotDegrees > 0){
-			if ((Robot.flatIron.getImuZValue() - _startingImuZValue) >= turnRobotDegrees){
+			if ((imuZValue - _startingImuZValue) <= turnRobotDegrees){
 				is_finished = true;
 			}else{
 				is_finished = false;

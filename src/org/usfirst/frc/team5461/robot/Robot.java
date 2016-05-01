@@ -20,6 +20,7 @@ import org.usfirst.frc.team5461.robot.commands.OuterWorksPosition2;
 import org.usfirst.frc.team5461.robot.commands.OuterWorksPosition3;
 import org.usfirst.frc.team5461.robot.commands.OuterWorksPosition4;
 import org.usfirst.frc.team5461.robot.commands.OuterWorksPosition5;
+import org.usfirst.frc.team5461.robot.commands.StopCannonHold;
 import org.usfirst.frc.team5461.robot.subsystems.Arms;
 import org.usfirst.frc.team5461.robot.subsystems.Cannon;
 import org.usfirst.frc.team5461.robot.subsystems.DriveTrain;
@@ -68,11 +69,13 @@ public class Robot extends IterativeRobot {
     	drivetrain.reset();
 		oi = new OI();
 
-    	autoChooserPhase1.addDefault("Group 1 (Pick up arms)", new OuterWorksGroup1());
+    	autoChooserPhase1.addDefault("Nothing", new StopCannonHold());
+    	autoChooserPhase1.addObject("Group 1 (Pick up arms)", new OuterWorksGroup1());
     	autoChooserPhase1.addObject("Group 2 (Leave arms down)", new OuterWorksGroup2());
     	
     	autoChooserPhase2 = new SendableChooser();
-    	autoChooserPhase2.addDefault("Position 5", new OuterWorksPosition5());
+    	autoChooserPhase2.addDefault("Nothing", new StopCannonHold());
+    	autoChooserPhase2.addObject("Position 5", new OuterWorksPosition5());
     	autoChooserPhase2.addObject("Position 4", new OuterWorksPosition4());
     	autoChooserPhase2.addObject("Position 3", new OuterWorksPosition3());
     	autoChooserPhase2.addObject("Position 2", new OuterWorksPosition2());
@@ -89,11 +92,13 @@ public class Robot extends IterativeRobot {
 
     @Override
 	public void autonomousInit() {
+    	arms.resetEncoder();
+    	cannon.resetEncoder();
         // schedule the autonomous command (example)
     	if (autonomousCommand == null) {
     	autonomousCommand = 
-    			new Autonomous((CommandGroup)autoChooserPhase1.getSelected(),
-    					(CommandGroup)autoChooserPhase2.getSelected());
+    			new Autonomous((Command)autoChooserPhase1.getSelected(),
+    					(Command)autoChooserPhase2.getSelected());
     	}
         if (autonomousCommand != null) autonomousCommand.start();
     }
@@ -113,6 +118,9 @@ public class Robot extends IterativeRobot {
         // continue until interrupted by another command, remove
         // this line or comment it out.
         if (autonomousCommand != null) autonomousCommand.cancel();
+        new StopCannonHold().start();
+        arms.resetEncoder();
+        cannon.resetEncoder();
     }
 
     /**

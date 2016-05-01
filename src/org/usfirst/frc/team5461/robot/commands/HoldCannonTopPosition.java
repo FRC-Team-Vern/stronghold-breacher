@@ -52,6 +52,6 @@ public class HoldCannonTopPosition extends PIDCommand {
 
 	@Override
 	protected void usePIDOutput(double output) {
-		Robot.cannon.moveCannonByPower(output);
+		Robot.cannon.moveCannonByPower(-1.0*output);
 	}
 }

@@ -6,9 +6,11 @@ public class OuterWorksGroup1 extends CommandGroup{
 	public OuterWorksGroup1(){
 
 		addSequential (new MoveArmsUp());
-		addParallel(new EnableflatIron());
-		addSequential(new MoveAndHoldCannonTopPosition());
-		addParallel(new DriveStraightAndStopCannonHold());
+		//addSequential(new EnableflatIron());
+		//addSequential(new MoveAndHoldCannonTopTimer());
+		//addSequential(new MoveCannonToTopPosition());
+		addParallel(new DriveStraight(800, .75));
+		//addSequential(new StopCannonHold());
 		
 
 

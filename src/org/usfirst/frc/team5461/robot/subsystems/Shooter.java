@@ -26,11 +26,11 @@ public class Shooter extends Subsystem {
     }
     
 	public void turnMotorIntoChassis() {
-		shooterMotor.set(-shooterInMotorPower);
+		shooterMotor.set(shooterInMotorPower);
 	}
 	
 	public void turnMotorOutOfChassis() {
-		shooterMotor.set(shooterOutMotorPower);
+		shooterMotor.set(-1.0*shooterOutMotorPower);
 	}
 
 	public void stopShooterMotor() {

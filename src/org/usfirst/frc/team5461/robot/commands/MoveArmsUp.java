@@ -22,6 +22,7 @@ public class MoveArmsUp extends Command {
 
 	@Override
 	protected boolean isFinished() {
+//		return Robot.arms.getTopArmSwitchValue();
 		return Robot.arms.isAtTopPosition();
 	}
 
