@@ -32,8 +32,7 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
  */
 public class OI {
 
-	private Joystick logitechJoystick = new Joystick(1);
-	private Joystick shooterJoystick = new Joystick(2);
+	private Joystick joystick = new Joystick(0);
 	
 	private JoystickButton logitechRightTrigger;
 	private JoystickButton logitechLeftTrigger;
@@ -55,6 +54,8 @@ public class OI {
 	
 	public OI() {
 
+		// TODO: Fix to single joystick
+		/*
 		// Create some buttons
 		JoystickButton x = new JoystickButton(logitechJoystick, 1);
 		JoystickButton a = new JoystickButton(logitechJoystick, 2);
@@ -82,6 +83,7 @@ public class OI {
 		shooterLeftButton = new JoystickButton(shooterJoystick, 5);
 		shooterRightButton = new JoystickButton(shooterJoystick, 6);
 		JoystickButton shooterBack = new JoystickButton(shooterJoystick, 9);
+		*/
 
 		// Connect the buttons to commands
 		logitechRightTrigger.whenPressed(new MoveArmsDown());
@@ -93,6 +95,8 @@ public class OI {
 		dpadLeft.whenPressed(new OuterWorksGroup2());
 		dpadUp.whenPressed(new DriveStraight(2000, 0.75));
 		
+		// TODO: Fix to single joystick
+		/*
 		a.whenPressed(new TankDriveWithJoystick());
 		x.whenPressed(new TurnRobot((short)-90));
 		back.whenPressed(new MoveArmsDownManual());
@@ -109,10 +113,11 @@ public class OI {
 		shooterDPadRight.whenPressed(new MoveAndHoldCannonMiddlePosition());
 		shooterDPadLeft.whenPressed(new MoveAndHoldCannonMiddlePosition());
 		shooterBack.whenPressed(new StopCannonHold());
+		*/
 	}
 
 	public Joystick getJoystick() {
-		return logitechJoystick;
+		return joystick;
 	}
 
 	public Point getDPadValue(Joystick joystick) {
