@@ -25,9 +25,11 @@ public class DriveStraight extends Command {
 	private static final double kP_real = .001;
 	private static final double kI_real = 0.00;
 	private static final double kD_real = 0;
+	private double m_power;
     
     public DriveStraight(double distance, double power) {
         requires(Robot.drivetrain);
+        m_power = power;
         pid = new PIDController(kP_real, kI_real, 0,
                 new PIDSource() { 
             PIDSourceType m_sourceType = PIDSourceType.kDisplacement;
@@ -38,7 +40,6 @@ public class DriveStraight extends Command {
 				@Override
 				public void setPIDSourceType(PIDSourceType pidSource) {
 					m_sourceType = pidSource;
-					
 				}
 
 				@Override
@@ -56,6 +57,7 @@ public class DriveStraight extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	// Get everything in a safe starting state.
+    	System.out.format("Driving Straight for distance: %f at max power: %f\n", pid.getSetpoint(), m_power);
         Robot.drivetrain.reset();
     	pid.reset();
         pid.enable();
@@ -77,6 +79,7 @@ public class DriveStraight extends Command {
     	pid.disable();
         Robot.drivetrain.drive(0, 0);
         Robot.flatIron.disable();
+        System.out.format("Finished Driving Straight for distance: %f at max power: %f\n", pid.getSetpoint(), m_power);
     }
 
     // Called when another command which requires one or more of the same

@@ -1,5 +1,6 @@
 package org.usfirst.frc.team5461.robot.commands;
 
+import org.usfirst.frc.team5461.robot.CommandLock;
 import org.usfirst.frc.team5461.robot.Robot;
 import org.usfirst.frc.team5461.robot.subsystems.Cannon;
 
@@ -11,8 +12,11 @@ import edu.wpi.first.wpilibj.command.PIDCommand;
  */
 public class HoldCannonMiddlePosition extends PIDCommand {
 
-    public HoldCannonMiddlePosition() {
+	private CommandLock m_commandLock;
+	
+    public HoldCannonMiddlePosition(CommandLock commandLock) {
     	super(Cannon.kP_real_hold, Cannon.kI_real_hold, Cannon.kD_real_hold);
+    	this.m_commandLock = commandLock;
         requires(Robot.cannon);
         setInputRange(0, Cannon.maxEncoderPosition);
     }
@@ -31,7 +35,7 @@ public class HoldCannonMiddlePosition extends PIDCommand {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        return !m_commandLock.isLocked();
     }
 
     // Called once after isFinished returns true

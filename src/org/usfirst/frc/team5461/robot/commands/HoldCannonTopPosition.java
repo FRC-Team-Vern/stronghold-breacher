@@ -1,5 +1,6 @@
 package org.usfirst.frc.team5461.robot.commands;
 
+import org.usfirst.frc.team5461.robot.CommandLock;
 import org.usfirst.frc.team5461.robot.Robot;
 import org.usfirst.frc.team5461.robot.subsystems.Cannon;
 
@@ -11,8 +12,11 @@ import edu.wpi.first.wpilibj.command.PIDCommand;
  */
 public class HoldCannonTopPosition extends PIDCommand {
 	
-    public HoldCannonTopPosition() {
+	private CommandLock m_isLocked;
+	
+    public HoldCannonTopPosition(CommandLock isLocked) {
     	super(Cannon.kP_real_hold, Cannon.kI_real_hold, Cannon.kD_real_hold);
+    	this.m_isLocked = isLocked;
         requires(Robot.cannon);
         setInputRange(0, Cannon.maxEncoderPosition);
     }
@@ -31,7 +35,7 @@ public class HoldCannonTopPosition extends PIDCommand {
 
     // This command never truly finishes. Use the StopCannonHold command to break out of this.
     protected boolean isFinished() {
-        return false;
+        return !m_isLocked.isLocked();
     }
 
     // Called once after isFinished returns true

@@ -5,20 +5,16 @@ import org.usfirst.frc.team5461.robot.commands.Chomp;
 import org.usfirst.frc.team5461.robot.commands.DriveStraight;
 import org.usfirst.frc.team5461.robot.commands.EnableflatIron;
 import org.usfirst.frc.team5461.robot.commands.FireCannon;
-import org.usfirst.frc.team5461.robot.commands.MoveAndHoldCannonMiddlePosition;
-import org.usfirst.frc.team5461.robot.commands.MoveAndHoldCannonTopPosition;
 import org.usfirst.frc.team5461.robot.commands.MoveArmsDown;
 import org.usfirst.frc.team5461.robot.commands.MoveArmsDownManual;
 import org.usfirst.frc.team5461.robot.commands.MoveArmsUp;
 import org.usfirst.frc.team5461.robot.commands.MoveArmsUpManual;
-import org.usfirst.frc.team5461.robot.commands.MoveCannonToBottomPosition;
 import org.usfirst.frc.team5461.robot.commands.MoveCannonUp;
 import org.usfirst.frc.team5461.robot.commands.OuterWorksGroup1;
 import org.usfirst.frc.team5461.robot.commands.OuterWorksGroup2;
 import org.usfirst.frc.team5461.robot.commands.ResetCannonPosition;
 import org.usfirst.frc.team5461.robot.commands.RunShooterMotor;
 import org.usfirst.frc.team5461.robot.commands.StopCannonHold;
-import org.usfirst.frc.team5461.robot.commands.StopShooterMotors;
 import org.usfirst.frc.team5461.robot.commands.TankDriveWithJoystick;
 import org.usfirst.frc.team5461.robot.commands.TurnRobot;
 
@@ -104,10 +100,10 @@ public class OI {
 		shooterX.whileHeld(new MoveCannonUp());
 		shooterA.whileHeld(new Chomp());
 		shooterRightTrigger.whenPressed(new FireCannon());
-		shooterDPadUp.whenPressed(new MoveAndHoldCannonMiddlePosition());
-		shooterDPadDown.whenPressed(new MoveCannonToBottomPosition());
-		shooterDPadRight.whenPressed(new MoveAndHoldCannonMiddlePosition());
-		shooterDPadLeft.whenPressed(new MoveAndHoldCannonMiddlePosition());
+//		shooterDPadUp.whenPressed(new MoveAndHoldCannonMiddlePosition());
+//		shooterDPadDown.whenPressed(new MoveCannonToBottomPosition());
+//		shooterDPadRight.whenPressed(new MoveAndHoldCannonMiddlePosition());
+//		shooterDPadLeft.whenPressed(new MoveAndHoldCannonMiddlePosition());
 		shooterBack.whenPressed(new StopCannonHold());
 	}
 
