@@ -23,7 +23,7 @@ public class HoldCannonTopPosition extends PIDCommand {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	System.out.println("HoldCannonTopPosition Initialized");
+    	System.out.println("Initialize HoldCannonTopPosition:");
     	getPIDController().reset();
     	setSetpoint(Cannon.topEncoderPosition);
     	getPIDController().enable();
@@ -35,7 +35,11 @@ public class HoldCannonTopPosition extends PIDCommand {
 
     // This command never truly finishes. Use the StopCannonHold command to break out of this.
     protected boolean isFinished() {
-        return !m_isLocked.isLocked();
+    	boolean isFinished = !m_isLocked.isLocked();
+    	if (isFinished) {
+    		System.out.println("Finish HoldCannonTopPosition:");
+    	}
+        return isFinished;
     }
 
     // Called once after isFinished returns true

@@ -1,4 +1,6 @@
 package org.usfirst.frc.team5461.robot.commands;
+import javax.swing.plaf.synth.SynthSeparatorUI;
+
 import org.usfirst.frc.team5461.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -12,7 +14,7 @@ public class MoveArmsUp extends Command {
 
 	@Override
 	protected void initialize() {
-		/* no op */
+		System.out.println("Initialize MoveArmsUp:");
 	}
 
 	@Override
@@ -22,12 +24,18 @@ public class MoveArmsUp extends Command {
 
 	@Override
 	protected boolean isFinished() {
-//		return Robot.arms.getTopArmSwitchValue();
-		return Robot.arms.isAtTopPosition();
+		boolean isAtTopPosition = Robot.arms.isAtTopPosition();
+		if (isAtTopPosition) {
+			System.out.println("MoveArmsUp: is at top position.");
+		} else {
+			System.out.println("MoveArmsUp: not at top position.");
+		}
+		return isAtTopPosition;
 	}
 
 	@Override
 	protected void end() {
+		System.out.println("End MoveArmsUp:");
 		Robot.arms.armsStop();	
 	}
 

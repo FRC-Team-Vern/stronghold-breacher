@@ -6,7 +6,7 @@ public class OuterWorksPosition5 extends CommandGroup {
 	
 	public OuterWorksPosition5() {
 		// TODO: Fix if working
-//		addSequential (new DriveStraight(400, 0.75));
+		addSequential (new DriveStraight(400, 0.75));
 //		addSequential (new TurnRobot((short)-15));
 //		addSequential (new DriveStraight(400, 0.75));
 //		addSequential (new MoveCannonToMiddlePosition());

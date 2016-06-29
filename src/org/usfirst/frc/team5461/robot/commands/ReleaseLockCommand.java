@@ -15,6 +15,7 @@ public class ReleaseLockCommand extends Command {
 	@Override
 	protected void initialize() {
 		// Just release the lock right out of the gate.
+		System.out.println("Releasing lock:");
 		m_commandLock.setLocked(false);
 	}
 

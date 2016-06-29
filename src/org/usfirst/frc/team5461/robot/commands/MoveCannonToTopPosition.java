@@ -19,7 +19,7 @@ public class MoveCannonToTopPosition extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	System.out.println("MoveCannonToTopPosition Initialized");
+    	System.out.println("Initialize MoveCannonToTopPosition:");
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -43,6 +43,7 @@ public class MoveCannonToTopPosition extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
+    	System.out.println("End MoveCannonToTopPosition:");
     	Robot.cannon.stopCannon();
     }
 
