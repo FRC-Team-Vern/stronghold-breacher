@@ -21,6 +21,9 @@ import org.usfirst.frc.team5461.robot.commands.StopCannonHold;
 import org.usfirst.frc.team5461.robot.commands.StopShooterMotors;
 import org.usfirst.frc.team5461.robot.commands.TankDriveWithJoystick;
 import org.usfirst.frc.team5461.robot.commands.TurnRobot;
+import org.usfirst.frc.team5461.robot.commands.CycleJoystickButton;
+import java.awt.MultipleGradientPaint.CycleMethod;
+
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
@@ -46,6 +49,7 @@ public class OI {
 	private JoystickButton shooterRightButton;
 	private JoystickButton shooterLeftButton;
 	private JoystickButton shooterLeftTrigger;
+	private CycleJoystickButton cycleShooter;
 	
 	private DPadButton shooterDPadUp;
 	private DPadButton shooterDPadDown;
@@ -94,6 +98,9 @@ public class OI {
 		dpadDown.whenPressed(new OuterWorksGroup1());
 		dpadLeft.whenPressed(new OuterWorksGroup2());
 		dpadUp.whenPressed(new DriveStraight(2000, 0.75));
+		
+		//TODO: Replace joystick with actual joystick.
+		cycleShooter = new CycleJoystickButton(joystick, 7);
 		
 		// TODO: Fix to single joystick
 		/*
