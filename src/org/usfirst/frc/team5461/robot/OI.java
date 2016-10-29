@@ -11,7 +11,10 @@ import org.usfirst.frc.team5461.robot.commands.MoveArmsDown;
 import org.usfirst.frc.team5461.robot.commands.MoveArmsDownManual;
 import org.usfirst.frc.team5461.robot.commands.MoveArmsUp;
 import org.usfirst.frc.team5461.robot.commands.MoveArmsUpManual;
+import org.usfirst.frc.team5461.robot.commands.MoveCannonToBottomGroup;
 import org.usfirst.frc.team5461.robot.commands.MoveCannonToBottomPosition;
+import org.usfirst.frc.team5461.robot.commands.MoveCannonToMiddleGroup;
+import org.usfirst.frc.team5461.robot.commands.MoveCannonToTopGroup;
 import org.usfirst.frc.team5461.robot.commands.MoveCannonUp;
 import org.usfirst.frc.team5461.robot.commands.OuterWorksGroup1;
 import org.usfirst.frc.team5461.robot.commands.OuterWorksGroup2;
@@ -23,11 +26,12 @@ import org.usfirst.frc.team5461.robot.commands.TankDriveWithJoystick;
 import org.usfirst.frc.team5461.robot.commands.TurnRobot;
 import org.usfirst.frc.team5461.robot.commands.CycleJoystickButton;
 import java.awt.MultipleGradientPaint.CycleMethod;
-
+import java.util.Vector;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -101,8 +105,12 @@ public class OI {
 		
 		//TODO: Replace joystick with actual joystick.
 		cycleShooter = new CycleJoystickButton(joystick, 7);
+		Vector<CommandGroup> cycles = new Vector<CommandGroup>();
+		cycles.add(new MoveCannonToBottomGroup());
+		cycles.add(new MoveCannonToMiddleGroup());
+		cycles.add(new MoveCannonToTopGroup());
+		cycleShooter.cycleWhenPressed(cycles);
 		
-		// TODO: Fix to single joystick
 		/*
 		a.whenPressed(new TankDriveWithJoystick());
 		x.whenPressed(new TurnRobot((short)-90));
@@ -119,7 +127,8 @@ public class OI {
 		shooterDPadDown.whenPressed(new MoveCannonToBottomPosition());
 		shooterDPadRight.whenPressed(new MoveAndHoldCannonMiddlePosition());
 		shooterDPadLeft.whenPressed(new MoveAndHoldCannonMiddlePosition());
-		shooterBack.whenPressed(new StopCannonHold());
+		shooterBack.whenPressed(new StopCannonHold());	
+		
 		*/
 	}
 
