@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj.command.PIDSubsystem;
  *
  */
 public class DriveTrainRight extends PIDSubsystem {
-	private CANTalon front_left_motor, back_left_motor;
+	private CANTalon front_right_motor, back_right_motor;
     // Initialize your subsystem here
     public DriveTrainRight() {
     	super(DriveTrainContract.kP_real,DriveTrainContract.kI_real,DriveTrainContract.kD_real);
@@ -21,16 +21,18 @@ public class DriveTrainRight extends PIDSubsystem {
 		setOutputRange(DriveTrainContract.k_ouptutMin, DriveTrainContract.k_outputMax);
 		
 		//Front motor
-		front_left_motor = new CANTalon(8);
-		front_left_motor.setInverted(true);
-		front_left_motor.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
-		front_left_motor.configEncoderCodesPerRev(128);
+		front_right_motor = new CANTalon(9);
+
+		front_right_motor.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
+		front_right_motor.configEncoderCodesPerRev(128);
+		front_right_motor.setEncPosition(0);
 		
 		//Back motor
-		back_left_motor = new CANTalon(11);
-		back_left_motor.setInverted(true);
-		back_left_motor.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
-		back_left_motor.configEncoderCodesPerRev(128);
+		back_right_motor = new CANTalon(10);
+//		back_right_motor.setInverted(true);
+//		back_right_motor.setExpiration(0.1);
+		back_right_motor.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
+		back_right_motor.configEncoderCodesPerRev(128);
     	
 		PIDController controller = getPIDController();
 		
@@ -62,11 +64,11 @@ public class DriveTrainRight extends PIDSubsystem {
 	}
     
     public void drive(Joystick joy) {
-		Double leftVal=-joy.getRawAxis(Joystick.AxisType.kY.value);
-		leftVal=applyDeadband(leftVal);
+    	Double rightVal=-joy.getRawAxis(Joystick.AxisType.kTwist.value);
+		rightVal=applyDeadband(rightVal);
 		
 		
-		drive(leftVal);
+		drive(rightVal);
 	}
     
     private Double applyDeadband(Double val) {
@@ -86,7 +88,7 @@ public class DriveTrainRight extends PIDSubsystem {
     
     protected double returnPIDInput() {
      
-    	return getAverageSpeed(front_left_motor, back_left_motor);
+    	return getAverageSpeed(front_right_motor, back_right_motor);
     }
     
     protected void usePIDOutput(double output) {
