@@ -92,24 +92,26 @@ public class OI {
 		shooterRightButton = new JoystickButton(shooterJoystick, 6);
 		JoystickButton shooterBack = new JoystickButton(shooterJoystick, 9);
 		*/
-
+		JoystickButton b = new JoystickButton(joystick, 3);
 		// Connect the buttons to commands
-		logitechRightTrigger.whenPressed(new MoveArmsDown());
-		logitechRightButton.whenPressed(new MoveArmsUp());
-		logitechLeftTrigger.whileHeld(new EnableflatIron());
-
-		dpadRight.whenPressed(new ChevalDeFries());
-		dpadDown.whenPressed(new OuterWorksGroup1());
-		dpadLeft.whenPressed(new OuterWorksGroup2());
-		dpadUp.whenPressed(new DriveStraight(2000, 0.75));
+//		logitechRightTrigger.whenPressed(new MoveArmsDown());
+//		logitechRightButton.whenPressed(new MoveArmsUp());
+//		logitechLeftTrigger.whileHeld(new EnableflatIron());
+		
+		b.whileHeld(new MoveCannonUp());
+		
+//		dpadRight.whenPressed(new ChevalDeFries());
+//		dpadDown.whenPressed(new OuterWorksGroup1());
+//		dpadLeft.whenPressed(new OuterWorksGroup2());
+//		dpadUp.whenPressed(new DriveStraight(2000, 0.75));
 		
 		//TODO: Replace joystick with actual joystick.
-		cycleShooter = new CycleJoystickButton(joystick, 7);
-		Vector<CommandGroup> cycles = new Vector<CommandGroup>();
-		cycles.add(new MoveCannonToBottomGroup());
-		cycles.add(new MoveCannonToMiddleGroup());
-		cycles.add(new MoveCannonToTopGroup());
-		cycleShooter.cycleWhenPressed(cycles);
+//		cycleShooter = new CycleJoystickButton(joystick, 7);
+//		Vector<CommandGroup> cycles = new Vector<CommandGroup>();
+//		cycles.add(new MoveCannonToBottomGroup());
+//		cycles.add(new MoveCannonToMiddleGroup());
+//		cycles.add(new MoveCannonToTopGroup());
+//		cycleShooter.cycleWhenPressed(cycles);
 		
 		/*
 		a.whenPressed(new TankDriveWithJoystick());
