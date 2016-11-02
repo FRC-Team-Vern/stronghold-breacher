@@ -9,7 +9,8 @@ import edu.wpi.first.wpilibj.command.Command;
 public class TankDriveWithJoystick extends Command {
     
     public TankDriveWithJoystick() {
-        requires(Robot.drivetrain);
+        requires(Robot.driveTrainRight);
+        requires(Robot.driveTrainLeft);
     }
 
     // Called just before this Command runs the first time
@@ -17,7 +18,8 @@ public class TankDriveWithJoystick extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        Robot.drivetrain.drive(Robot.oi.getJoystick());
+        Robot.driveTrainRight.drive(Robot.oi.getJoystick());
+        Robot.driveTrainLeft.drive(Robot.oi.getJoystick());
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -27,7 +29,8 @@ public class TankDriveWithJoystick extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-        Robot.drivetrain.drive(0, 0);
+        Robot.driveTrainLeft.drive(0);
+        Robot.driveTrainRight.drive(0);
     }
 
     // Called when another command which requires one or more of the same

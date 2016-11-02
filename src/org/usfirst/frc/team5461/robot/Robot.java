@@ -24,6 +24,8 @@ import org.usfirst.frc.team5461.robot.commands.StopCannonHold;
 import org.usfirst.frc.team5461.robot.subsystems.Arms;
 import org.usfirst.frc.team5461.robot.subsystems.Cannon;
 import org.usfirst.frc.team5461.robot.subsystems.DriveTrain;
+import org.usfirst.frc.team5461.robot.subsystems.DriveTrainLeft;
+import org.usfirst.frc.team5461.robot.subsystems.DriveTrainRight;
 import org.usfirst.frc.team5461.robot.subsystems.FlatIron;
 import org.usfirst.frc.team5461.robot.subsystems.Shooter;
 import org.usfirst.frc.team5461.robot.subsystems.ShooterServos;
@@ -38,7 +40,8 @@ import org.usfirst.frc.team5461.robot.subsystems.ShooterServos;
  */
 public class Robot extends IterativeRobot {
 	public static FlatIron flatIron;
-	public static DriveTrain drivetrain;
+	public static DriveTrainRight driveTrainRight;
+	public static DriveTrainLeft driveTrainLeft;
 	public static OI oi;
 	public static Arms arms;
 	public static Cannon cannon;
@@ -65,8 +68,11 @@ public class Robot extends IterativeRobot {
     	shooterServos = new ShooterServos();
     	flatIron= new FlatIron();
 		arms = new Arms();
-    	drivetrain = new DriveTrain();
-    	drivetrain.reset();
+    	driveTrainLeft = new DriveTrainLeft();
+    	driveTrainLeft.reset();
+    	driveTrainRight = new DriveTrainRight();
+    	driveTrainRight.reset();
+    	
 		oi = new OI();
 
     	autoChooserPhase1.addDefault("Nothing", new StopCannonHold());
@@ -150,7 +156,8 @@ public class Robot extends IterativeRobot {
     }
     
     private void log() {
-        drivetrain.log();
+        driveTrainRight.log();
+        driveTrainLeft.log();
         flatIron.log();
     	arms.log();
     	cannon.log();

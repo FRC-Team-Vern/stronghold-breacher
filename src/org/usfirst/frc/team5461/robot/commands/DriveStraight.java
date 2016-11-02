@@ -27,12 +27,14 @@ public class DriveStraight extends Command {
 	private static final double kD_real = 0;
     
     public DriveStraight(double distance, double power) {
-        requires(Robot.drivetrain);
+        requires(Robot.driveTrainLeft);
+        requires(Robot.driveTrainRight);
         pid = new PIDController(kP_real, kI_real, 0,
                 new PIDSource() { 
             PIDSourceType m_sourceType = PIDSourceType.kDisplacement;
             public double pidGet() {
-                    return Robot.drivetrain.getDistance();
+                    return ((Robot.driveTrainLeft.getDistance() + Robot.driveTrainRight.getDistance())*0.5);
+                   
                 }
 
 				@Override
@@ -47,7 +49,8 @@ public class DriveStraight extends Command {
 				}},
                 new PIDOutput() { public void pidWrite(double d) {
                 	double newValue = d * power;
-                    Robot.drivetrain.drive(newValue, newValue);
+                    Robot.driveTrainRight.drive(newValue);
+                    Robot.driveTrainLeft.drive(newValue);
                 }});
         pid.setAbsoluteTolerance(100.0);
         pid.setSetpoint(distance);
@@ -56,14 +59,15 @@ public class DriveStraight extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	// Get everything in a safe starting state.
-        Robot.drivetrain.reset();
+        Robot.driveTrainLeft.reset();
+        Robot.driveTrainRight.reset();
     	pid.reset();
         pid.enable();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	SmartDashboard.putNumber("Drive Straight Distance", Robot.drivetrain.getDistance());
+    	SmartDashboard.putNumber("Drive Straight Distance", ((Robot.driveTrainLeft.getDistance() + Robot.driveTrainRight.getDistance())*0.5));
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -75,7 +79,8 @@ public class DriveStraight extends Command {
     protected void end() {
     	// Stop PID and the wheels
     	pid.disable();
-        Robot.drivetrain.drive(0, 0);
+        Robot.driveTrainLeft.drive(0);
+        Robot.driveTrainRight.drive(0);
         Robot.flatIron.disable();
     }
 

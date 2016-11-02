@@ -1,6 +1,6 @@
 package org.usfirst.frc.team5461.robot.subsystems;
 
-import org.usfirst.frc.team5461.robot.Robot;
+import org.usfirst.frc.team5461.robot.Robot; 
 import org.usfirst.frc.team5461.robot.commands.TankDriveWithJoystick;
 
 import edu.wpi.first.wpilibj.CANTalon;
@@ -9,10 +9,11 @@ import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.CANTalon.FeedbackDevice;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
  *
  */
-public class DriveTrainRight extends PIDSubsystem {
+public class DriveTrainRight extends PIDRateSubsystem {
 	private CANTalon front_right_motor, back_right_motor;
     // Initialize your subsystem here
     public DriveTrainRight() {
@@ -35,13 +36,24 @@ public class DriveTrainRight extends PIDSubsystem {
 		back_right_motor.configEncoderCodesPerRev(128);
     	
 		PIDController controller = getPIDController();
-		
-		//TODO: Find a way to set source type
-		//	setPIDSourceType(PIDSourceType.kRate);
 		setInputRange(DriveTrainContract.k_inputMin,DriveTrainContract.k_inputMax);
 
 
     }
+    public void reset() {
+		back_right_motor.setEncPosition(0);
+		front_right_motor.setEncPosition(0);
+	}
+    public double getDistance() {
+		return back_right_motor.getEncPosition();
+	}
+    public void log() {	
+		SmartDashboard.putNumber("Right Back Temp", back_right_motor.getTemperature());
+		SmartDashboard.putNumber("Right Front Temp", front_right_motor.getTemperature());
+		SmartDashboard.putNumber("Front Right Distance", front_right_motor.getEncPosition());
+		
+		//SmartDashboard.putData("Drive Train PID", getPIDController());
+	}
     public void drive(double left) {
 		setSetpoint(left);
 		

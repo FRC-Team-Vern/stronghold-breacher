@@ -28,9 +28,11 @@ public class TurnRobot extends Command {
 		SmartDashboard.putNumber("Starting Turn Value", _startingImuZValue);
 		SmartDashboard.putNumber("Current Turn Value", Robot.flatIron.getImuZValue());
 		if (turnRobotDegrees < 0){
-			Robot.drivetrain.drive(-0.5,0.5);
+			Robot.driveTrainLeft.drive(-0.5);
+			Robot.driveTrainRight.drive(0.5);
 		}else if(turnRobotDegrees > 0){
-			Robot.drivetrain.drive(0.5,-0.5);
+			Robot.driveTrainLeft.drive(0.5);
+			Robot.driveTrainRight.drive(-0.5);
 		}
 	}
 
@@ -59,12 +61,14 @@ public class TurnRobot extends Command {
 
 	// Called once after isFinished returns true
 	protected void end() {
-		Robot.drivetrain.stopRobot();
+		Robot.driveTrainLeft.drive(0);
+		Robot.driveTrainRight.drive(0);
 	}
 
 	// Called when another command which requires one or more of the same
 	// subsystems is scheduled to run
 	protected void interrupted() {
-		Robot.drivetrain.stopRobot();
+		Robot.driveTrainLeft.drive(0);
+		Robot.driveTrainRight.drive(0);
 	}
 }

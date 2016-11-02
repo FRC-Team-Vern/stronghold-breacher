@@ -2,7 +2,7 @@ package org.usfirst.frc.team5461.robot;
 
 import org.usfirst.frc.team5461.robot.commands.ChevalDeFries;
 import org.usfirst.frc.team5461.robot.commands.Chomp;
-import org.usfirst.frc.team5461.robot.commands.DriveStraight;
+
 import org.usfirst.frc.team5461.robot.commands.EnableflatIron;
 import org.usfirst.frc.team5461.robot.commands.FireCannon;
 import org.usfirst.frc.team5461.robot.commands.MoveAndHoldCannonMiddlePosition;
@@ -91,7 +91,6 @@ public class OI {
 		dpadRight.whenPressed(new ChevalDeFries());
 		dpadDown.whenPressed(new OuterWorksGroup1());
 		dpadLeft.whenPressed(new OuterWorksGroup2());
-		dpadUp.whenPressed(new DriveStraight(2000, 0.75));
 		
 		a.whenPressed(new TankDriveWithJoystick());
 		x.whenPressed(new TurnRobot((short)-90));

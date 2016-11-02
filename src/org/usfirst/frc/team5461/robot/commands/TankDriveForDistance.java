@@ -9,22 +9,26 @@ public class TankDriveForDistance extends Command {
 	private static final double mDistance=10000;
 	
 	public TankDriveForDistance (){
-		requires(Robot.drivetrain);
+		requires(Robot.driveTrainLeft);
+		requires(Robot.driveTrainRight);
 	}
 	
 	@Override
 	protected void initialize() {
-		Robot.drivetrain.reset();
+		Robot.driveTrainRight.reset();
+		Robot.driveTrainLeft.reset();
 	}
 
 	@Override
 	protected void execute() {
-		Robot.drivetrain.drive(0.5,0.5);
+		Robot.driveTrainLeft.drive(0.5);
+		Robot.driveTrainRight.drive(0.5);
 	}
 
 	@Override
 	protected boolean isFinished() {
-		return Robot.drivetrain.getDistance()>= mDistance;
+		return Robot.driveTrainLeft.getDistance()>= mDistance && 
+				Robot.driveTrainRight.getDistance()>=mDistance;
 	}
 
 	@Override
