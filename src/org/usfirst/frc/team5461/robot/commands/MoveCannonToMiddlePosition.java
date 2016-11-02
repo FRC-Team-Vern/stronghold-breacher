@@ -25,10 +25,10 @@ public class MoveCannonToMiddlePosition extends Command {
     protected void execute() {
     	switch(Robot.cannon.getCurrentPosition()) {
 		case Top:
-			Robot.cannon.moveCannonDownQuick();
+			Robot.cannon.moveCannonUpQuick();
 			break;
 		case Bottom:
-			Robot.cannon.moveCannonUp();
+			Robot.cannon.moveCannonUpQuick();
 			break;
 		case Middle:
 		break;

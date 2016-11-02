@@ -27,7 +27,7 @@ public class MoveCannonToTopPosition extends Command {
     	switch(Robot.cannon.getCurrentPosition()) {
 		case Bottom:
 		case Middle:
-			Robot.cannon.moveCannonUp();
+			Robot.cannon.moveCannonUpQuick();
 			break;
 		case Top:
 		default:

@@ -465,8 +465,7 @@ public class ADIS16448_IMU extends GyroBase implements Gyro, PIDSource, LiveWind
     }
   }
 
-   * {@inheritDoc}
-   */
+ 
   public double getAngle() {
     if (m_spi == null) return 0.0;
     return getYaw();
