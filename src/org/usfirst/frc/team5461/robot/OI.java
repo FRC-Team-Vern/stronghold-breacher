@@ -99,6 +99,7 @@ public class OI {
 //		logitechLeftTrigger.whileHeld(new EnableflatIron());
 		
 		b.whileHeld(new MoveCannonUp());
+		cycleShooter = new CycleJoystickButton(joystick, 8);
 		
 //		dpadRight.whenPressed(new ChevalDeFries());
 //		dpadDown.whenPressed(new OuterWorksGroup1());
@@ -107,11 +108,11 @@ public class OI {
 		
 		//TODO: Replace joystick with actual joystick.
 //		cycleShooter = new CycleJoystickButton(joystick, 7);
-//		Vector<CommandGroup> cycles = new Vector<CommandGroup>();
-//		cycles.add(new MoveCannonToBottomGroup());
-//		cycles.add(new MoveCannonToMiddleGroup());
-//		cycles.add(new MoveCannonToTopGroup());
-//		cycleShooter.cycleWhenPressed(cycles);
+		Vector<CommandGroup> cycles = new Vector<CommandGroup>();
+		cycles.add(new MoveCannonToBottomGroup());
+		cycles.add(new MoveCannonToMiddleGroup());
+		cycles.add(new MoveCannonToTopGroup());
+		cycleShooter.cycleWhenPressed(cycles);
 		
 		/*
 		a.whenPressed(new TankDriveWithJoystick());
