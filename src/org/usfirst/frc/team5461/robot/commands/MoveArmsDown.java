@@ -11,7 +11,7 @@ public class MoveArmsDown extends Command {
 
 	@Override
 	protected void initialize() {
-		// TODO Auto-generated method stub
+		Robot.arms.resetEncoder();
 		
 	}
 

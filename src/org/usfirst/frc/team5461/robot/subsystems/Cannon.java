@@ -13,12 +13,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Cannon extends Subsystem {
 
 	CANTalon cannonLiftMotor;
-	public static final int maxEncoderPosition = 600;
-	public static final int topEncoderPosition = 540;
-	public static final int middleEncoderPosition = 340;
+	public static final int maxEncoderPosition = 850;
+	public static final int topEncoderPosition = 700;
+	public static final int middleEncoderPosition = 500;
 	public static final int bottomEncoderPosition = 0;
 	private static final int bufferEncoderPosition = 80;
-	public static final int mobiusEncoderPosition = 640;
+	public static final int mobiusEncoderPosition = 2000;
 	// top and middle encoder positions should be more than 2x buffer distance apart
 	
 
@@ -80,6 +80,7 @@ public class Cannon extends Subsystem {
 	
 	public void resetEncoder() {
 		cannonLiftMotor.setEncPosition(0);
+		System.out.println("Resetting Cannon Encoder.");
 	}
 	
 	public CannonPosition getCurrentPosition() {	

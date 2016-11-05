@@ -8,8 +8,10 @@ import org.usfirst.frc.team5461.robot.commands.FireCannon;
 import org.usfirst.frc.team5461.robot.commands.MoveAndHoldCannonMiddlePosition;
 import org.usfirst.frc.team5461.robot.commands.MoveAndHoldCannonTopPosition;
 import org.usfirst.frc.team5461.robot.commands.MoveArmsDown;
+import org.usfirst.frc.team5461.robot.commands.MoveArmsDownGroup;
 import org.usfirst.frc.team5461.robot.commands.MoveArmsDownManual;
 import org.usfirst.frc.team5461.robot.commands.MoveArmsUp;
+import org.usfirst.frc.team5461.robot.commands.MoveArmsUpGroup;
 import org.usfirst.frc.team5461.robot.commands.MoveArmsUpManual;
 import org.usfirst.frc.team5461.robot.commands.MoveCannonToBottomGroup;
 import org.usfirst.frc.team5461.robot.commands.MoveCannonToBottomPosition;
@@ -20,6 +22,7 @@ import org.usfirst.frc.team5461.robot.commands.OuterWorksGroup1;
 import org.usfirst.frc.team5461.robot.commands.OuterWorksGroup2;
 import org.usfirst.frc.team5461.robot.commands.ResetCannonPosition;
 import org.usfirst.frc.team5461.robot.commands.RunShooterMotor;
+import org.usfirst.frc.team5461.robot.commands.ShootCannon;
 import org.usfirst.frc.team5461.robot.commands.StopCannonHold;
 import org.usfirst.frc.team5461.robot.commands.StopShooterMotors;
 import org.usfirst.frc.team5461.robot.commands.TankDriveWithJoystick;
@@ -54,7 +57,7 @@ public class OI {
 	private JoystickButton shooterLeftButton;
 	private JoystickButton shooterLeftTrigger;
 	private CycleJoystickButton cycleShooter;
-	
+	private CycleJoystickButton cycleArms;
 	private DPadButton shooterDPadUp;
 	private DPadButton shooterDPadDown;
 	private DPadButton shooterDPadLeft;
@@ -93,27 +96,41 @@ public class OI {
 		JoystickButton shooterBack = new JoystickButton(shooterJoystick, 9);
 		*/
 		JoystickButton b = new JoystickButton(joystick, 3);
+		shooterRightTrigger = new JoystickButton(joystick, 8);
+		JoystickButton shooterY =new JoystickButton(joystick, 4);
+		shooterLeftTrigger = new JoystickButton(joystick, 7);
+		dpadUp = new DPadButton(new Point(0, 1), joystick);
+		dpadDown = new DPadButton(new Point(0, -1), joystick);
 		// Connect the buttons to commands
 //		logitechRightTrigger.whenPressed(new MoveArmsDown());
 //		logitechRightButton.whenPressed(new MoveArmsUp());
 //		logitechLeftTrigger.whileHeld(new EnableflatIron());
 		
 		b.whileHeld(new MoveCannonUp());
-		cycleShooter = new CycleJoystickButton(joystick, 8);
+		shooterLeftTrigger.whileHeld(new Chomp());
+		//cycleShooter = new CycleJoystickButton(joystick, 8);
 		
 //		dpadRight.whenPressed(new ChevalDeFries());
-//		dpadDown.whenPressed(new OuterWorksGroup1());
+		dpadDown.whenPressed(new MoveArmsDown());
 //		dpadLeft.whenPressed(new OuterWorksGroup2());
-//		dpadUp.whenPressed(new DriveStraight(2000, 0.75));
+		dpadUp.whenPressed(new MoveArmsUp());
 		
 		//TODO: Replace joystick with actual joystick.
-//		cycleShooter = new CycleJoystickButton(joystick, 7);
-		Vector<CommandGroup> cycles = new Vector<CommandGroup>();
-		cycles.add(new MoveCannonToBottomGroup());
-		cycles.add(new MoveCannonToMiddleGroup());
-		cycles.add(new MoveCannonToTopGroup());
-		cycleShooter.cycleWhenPressed(cycles);
+		cycleShooter = new CycleJoystickButton(joystick, 5);
+		Vector<CommandGroup> shooterCycles = new Vector<CommandGroup>();
+		shooterCycles.add(new MoveCannonToBottomGroup());
+		shooterCycles.add(new MoveCannonToMiddleGroup());
+		shooterCycles.add(new MoveCannonToTopGroup());
+		cycleShooter.cycleWhenPressed(shooterCycles);
 		
+		cycleArms = new CycleJoystickButton(joystick, 6);
+		Vector<CommandGroup> armCycles = new Vector<CommandGroup>();
+		armCycles.add(new MoveArmsUpGroup());
+		armCycles.add(new MoveArmsDownGroup());
+		cycleArms.cycleWhenPressed(armCycles);
+		
+		shooterRightTrigger.whenPressed(new ShootCannon());
+		shooterY.whileHeld(new RunShooterMotor());
 		/*
 		a.whenPressed(new TankDriveWithJoystick());
 		x.whenPressed(new TurnRobot((short)-90));

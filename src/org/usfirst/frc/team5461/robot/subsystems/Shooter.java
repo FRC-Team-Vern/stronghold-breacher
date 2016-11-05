@@ -12,7 +12,7 @@ public class Shooter extends Subsystem {
 	CANTalon shooterMotor;
 	
 	private static final double shooterInMotorPower = 0.50;
-	private static final double shooterOutMotorPower = 0.75;
+	private static final double shooterOutMotorPower = 1.0;
 
 	public Shooter() {
 		shooterMotor = new CANTalon(18);

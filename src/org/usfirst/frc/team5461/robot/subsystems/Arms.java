@@ -11,8 +11,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Arms extends Subsystem {
     
-	private static final double ARM_MOVEMENT_POWER = 1.0;
-	private static final int bottomEncoderPosition = -1100;
+	private static final double ARM_MOVEMENT_POWER = .40;
+	private static final int bottomEncoderPosition = -400;
 	private static final int topEncoderPosition = 0	;
 	
 	public void resetEncoder() {
