@@ -19,18 +19,18 @@ public class MoveCannonToMiddlePosition extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	System.out.println("MoveCannonToMiddlePosition Initialized");
+    	Robot.cannon.setCommandPosition(CannonPosition.Middle);
+    	Robot.cannon.resetEncoder();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	switch(Robot.cannon.getCurrentPosition()) {
-		case Top:
-			Robot.cannon.moveCannonUpQuick();
-			break;
 		case Bottom:
 			Robot.cannon.moveCannonUpQuick();
 			break;
 		case Middle:
+		case Top:
 		break;
 		default:
 			break;
@@ -39,7 +39,9 @@ public class MoveCannonToMiddlePosition extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	return Robot.cannon.getCurrentPosition() == CannonPosition.Middle;
+    	boolean isAtMiddle = Robot.cannon.getCurrentPosition() == CannonPosition.Middle;
+    	boolean isAtTop = Robot.cannon.getCurrentPosition() == CannonPosition.Top;
+    	return isAtMiddle || isAtTop;
     }
 
     // Called once after isFinished returns true

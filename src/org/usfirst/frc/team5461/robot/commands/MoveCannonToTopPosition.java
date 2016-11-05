@@ -20,6 +20,7 @@ public class MoveCannonToTopPosition extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	System.out.println("MoveCannonToTopPosition Initialized");
+    	Robot.cannon.setCommandPosition(CannonPosition.Top);
     }
 
     // Called repeatedly when this Command is scheduled to run

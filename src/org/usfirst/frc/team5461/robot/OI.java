@@ -21,6 +21,7 @@ import org.usfirst.frc.team5461.robot.commands.MoveCannonUp;
 import org.usfirst.frc.team5461.robot.commands.OuterWorksGroup1;
 import org.usfirst.frc.team5461.robot.commands.OuterWorksGroup2;
 import org.usfirst.frc.team5461.robot.commands.ResetCannonPosition;
+import org.usfirst.frc.team5461.robot.commands.ResetEncoder;
 import org.usfirst.frc.team5461.robot.commands.RunShooterMotor;
 import org.usfirst.frc.team5461.robot.commands.ShootCannon;
 import org.usfirst.frc.team5461.robot.commands.StopCannonHold;
@@ -96,6 +97,7 @@ public class OI {
 		JoystickButton shooterBack = new JoystickButton(shooterJoystick, 9);
 		*/
 		JoystickButton b = new JoystickButton(joystick, 3);
+		JoystickButton a = new JoystickButton(joystick, 2);
 		shooterRightTrigger = new JoystickButton(joystick, 8);
 		JoystickButton shooterY =new JoystickButton(joystick, 4);
 		shooterLeftTrigger = new JoystickButton(joystick, 7);
@@ -116,21 +118,27 @@ public class OI {
 		dpadUp.whenPressed(new MoveArmsUp());
 		
 		//TODO: Replace joystick with actual joystick.
-		cycleShooter = new CycleJoystickButton(joystick, 5);
+		cycleShooter = new CycleJoystickButton(joystick, 6);
 		Vector<CommandGroup> shooterCycles = new Vector<CommandGroup>();
 		shooterCycles.add(new MoveCannonToBottomGroup());
 		shooterCycles.add(new MoveCannonToMiddleGroup());
 		shooterCycles.add(new MoveCannonToTopGroup());
 		cycleShooter.cycleWhenPressed(shooterCycles);
+		a.whenPressed(new ResetEncoder());
 		
-		cycleArms = new CycleJoystickButton(joystick, 6);
+		cycleArms = new CycleJoystickButton(joystick, 5);
 		Vector<CommandGroup> armCycles = new Vector<CommandGroup>();
 		armCycles.add(new MoveArmsUpGroup());
 		armCycles.add(new MoveArmsDownGroup());
 		cycleArms.cycleWhenPressed(armCycles);
+
 		
-		shooterRightTrigger.whenPressed(new ShootCannon());
-		shooterY.whileHeld(new RunShooterMotor());
+		
+		// TODO: Fix shooter
+//		shooterRightTrigger.whenPressed(new ShootCannon());
+//		shooterY.whileHeld(new RunShooterMotor());
+		
+		
 		/*
 		a.whenPressed(new TankDriveWithJoystick());
 		x.whenPressed(new TurnRobot((short)-90));

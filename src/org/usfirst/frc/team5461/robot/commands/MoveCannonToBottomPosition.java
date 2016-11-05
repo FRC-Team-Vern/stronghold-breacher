@@ -18,6 +18,7 @@ public class MoveCannonToBottomPosition extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	System.out.println("MoveCannonToBottomPosition Initialized");
+    	Robot.cannon.setCommandPosition(CannonPosition.Bottom);
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -29,6 +30,8 @@ public class MoveCannonToBottomPosition extends Command {
 		case Top:
 				Robot.cannon.moveCannonUpSlow();
 			break;
+		case Mobius:
+				Robot.cannon.moveCannonBackwardSlow();
 		case Bottom:
 			Robot.cannon.stopCannon();
 		default:
