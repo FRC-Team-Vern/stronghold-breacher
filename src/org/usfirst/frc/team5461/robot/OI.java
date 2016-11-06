@@ -131,13 +131,9 @@ public class OI {
 		armCycles.add(new MoveArmsUpGroup());
 		armCycles.add(new MoveArmsDownGroup());
 		cycleArms.cycleWhenPressed(armCycles);
-
 		
-		
-		// TODO: Fix shooter
-//		shooterRightTrigger.whenPressed(new ShootCannon());
-//		shooterY.whileHeld(new RunShooterMotor());
-		
+		shooterRightTrigger.whenPressed(new ShootCannon());
+		shooterY.whileHeld(new RunShooterMotor());
 		
 		/*
 		a.whenPressed(new TankDriveWithJoystick());
