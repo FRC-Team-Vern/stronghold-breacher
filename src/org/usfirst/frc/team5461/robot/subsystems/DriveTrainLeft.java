@@ -1,13 +1,9 @@
 package org.usfirst.frc.team5461.robot.subsystems;
 
 import org.usfirst.frc.team5461.robot.commands.TankDriveWithJoystick;
-
 import edu.wpi.first.wpilibj.CANTalon;
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.CANTalon.FeedbackDevice;
-import edu.wpi.first.wpilibj.PIDController;
-import edu.wpi.first.wpilibj.command.PIDSubsystem;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
  *
@@ -57,9 +53,6 @@ public class DriveTrainLeft extends PIDRateSubsystem {
 		//FlatIron.Pair<Double>adjustFactors=Robot.flatIron.getAdjustmentFactors();
 		//double left_results=m_results.get(0)*adjustFactors.m_leftval;
 		//double right_results=m_results.get(1)*adjustFactors.m_rightval;
-
-		
-		//drive.tankDrive(m_results.get(0), m_results.get(1));
 		
 		//TODO: Remove if PID working
 		//front_left_motor.set(left_results);

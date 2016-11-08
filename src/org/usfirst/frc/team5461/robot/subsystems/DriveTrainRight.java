@@ -1,14 +1,9 @@
 package org.usfirst.frc.team5461.robot.subsystems;
 
-import org.usfirst.frc.team5461.robot.Robot; 
-import org.usfirst.frc.team5461.robot.commands.TankDriveWithJoystick;
-
 import edu.wpi.first.wpilibj.CANTalon;
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.CANTalon.FeedbackDevice;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PIDController;
-import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
  *
