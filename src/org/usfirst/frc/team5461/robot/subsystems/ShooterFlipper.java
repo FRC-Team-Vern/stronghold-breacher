@@ -10,16 +10,17 @@ import edu.wpi.first.wpilibj.DigitalInput;
  *
  */
 public class ShooterFlipper extends Subsystem {
-	private static final double flipperMotorPower = 0.75;
+	private static final double flipperMotorPower = 1.0;
 	
 	DigitalInput limitSwitch;
 	private CANTalon flipperMotor;
 	Counter counter;
-		public ShooterFlipper(){
-			limitSwitch= new DigitalInput(9);
-			counter = new Counter(limitSwitch);
-			flipperMotor= new CANTalon(5);
-		}
+	
+	public ShooterFlipper() {
+		limitSwitch= new DigitalInput(9);
+		counter = new Counter(limitSwitch);
+		flipperMotor= new CANTalon(5);
+	}
     
     // Put methods for controlling this subsystem
     // here. Call these from Commands.

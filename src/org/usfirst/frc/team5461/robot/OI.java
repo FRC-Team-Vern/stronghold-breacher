@@ -45,18 +45,14 @@ public class OI {
 
 	private Joystick joystick = new Joystick(0);
 	
-	private JoystickButton logitechRightTrigger;
-	private JoystickButton logitechLeftTrigger;
-	private JoystickButton logitechRightButton;
-	private JoystickButton logitechLeftButton;
 	private DPadButton dpadUp;
 	private DPadButton dpadDown;
 	private DPadButton dpadLeft;
 	private DPadButton dpadRight;
-	private JoystickButton shooterRightTrigger;
-	private JoystickButton shooterRightButton;
-	private JoystickButton shooterLeftButton;
-	private JoystickButton shooterLeftTrigger;
+	private JoystickButton rightTrigger;
+	private JoystickButton rightButton;
+	private JoystickButton leftButton;
+	private JoystickButton leftTrigger;
 	private CycleJoystickButton cycleShooter;
 	private CycleJoystickButton cycleArms;
 	private DPadButton shooterDPadUp;
@@ -98,9 +94,9 @@ public class OI {
 		*/
 		JoystickButton b = new JoystickButton(joystick, 3);
 		JoystickButton a = new JoystickButton(joystick, 2);
-		shooterRightTrigger = new JoystickButton(joystick, 8);
+		rightTrigger = new JoystickButton(joystick, 8);
 		JoystickButton shooterY =new JoystickButton(joystick, 4);
-		shooterLeftTrigger = new JoystickButton(joystick, 7);
+		leftTrigger = new JoystickButton(joystick, 7);
 		dpadUp = new DPadButton(new Point(0, 1), joystick);
 		dpadDown = new DPadButton(new Point(0, -1), joystick);
 		// Connect the buttons to commands
@@ -109,7 +105,7 @@ public class OI {
 //		logitechLeftTrigger.whileHeld(new EnableflatIron());
 		
 		b.whileHeld(new MoveCannonUp());
-		shooterLeftTrigger.whileHeld(new Chomp());
+		leftTrigger.whileHeld(new Chomp());
 		//cycleShooter = new CycleJoystickButton(joystick, 8);
 		
 //		dpadRight.whenPressed(new ChevalDeFries());
@@ -117,7 +113,6 @@ public class OI {
 //		dpadLeft.whenPressed(new OuterWorksGroup2());
 		dpadUp.whenPressed(new MoveArmsUp());
 		
-		//TODO: Replace joystick with actual joystick.
 		cycleShooter = new CycleJoystickButton(joystick, 6);
 		Vector<CommandGroup> shooterCycles = new Vector<CommandGroup>();
 		shooterCycles.add(new MoveCannonToBottomGroup());
@@ -132,7 +127,7 @@ public class OI {
 		armCycles.add(new MoveArmsDownGroup());
 		cycleArms.cycleWhenPressed(armCycles);
 		
-		shooterRightTrigger.whenPressed(new ShootCannon());
+		rightTrigger.whenPressed(new ShootCannon());
 		shooterY.whileHeld(new RunShooterMotor());
 		
 		/*
@@ -169,11 +164,11 @@ public class OI {
 	}
 
 	public boolean getRightTriggerThreshold() {
-		return logitechRightTrigger.get();
+		return rightTrigger.get();
 	}
 
 	public boolean getLeftTriggerThreshold() {
-		return logitechLeftTrigger.get();
+		return leftTrigger.get();
 	}
 
 	private class DPadButton extends Button {
