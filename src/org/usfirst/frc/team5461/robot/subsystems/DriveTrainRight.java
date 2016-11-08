@@ -17,7 +17,7 @@ public class DriveTrainRight extends PIDRateSubsystem {
 	private CANTalon front_right_motor, back_right_motor;
     // Initialize your subsystem here
     public DriveTrainRight() {
-    	super(DriveTrainContract.kP_real,DriveTrainContract.kI_real,DriveTrainContract.kD_real);
+    	super(DriveTrainContract.kP_real, DriveTrainContract.kI_real, DriveTrainContract.kD_real, .05, DriveTrainContract.kF_real);
 		setPercentTolerance(DriveTrainContract.k_tolPercent);
 		setOutputRange(DriveTrainContract.k_ouptutMin, DriveTrainContract.k_outputMax);
 		
@@ -37,7 +37,7 @@ public class DriveTrainRight extends PIDRateSubsystem {
     	
 		PIDController controller = getPIDController();
 		setInputRange(DriveTrainContract.k_inputMin,DriveTrainContract.k_inputMax);
-
+		enable();
 
     }
     public void reset() {
@@ -77,9 +77,7 @@ public class DriveTrainRight extends PIDRateSubsystem {
     
     public void drive(Joystick joy) {
     	Double rightVal=-joy.getRawAxis(Joystick.AxisType.kTwist.value);
-		rightVal=applyDeadband(rightVal);
-		
-		
+		rightVal=applyDeadband(rightVal);		
 		drive(rightVal);
 	}
     
@@ -91,21 +89,19 @@ public class DriveTrainRight extends PIDRateSubsystem {
     	return val;
 	}
 
-    
-    
     public void initDefaultCommand() {
-		setDefaultCommand(new TankDriveWithJoystick());
-
+    	// Default TankDriveWithJoystick command is in DriveTrainLeft
     }
     
     protected double returnPIDInput() {
-     
     	return getAverageSpeed(front_right_motor, back_right_motor);
     }
     
     protected void usePIDOutput(double output) {
-       
+    	front_right_motor.set(output);
+    	back_right_motor.set(output);
     }
+    
     protected double getAverageSpeed(CANTalon first, CANTalon second) {
 		return (double)(((double)(first.getEncVelocity() + second.getEncVelocity()) * 0.5) / DriveTrainContract.k_inputMax);
 	}

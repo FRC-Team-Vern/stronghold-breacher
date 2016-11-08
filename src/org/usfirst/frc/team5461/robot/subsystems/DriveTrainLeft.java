@@ -16,7 +16,7 @@ public class DriveTrainLeft extends PIDRateSubsystem {
 	private CANTalon front_left_motor, back_left_motor;
     // Initialize your subsystem here
     public DriveTrainLeft() {
-    	super(DriveTrainContract.kP_real,DriveTrainContract.kI_real,DriveTrainContract.kD_real);
+    	super(DriveTrainContract.kP_real, DriveTrainContract.kI_real, DriveTrainContract.kD_real, .05, DriveTrainContract.kF_real);
 		setPercentTolerance(DriveTrainContract.k_tolPercent);
 		setOutputRange(DriveTrainContract.k_ouptutMin, DriveTrainContract.k_outputMax);
 		
@@ -33,7 +33,7 @@ public class DriveTrainLeft extends PIDRateSubsystem {
 		back_left_motor.configEncoderCodesPerRev(128);
     
 		setInputRange(DriveTrainContract.k_inputMin,DriveTrainContract.k_inputMax);
-
+		enable();
 
     }
     public double getDistance() {
@@ -61,7 +61,6 @@ public class DriveTrainLeft extends PIDRateSubsystem {
 		
 		//drive.tankDrive(m_results.get(0), m_results.get(1));
 		
-		
 		//TODO: Remove if PID working
 		//front_left_motor.set(left_results);
 		//back_left_motor.set(left_results);
@@ -74,8 +73,6 @@ public class DriveTrainLeft extends PIDRateSubsystem {
     public void drive(Joystick joy) {
 		Double leftVal=-joy.getRawAxis(Joystick.AxisType.kY.value);
 		leftVal=applyDeadband(leftVal);
-		
-		
 		drive(leftVal);
 	}
     
@@ -87,21 +84,20 @@ public class DriveTrainLeft extends PIDRateSubsystem {
     	return val;
 	}
 
-    
-    
     public void initDefaultCommand() {
 		setDefaultCommand(new TankDriveWithJoystick());
-
     }
     
     protected double returnPIDInput() {
-     
-    	return getAverageSpeed(front_left_motor, back_left_motor);
+    	double averageSpeed = getAverageSpeed(front_left_motor, back_left_motor);
+    	return averageSpeed;
     }
     
     protected void usePIDOutput(double output) {
-       
+    	front_left_motor.set(output);
+    	back_left_motor.set(output);
     }
+    
     protected double getAverageSpeed(CANTalon first, CANTalon second) {
 		return (double)(((double)(first.getEncVelocity() + second.getEncVelocity()) * 0.5) / DriveTrainContract.k_inputMax);
 	}

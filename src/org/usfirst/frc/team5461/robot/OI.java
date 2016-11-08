@@ -32,8 +32,8 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
  */
 public class OI {
 
-	private Joystick logitechJoystick = new Joystick(1);
-	private Joystick shooterJoystick = new Joystick(2);
+	private Joystick logitechJoystick = new Joystick(0);
+	private Joystick shooterJoystick = new Joystick(1);
 	
 	private JoystickButton logitechRightTrigger;
 	private JoystickButton logitechLeftTrigger;
