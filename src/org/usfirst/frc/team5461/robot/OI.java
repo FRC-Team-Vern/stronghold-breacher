@@ -33,15 +33,19 @@ public class OI {
 	private DPadButton dpadDown;
 	private JoystickButton rightTrigger;
 	private JoystickButton leftTrigger;
+	private JoystickButton a;
+	private JoystickButton b;
+	private JoystickButton y;
 	private CycleJoystickButton cycleShooter;
 	private CycleJoystickButton cycleArms;
 	
 	public OI() {
-		JoystickButton b = new JoystickButton(joystick, 3);
-		JoystickButton a = new JoystickButton(joystick, 2);
 		rightTrigger = new JoystickButton(joystick, 8);
-		JoystickButton shooterY =new JoystickButton(joystick, 4);
 		leftTrigger = new JoystickButton(joystick, 7);
+		b = new JoystickButton(joystick, 3);
+		a = new JoystickButton(joystick, 2);
+		y = new JoystickButton(joystick, 4);
+		
 		dpadUp = new DPadButton(new Point(0, 1), joystick);
 		dpadDown = new DPadButton(new Point(0, -1), joystick);
 		
@@ -68,7 +72,7 @@ public class OI {
 		
 		// Shooting cannon
 		rightTrigger.whenPressed(new ShootCannon());
-		shooterY.whileHeld(new RunShooterMotor());
+		y.whileHeld(new RunShooterMotor());
 		leftTrigger.whileHeld(new Chomp());
 	}
 
