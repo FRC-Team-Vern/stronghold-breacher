@@ -7,35 +7,36 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class MoveCannonUp extends Command {
+public class ShootCannon extends Command {
 
-    public MoveCannonUp() {
-requires(Robot.cannon); 
-    	// eg. requires(chassis);
+    public ShootCannon() {
+        requires(Robot.shooterFlipper);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	Robot.shooterFlipper.initializeCounter();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.cannon.moveCannonUpSlow();
+    	Robot.shooterFlipper.runFlipperMotor();
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        return Robot.shooterFlipper.isSwitchSet();
     }
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.cannon.stopCannon();
+    	Robot.shooterFlipper.stopFlipperMotor();
+    	Robot.shooterFlipper.initializeCounter();
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-    	Robot.cannon.stopCannon();
+    	Robot.shooterFlipper.stopFlipperMotor();
     }
 }

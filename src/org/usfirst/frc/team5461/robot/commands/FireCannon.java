@@ -5,37 +5,40 @@ import org.usfirst.frc.team5461.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class FireCannon extends Command{
-	public static final double holdServosTime = 3.0;
 	
 	public FireCannon(){
-		requires(Robot.shooterServos);
-		setTimeout(holdServosTime);
+		requires(Robot.shooterFlipper);
+		
 	}
 
 	@Override
 	protected void initialize() {
-		
+		Robot.shooterFlipper.initializeCounter();
 	}
 
 	@Override
 	protected void execute() {
-		Robot.shooterServos.moveServosOut();		
+		Robot.shooterFlipper.runFlipperMotor();
 	}
 
 	@Override
 	protected boolean isFinished() {
-		return isTimedOut();
-	}
-
-	@Override
-	protected void end() {
-		Robot.shooterServos.moveServosIn();
+		System.out.println("IsSwitchSet: " + Robot.shooterFlipper.isSwitchSet());
+		return Robot.shooterFlipper.isSwitchSet();
 		
 	}
 
 	@Override
+	protected void end() {
+		System.out.println("Stopping Flipper Motor");
+		Robot.shooterFlipper.stopFlipperMotor();
+		Robot.shooterFlipper.initializeCounter();
+	}
+
+	@Override
 	protected void interrupted() {
-		Robot.shooterServos.moveServosIn();
+		Robot.shooterFlipper.stopFlipperMotor();
+		Robot.shooterFlipper.initializeCounter();
 	}
 
 }

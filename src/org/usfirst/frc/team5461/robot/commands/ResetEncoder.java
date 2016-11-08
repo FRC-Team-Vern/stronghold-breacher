@@ -7,35 +7,32 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class MoveCannonUp extends Command {
+public class ResetEncoder extends Command {
 
-    public MoveCannonUp() {
-requires(Robot.cannon); 
-    	// eg. requires(chassis);
+    public ResetEncoder() {
+        requires(Robot.cannon);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	Robot.cannon.resetEncoder();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.cannon.moveCannonUpSlow();
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        return true;
     }
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.cannon.stopCannon();
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-    	Robot.cannon.stopCannon();
     }
 }

@@ -13,16 +13,19 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Cannon extends Subsystem {
 
 	CANTalon cannonLiftMotor;
-	public static final int maxEncoderPosition = 600;
-	public static final int topEncoderPosition = 540;
-	public static final int middleEncoderPosition = 340;
+	public static final int maxEncoderPosition = 1200;
+	public static final int topEncoderPosition = 650;
+	public static final int middleEncoderPosition = 540;
 	public static final int bottomEncoderPosition = 0;
-	private static final int bufferEncoderPosition = 80;
+	private static final int bufferEncoderPosition = 50;
+	public static final int mobiusEncoderPosition = 1700;
 	// top and middle encoder positions should be more than 2x buffer distance apart
 	
-	public static final double cannonLiftMotorPower = 0.75;
-	public static final double cannonDownSlowMotorPower = 0.10;
-	public static final double cannonDownQuickMotorPower = 0.45;
+
+	public static final double cannonUpSlowMotorPower = 0.45;
+	public static final double cannonBackwardSlowMotorPower = 0.45;
+	
+	public static final double cannonUpQuickMotorPower = 0.6;
 	public static final int holdCannonTolerance = 10;
 	
 	public static final double kP_real_hold = 0.005;
@@ -30,11 +33,13 @@ public class Cannon extends Subsystem {
 	public static final double kD_real_hold = 0.00;
 
 	private CannonPosition currentCannonPosition;
+	private CannonPosition mCommandPosition;
 	
 	public enum CannonPosition {
 		Bottom,
 		Middle,
-		Top
+		Top,
+		Mobius
 	}
 	
 	public Cannon(){		
@@ -43,6 +48,7 @@ public class Cannon extends Subsystem {
 		cannonLiftMotor.setFeedbackDevice(FeedbackDevice.QuadEncoder);
 		cannonLiftMotor.configEncoderCodesPerRev(497);
 		currentCannonPosition = CannonPosition.Bottom;
+		mCommandPosition = CannonPosition.Bottom;
 		resetEncoder();
 	}
 	
@@ -51,21 +57,28 @@ public class Cannon extends Subsystem {
 		/* no op*/
 	}
 	
-	public void moveCannonUp() {
-		cannonLiftMotor.set(-1.0 * cannonLiftMotorPower);
-	}
-	
-	public void moveCannonDownSlow() {
-		cannonLiftMotor.set(-1.0*cannonDownSlowMotorPower);
-	}
-	
-	public void moveCannonDownQuick() {
-		cannonLiftMotor.set(cannonDownQuickMotorPower);
-	}
-	
 	public void moveCannonByPower(double power) {
-		cannonLiftMotor.set(power);
+		if (power>0){
+			cannonLiftMotor.set(power);
+		} else {
+			stopCannon();
+			System.out.println("Attempting to set cannon motor power negative.");
+			
+		}
 	}
+	
+	public void moveCannonUpSlow() {
+		cannonLiftMotor.set(-1.0*cannonUpSlowMotorPower);
+	}
+	
+	public void moveCannonBackwardSlow() {
+		cannonLiftMotor.set(cannonBackwardSlowMotorPower);
+	}
+	
+	public void moveCannonUpQuick() {
+		cannonLiftMotor.set(-1.0*cannonUpQuickMotorPower);
+	}
+	
 	
 	public void stopCannon() {
 		cannonLiftMotor.set(0);
@@ -77,12 +90,17 @@ public class Cannon extends Subsystem {
 	
 	public void resetEncoder() {
 		cannonLiftMotor.setEncPosition(0);
+		System.out.println("Resetting Cannon Encoder.");
 	}
 	
 	public CannonPosition getCurrentPosition() {	
 		int currentEncoderValue = getEncoderValue();
 		
-		if (currentEncoderValue >= (topEncoderPosition - bufferEncoderPosition)) {
+		if(currentEncoderValue >= (mobiusEncoderPosition - bufferEncoderPosition)){
+			currentCannonPosition = CannonPosition.Bottom;
+		} else if (currentEncoderValue >= (maxEncoderPosition - bufferEncoderPosition)) { 
+			currentCannonPosition = CannonPosition.Mobius;
+		} else if (currentEncoderValue >= (topEncoderPosition - bufferEncoderPosition)) {
 			currentCannonPosition = CannonPosition.Top;
 		} else if ((middleEncoderPosition + bufferEncoderPosition) > currentEncoderValue && 
 				currentEncoderValue >= (middleEncoderPosition - bufferEncoderPosition) ) {
@@ -94,7 +112,12 @@ public class Cannon extends Subsystem {
 		return currentCannonPosition;
 	}
 	
+	public void setCommandPosition(CannonPosition cannonPos) {
+		mCommandPosition = cannonPos;
+	}
+	
 	public void log() {
+		SmartDashboard.putString("Current Cannon Command", mCommandPosition.toString());
 		SmartDashboard.putNumber("Cannon Encoder Value", getEncoderValue());
 		SmartDashboard.putString("Cannon Position", currentCannonPosition.toString());
 	}
