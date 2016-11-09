@@ -7,17 +7,17 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class FlatIron extends Subsystem {
 	private ADIS16448_IMU m_imu;
-	private Double m_heading;
+	private Double m_headingZ;
 	private boolean m_isEnabled=false;
 	private boolean m_isInitialized = false;
-
+	private Double m_headingX;
 	public FlatIron() {
 		m_imu=new ADIS16448_IMU();
-		m_heading=0.0;
+		m_headingZ=0.0;
 	}
 	public void enable() {
 		if (!m_isInitialized) {
-		setStartingValue(m_imu.getAngleZ());
+		setStartingValue(m_imu.getAngleZ(), m_imu.getAngleX());
 		m_isEnabled= true;
 		m_isInitialized = true;
 		}
@@ -31,9 +31,7 @@ public class FlatIron extends Subsystem {
 	public Pair<Double>getAdjustmentFactors() {
 
 		if (m_isEnabled) {
-			double angleX = m_imu.getAngleX();
-			double angleY = m_imu.getAngleY();
-			System.out.println("X: "+Double.toString(angleX)+" Y: "+Double.toString(angleY));
+		System.out.println(getTippingAdjustment());
 			return new Pair<Double>(getLeftAdjustment(),getRightAdjustment());
 		}
 		else {
@@ -42,16 +40,21 @@ public class FlatIron extends Subsystem {
 	}
 
 	private Double getLeftAdjustment() {
-		return Math.sin((-1.0*(m_imu.getAngleZ()-m_heading))*Math.PI/180.0)+1.0;
+		return Math.sin((-1.0*(m_imu.getAngleZ()-m_headingZ))*Math.PI/180.0)+1.0;
+		
+	}
+	private Double getTippingAdjustment() {
+		return Math.cos(2.0*(m_imu.getAngleX()-m_headingX)*Math.PI/180.0);
 		
 	}
 	
 	private Double getRightAdjustment() {
-		return Math.sin((m_imu.getAngleZ()-m_heading)*Math.PI/180.0)+1.0;
+		return Math.sin((m_imu.getAngleZ()-m_headingZ)*Math.PI/180.0)+1.0;
 	}
 	
-	public  void setStartingValue(Double heading) {
-		m_heading=heading;
+	public  void setStartingValue(Double headingZ,Double headingX) {
+		m_headingZ=headingZ;
+		m_headingX=headingX;
 	}
  
 	public double getImuZValue() {
