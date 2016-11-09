@@ -31,6 +31,9 @@ public class FlatIron extends Subsystem {
 	public Pair<Double>getAdjustmentFactors() {
 
 		if (m_isEnabled) {
+			double angleX = m_imu.getAngleX();
+			double angleY = m_imu.getAngleY();
+			System.out.println("X: "+Double.toString(angleX)+" Y: "+Double.toString(angleY));
 			return new Pair<Double>(getLeftAdjustment(),getRightAdjustment());
 		}
 		else {
@@ -40,7 +43,7 @@ public class FlatIron extends Subsystem {
 
 	private Double getLeftAdjustment() {
 		return Math.sin((-1.0*(m_imu.getAngleZ()-m_heading))*Math.PI/180.0)+1.0;
-
+		
 	}
 	
 	private Double getRightAdjustment() {

@@ -1,5 +1,7 @@
 package org.usfirst.frc.team5461.robot.subsystems;
 
+import org.usfirst.frc.team5461.robot.Robot;
+
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.CANTalon.FeedbackDevice;
 import edu.wpi.first.wpilibj.Joystick;
@@ -49,22 +51,11 @@ public class DriveTrainRight extends PIDRateSubsystem {
 		
 		//SmartDashboard.putData("Drive Train PID", getPIDController());
 	}
-    public void drive(double left) {
-		setSetpoint(left);
-		
-		//TODO: Implement flatiron
-		//FlatIron.Pair<Double>adjustFactors=Robot.flatIron.getAdjustmentFactors();
-		//double left_results=m_results.get(0)*adjustFactors.m_leftval;
-		//double right_results=m_results.get(1)*adjustFactors.m_rightval;
+    public void drive(double right) {
 
-		
-		//drive.tankDrive(m_results.get(0), m_results.get(1));
-		
-		
-		//TODO: Remove if PID working
-		//front_left_motor.set(left_results);
-		//back_left_motor.set(left_results);
-		
+		FlatIron.Pair<Double>adjustFactors=Robot.flatIron.getAdjustmentFactors();
+		double right_results=right*adjustFactors.m_rightval;
+		setSetpoint(right_results);
 		
 		//SmartDashboard.putNumber("PID Result 0", m_results.get(0));
 		//SmartDashboard.putNumber("PID Result 1", m_results.get(1));
