@@ -9,27 +9,22 @@ public class EnableflatIron extends Command {
 		 requires(Robot.flatIron);
 	 }
 
-	@Override
 	protected void initialize() {
 		Robot.flatIron.enable();
 	}
 
-	@Override
 	protected void execute() {
 		/* no op */		
 	}
 
-	@Override
 	protected boolean isFinished() {
-		return Robot.flatIron.getIsEnabled();
+		return false;
 	}
 
-	@Override
 	protected void end() {
 		Robot.flatIron.disable();
 	}
 
-	@Override
 	protected void interrupted() {
 		/* no op */	
 		Robot.flatIron.disable();

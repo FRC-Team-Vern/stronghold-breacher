@@ -4,7 +4,7 @@ public class DriveTrainContract {
 	public final double SPEED_MAX = 350.0;
 	
 
-	public static final double kP_real = 0.0003;
+	public static final double kP_real = 0.0001;
 	public static final double kI_real = 0.00;
 	public static final double kD_real = 0.00;
 	public static final double kF_real = 1.00;

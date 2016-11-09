@@ -4,6 +4,7 @@ import java.util.Vector;
 
 import org.usfirst.frc.team5461.robot.commands.Chomp;
 import org.usfirst.frc.team5461.robot.commands.CycleJoystickButton;
+import org.usfirst.frc.team5461.robot.commands.EnableflatIron;
 import org.usfirst.frc.team5461.robot.commands.MoveArmsDown;
 import org.usfirst.frc.team5461.robot.commands.MoveArmsDownGroup;
 import org.usfirst.frc.team5461.robot.commands.MoveArmsUp;
@@ -36,6 +37,7 @@ public class OI {
 	private JoystickButton a;
 	private JoystickButton b;
 	private JoystickButton y;
+	private JoystickButton x;
 	private CycleJoystickButton cycleShooter;
 	private CycleJoystickButton cycleArms;
 	
@@ -45,7 +47,7 @@ public class OI {
 		b = new JoystickButton(joystick, 3);
 		a = new JoystickButton(joystick, 2);
 		y = new JoystickButton(joystick, 4);
-		
+		x = new JoystickButton(joystick, 1);
 		dpadUp = new DPadButton(new Point(0, 1), joystick);
 		dpadDown = new DPadButton(new Point(0, -1), joystick);
 		
@@ -58,7 +60,7 @@ public class OI {
 		cycleShooter.cycleWhenPressed(shooterCycles);
 		a.whenPressed(new ResetEncoder());
 		b.whileHeld(new MoveCannonUp());
-		
+
 		// Cycle arms groups
 		cycleArms = new CycleJoystickButton(joystick, 5);
 		Vector<CommandGroup> armCycles = new Vector<CommandGroup>();
@@ -74,6 +76,9 @@ public class OI {
 		rightTrigger.whenPressed(new ShootCannon());
 		y.whileHeld(new RunShooterMotor());
 		leftTrigger.whileHeld(new Chomp());
+		
+		//driving
+		x.whileHeld(new EnableflatIron());
 	}
 
 	public Joystick getJoystick() {

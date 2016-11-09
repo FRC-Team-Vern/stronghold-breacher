@@ -32,9 +32,8 @@ public class DriveTrainRight extends PIDRateSubsystem {
 		back_right_motor.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
 		back_right_motor.configEncoderCodesPerRev(128);
     	
-		PIDController controller = getPIDController();
 		setInputRange(DriveTrainContract.k_inputMin,DriveTrainContract.k_inputMax);
-		enable();
+		//enable();
 
     }
     public void reset() {
@@ -55,8 +54,9 @@ public class DriveTrainRight extends PIDRateSubsystem {
 
 		FlatIron.Pair<Double>adjustFactors=Robot.flatIron.getAdjustmentFactors();
 		double right_results=right*adjustFactors.m_rightval;
-		setSetpoint(right_results);
-		
+		//setSetpoint(right);
+    	usePIDOutput(right_results);
+    	//System.out.println("Right Set: " + Double.toString(getPIDController().getSetpoint()));
 		//SmartDashboard.putNumber("PID Result 0", m_results.get(0));
 		//SmartDashboard.putNumber("PID Result 1", m_results.get(1));
 	}
@@ -86,9 +86,13 @@ public class DriveTrainRight extends PIDRateSubsystem {
     protected void usePIDOutput(double output) {
     	front_right_motor.set(output);
     	back_right_motor.set(output);
+    	//System.out.println("Output Right: " + Double.toString(output));
+
     }
     
     protected double getAverageSpeed(CANTalon first, CANTalon second) {
-		return (double)(((double)(first.getEncVelocity() + second.getEncVelocity()) * 0.5) / DriveTrainContract.k_inputMax);
+		double avgSpeed = (double)(((double)(first.getEncVelocity() + second.getEncVelocity()) * 0.5) / DriveTrainContract.k_inputMax);
+		//System.out.println("Avg Speed Right: " + avgSpeed);
+		return avgSpeed;
 	}
 }

@@ -31,7 +31,7 @@ public class FlatIron extends Subsystem {
 	public Pair<Double>getAdjustmentFactors() {
 
 		if (m_isEnabled) {
-		System.out.println(getTippingAdjustment());
+		//System.out.println(getTippingAdjustment());
 			return new Pair<Double>(getLeftAdjustment(),getRightAdjustment());
 		}
 		else {
@@ -40,7 +40,8 @@ public class FlatIron extends Subsystem {
 	}
 
 	private Double getLeftAdjustment() {
-		return Math.sin((-1.0*(m_imu.getAngleZ()-m_headingZ))*Math.PI/180.0)+1.0;
+		double leftAdj = Math.sin((-1.0*(m_imu.getAngleZ()-m_headingZ))*Math.PI/180.0)+1.0;
+		return leftAdj * getTippingAdjustment();
 		
 	}
 	private Double getTippingAdjustment() {
@@ -49,7 +50,8 @@ public class FlatIron extends Subsystem {
 	}
 	
 	private Double getRightAdjustment() {
-		return Math.sin((m_imu.getAngleZ()-m_headingZ)*Math.PI/180.0)+1.0;
+		double rightAdj = Math.sin((m_imu.getAngleZ()-m_headingZ)*Math.PI/180.0)+1.0;
+		return rightAdj * getTippingAdjustment();
 	}
 	
 	public  void setStartingValue(Double headingZ,Double headingX) {
