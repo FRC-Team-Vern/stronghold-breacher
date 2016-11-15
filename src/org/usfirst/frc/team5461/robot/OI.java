@@ -2,6 +2,8 @@ package org.usfirst.frc.team5461.robot;
 
 import java.util.Vector;
 
+import org.usfirst.frc.team5461.robot.commands.BumpArmsDown;
+import org.usfirst.frc.team5461.robot.commands.BumpArmsUp;
 import org.usfirst.frc.team5461.robot.commands.Chomp;
 import org.usfirst.frc.team5461.robot.commands.CycleJoystickButton;
 import org.usfirst.frc.team5461.robot.commands.EnableflatIron;
@@ -69,8 +71,8 @@ public class OI {
 		cycleArms.cycleWhenPressed(armCycles);
 		
 		// Manual move arms up and down
-		dpadDown.whenPressed(new MoveArmsDown());
-		dpadUp.whenPressed(new MoveArmsUp());
+		dpadDown.whileHeld(new BumpArmsDown());
+		dpadUp.whileHeld(new BumpArmsUp());
 		
 		// Shooting cannon
 		rightTrigger.whenPressed(new ShootCannon());

@@ -63,6 +63,9 @@ public class DriveTrainRight extends PIDRateSubsystem {
     
     public void drive(Joystick joy) {
     	Double rightVal=-joy.getRawAxis(Joystick.AxisType.kTwist.value);
+    	if (Robot.flatIron.getIsEnabled()) {
+    		rightVal = -joy.getRawAxis(Joystick.AxisType.kY.value);
+    	}
 		rightVal=applyDeadband(rightVal);		
 		drive(rightVal);
 	}

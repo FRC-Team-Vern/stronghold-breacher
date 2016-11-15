@@ -12,26 +12,23 @@ public class MoveArmsDown extends Command {
 	@Override
 	protected void initialize() {
 		Robot.arms.resetEncoder();
-		
 	}
 
 	@Override
 	protected void execute() {
 		Robot.arms.moveArmsDown();
-		
-		
 	}
 
 	@Override
 	protected boolean isFinished() {
 //		return Robot.arms.getBottomArmSwitchValue();
 		return Robot.arms.isAtBottomPosition();
+//		return false;
 	}
 
 	@Override
 	protected void end() {
 		Robot.arms.armsStop();
-		
 	}
 
 	@Override

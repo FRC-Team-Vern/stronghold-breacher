@@ -4,9 +4,9 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
-public class MoveArmsUp extends Command {
+public class BumpArmsUp extends Command {
 	
-	public MoveArmsUp(){
+	public BumpArmsUp(){
 		requires(Robot.arms);
 	}
 
@@ -23,13 +23,14 @@ public class MoveArmsUp extends Command {
 	@Override
 	protected boolean isFinished() {
 //		return Robot.arms.getTopArmSwitchValue();
-		return Robot.arms.isAtTopPosition();
-//		return false;
+//		return Robot.arms.isAtTopPosition();
+		return false;
 	}
 
 	@Override
 	protected void end() {
 		Robot.arms.armsStop();
+		Robot.arms.resetEncoder();
 	}
 
 	@Override
