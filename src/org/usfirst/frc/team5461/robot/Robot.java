@@ -12,6 +12,11 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+import java.io.File;
+import java.util.TimeZone;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.usfirst.frc.team5461.robot.commands.Autonomous;
 import org.usfirst.frc.team5461.robot.commands.OuterWorksGroup1;
 import org.usfirst.frc.team5461.robot.commands.OuterWorksGroup2;
@@ -56,6 +61,9 @@ public class Robot extends IterativeRobot {
     Command autonomousCommand;
     CommandGroup autonomousCommandPhase1;
     CommandGroup autonomousCommandPhase2;
+    
+    static Logger logger = LoggerFactory.getLogger(Robot.class);
+    DataLogger dataLogger;
 
     /**
      * This function is run when the robot is first started up and should be
@@ -90,6 +98,33 @@ public class Robot extends IterativeRobot {
     	
     	SmartDashboard.putData("Autonomous Phase 1", autoChooserPhase1);
     	SmartDashboard.putData("Autonomous Phase 2", autoChooserPhase2);
+    	
+    	// Set dataLogger and Time information
+		TimeZone.setDefault(TimeZone.getTimeZone("America/Denver"));
+		
+		File logDirectory = null;
+		if (logDirectory == null) logDirectory = findLogDirectory(new File("/u"));
+		if (logDirectory == null) logDirectory = findLogDirectory(new File("/v"));
+		if (logDirectory == null) logDirectory = findLogDirectory(new File("/x"));
+		if (logDirectory == null) logDirectory = findLogDirectory(new File("/y"));
+		if (logDirectory == null) {
+			logDirectory = new File("/home/lvuser/logs");
+		    if (!logDirectory.exists())
+		    {
+			    logDirectory.mkdir();
+		    }
+		}
+		if (logDirectory != null && logDirectory.isDirectory())
+		{
+			String logMessage = String.format("Log directory is %s\n", logDirectory);
+			System.out.print (logMessage);
+			EventLogging.writeToDS(logMessage);
+			EventLogging.setup(logDirectory);
+			dataLogger = new DataLogger(logDirectory);
+			dataLogger.setMinimumInterval(1000);
+		}
+
+		logger.info ("Starting robotInit");
     }
 		
 	@Override
@@ -164,5 +199,15 @@ public class Robot extends IterativeRobot {
     	cannon.log();
     	shooterFlipper.log();
     }
+    
+    public File findLogDirectory (File root) {
+		// does the root directory exist?
+		if (!root.isDirectory()) return null;
+		
+		File logDirectory = new File(root, "logs");
+		if (!logDirectory.isDirectory()) return null;
+		
+		return logDirectory;
+	}
 
 }

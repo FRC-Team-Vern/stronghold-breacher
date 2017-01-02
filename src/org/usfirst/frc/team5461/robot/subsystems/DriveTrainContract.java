@@ -11,8 +11,8 @@ public class DriveTrainContract {
 	public static final double k_tolPercent = 5.00;
 	public static final double k_ouptutMin = -1.00;
 	public static final double k_outputMax = 1.00;
-	public static final double k_inputMin = -40.00;
-	public static final double k_inputMax = 40.00;
+	public static final double k_inputMin = -320.00;
+	public static final double k_inputMax = 320.00;
 	
 	
 }
