@@ -44,7 +44,7 @@ public class VL6180x extends I2C
 		dataToSendBuffer.putShort((short)registerAddress);
 		dataToSendBuffer.put(2, (byte)data);
 
-		return I2CJNI.i2CWrite((byte) m_port.getValue(), (byte) _i2caddress, dataToSendBuffer,
+		return I2CJNI.i2CWrite((byte) m_port.value, (byte) _i2caddress, dataToSendBuffer,
 				(byte) 3) < 0;
 	}
 
@@ -53,7 +53,7 @@ public class VL6180x extends I2C
 		dataToSendBuffer.putShort((short)registerAddress);
 		dataToSendBuffer.putShort(2, (short)data);
 
-		return I2CJNI.i2CWrite((byte) m_port.getValue(), (byte) _i2caddress, dataToSendBuffer,
+		return I2CJNI.i2CWrite((byte) m_port.value, (byte) _i2caddress, dataToSendBuffer,
 				(byte) 4) < 0;
 	}
 
